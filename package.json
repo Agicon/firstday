@@ -1,0 +1,33 @@
+{
+  "name": "newcheck",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "wdio": "wdio run ./wdio.conf.js",
+    "remove-allure": "rm -rf allure-results && rm -rf allure-report",
+    "homePage": "wdio run ./wdio.conf.js --suite homePage",
+    "homePages": "wdio run ./mdio.conf.js --suite homePage",
+    "TwoInOne": "npm run remove-allure && npm run homePage && npm run homePages",
+    "TwoP": "npm run remove-allure && npm-run-all --parallel homePages homePage",
+ "TwoSeq": "npm run remove-allure && npm-run-all --sequence homePage homePages"
+    
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@wdio/allure-reporter": "^9.2.14",
+    "@wdio/appium-service": "^9.4.1",
+    "@wdio/cli": "^9.4.1",
+    "@wdio/cucumber-framework": "^9.3.1",
+    "@wdio/local-runner": "^9.4.1",
+    "@wdio/spec-reporter": "^9.2.14",
+    "appium": "^2.13.0",
+    "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "appium-uiautomator2-driver": "^3.9.1"
+  }
+}

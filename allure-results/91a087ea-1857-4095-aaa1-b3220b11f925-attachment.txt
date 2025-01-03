@@ -1,0 +1,4 @@
+{
+  "using": "css selector",
+  "value": "com.app.neonatal.staging:id/ed_login_email"
+}
