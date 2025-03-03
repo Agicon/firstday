@@ -1,5 +1,5 @@
 {
-  "name": "newcheck",
+  "name": "FirstDay-HC-Mobile",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,11 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "wdio": "wdio run ./wdio.conf.js",
     "remove-allure": "rm -rf allure-results && rm -rf allure-report",
-    "homePage": "wdio run ./wdio.conf.js --suite homePage",
-    "homePages": "wdio run ./mdio.conf.js --suite homePage",
-    "TwoInOne": "npm run remove-allure && npm run homePage && npm run homePages",
-    "TwoP": "npm run remove-allure && npm-run-all --parallel homePages homePage",
- "TwoSeq": "npm run remove-allure && npm-run-all --sequence homePage homePages"
+    "androidLoginPage-FHDA": "npm run remove-allure && wdio run ./wdio.confA.js --suite androidLoginPage",
+    "androidLoginPage-FHDC": "npm run remove-allure && wdio run ./wdio.confFHDC.js --suite androidLoginPage",
+     "downloadFHDAappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDAappPage",
+     "downloadFHDCappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDCappPage",
+     "webLoginPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webLoginPage",
+     "both": "npm run androidLoginPageCopy && npm run androidLoginPage"
+
+    
+   
     
   },
   "keywords": [],
