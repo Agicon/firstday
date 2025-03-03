@@ -1,0 +1,4 @@
+{
+  "using": "xpath",
+  "value": "//XCUIElementTypeImage[@name=\"boxCard_blue\"]"
+}

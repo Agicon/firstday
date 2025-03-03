@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "3B1B1BCC-E041-420A-ADF4-8C3F0E7ABA90",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:NeoNatal.xcodeproj",
+        "identifier" : "CC82AB20229FB9790026E285",
+        "name" : "NeoNatalTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:NeoNatal.xcodeproj",
+        "identifier" : "CC82AB2B229FB9790026E285",
+        "name" : "NeoNatalUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

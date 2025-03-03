@@ -1,0 +1,96 @@
+const { $, browser } = require('@wdio/globals')
+const BasePage = require('./testBase');
+const { remote } = require('webdriverio');
+
+/**
+ * sub page containing specific selectors and methods for a specific page
+ */
+class LoginPage extends BasePage {
+    /**
+     * define selectors using getter methods
+     */
+
+    get emailField () {
+        return $('//android.widget.EditText[@resource-id="com.app.neonatal.staging:id/ed_login_email"]|//android.widget.EditText[@resource-id="com.firsthc.alert.staging:id/edt_email"]');
+    }
+    get paswordField () {
+        return $('//android.widget.EditText[@resource-id="com.app.neonatal.staging:id/ed_login_pass"]|//android.widget.EditText[@resource-id="com.firsthc.alert.staging:id/edt_password"]');
+    }
+
+    get signInWithGoogleButton () {
+        return $('//android.widget.Button[@content-desc="Sign in with Google"]');
+    }
+
+    get loggedinGoogleAccount () {
+        return $('(//android.widget.LinearLayout[@resource-id="com.google.android.gms:id/container"])[1]');
+    }
+
+    get signInButton () {
+        return $('//android.widget.TextView[@resource-id="com.app.neonatal.staging:id/text"]|//android.widget.TextView[@resource-id="com.firsthc.alert.staging:id/text"]');
+    }
+
+  
+
+    /**
+     * a method to encapsule automation code to interact with the page
+     * e.g. to login using username and password
+     */
+
+
+    async login (username, password) {
+        await this.emailField.waitForDisplayed({timeout:20000});
+        await this.emailField.click();
+        await this.emailField.setValue(username);
+        await this.paswordField.click();
+        await this.paswordField.setValue(password);
+        // await browser.pause(5000);
+        await this.signInButton.click();
+        await browser.pause(8000);
+    }
+
+    async installBuild (app) {
+        await this.signInWithGoogleButton.waitForDisplayed({timeout:20000});
+        await this.signInWithGoogleButton.click();
+        await this.loggedinGoogleAccount.waitForDisplayed({timeout:20000});
+        await this.loggedinGoogleAccount.click();
+        
+        await $("//android.widget.TextView[@text='"+app+"']").waitForDisplayed({timeout:40000});
+        await $("//android.widget.TextView[@text='"+app+"']").click();
+        await browser.pause(5);
+        try {
+            await $("android.widget.CheckBox").click();
+            await $("android.widget.Button").waitForDisplayed({timeout:5000});
+            await $("android.widget.Button").click();
+            await browser.pause(10);
+            // await $("//android.widget.TextView[@resource-id='dev.firebase.appdistribution:id/download_label']").waitForDisplayed({timeout:50000});
+            await $("//android.widget.TextView[@resource-id='dev.firebase.appdistribution:id/download_label']").click();
+            await $("//android.widget.Button[@resource-id='android:id/button1']").waitForDisplayed({timeout:90000});
+            await $("//android.widget.Button[@resource-id='android:id/button1']").click();
+            
+        } catch (error) {
+            
+        }
+        await $("//android.widget.Button[@resource-id='dev.firebase.appdistribution:id/open_button']").waitForDisplayed({timeout:90000});
+        await $("//android.widget.Button[@resource-id='dev.firebase.appdistribution:id/open_button']").click();
+        await browser.pause(5);
+
+
+    }
+
+    /**
+     * overwrite specific options to adapt it to page object
+     */
+    async open () {
+        // return super.open('login');
+        await browser.url("https://webdriver.io/");
+    }
+
+    async returnText() {
+        var actAtt = await this.search.getAttribute("label");
+        return actAtt;
+      }
+    
+    
+}
+
+module.exports = new LoginPage();

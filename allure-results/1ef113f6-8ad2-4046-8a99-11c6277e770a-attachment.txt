@@ -1,0 +1,4 @@
+{
+  "using": "xpath",
+  "value": "(//XCUIElementTypeButton[@name=\"ic radioBtn deselect\"])[1]"
+}
