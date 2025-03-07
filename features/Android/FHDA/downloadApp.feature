@@ -4,5 +4,5 @@ Feature: Download and install latest build of mobile app
     Given User install the latest build for <app> app
 
     Examples:
-      | app   | 
+      | app       | 
       | FHDA Beta | 

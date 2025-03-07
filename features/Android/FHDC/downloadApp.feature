@@ -4,5 +4,5 @@ Feature: Test case for download and install latest build
     Given User install the latest build for <app> app
 
     Examples:
-      | app   | 
+      | app       | 
       | FHDC Beta |

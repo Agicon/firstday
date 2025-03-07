@@ -29,7 +29,45 @@ class LoginPage extends BasePage {
         return $('//android.widget.TextView[@resource-id="com.app.neonatal.staging:id/text"]|//android.widget.TextView[@resource-id="com.firsthc.alert.staging:id/text"]');
     }
 
-  
+    get noThanksButton(){
+        return $("//*[@resource-id='android:id/autofill_dialog_no']");
+    }
+
+    get firstChild(){
+        return $('(//android.widget.RadioButton)[1]');
+    }
+
+    get savePasswordOption(){
+        return $("//android.widget.Button[@resource-id='android:id/autofill_save_no']");
+    }
+
+    get videoAndPicPermissionPopup(){
+        return $("//android.widget.Button[@resource-id='com.android.permissioncontroller:id/permission_deny_button']");
+    }
+
+    get recordAudioPopup(){
+        return $("(//android.widget.Button)[3]");
+    }
+
+    get deviceLocationPopup(){
+        return $("//android.widget.Button[@resource-id='com.android.permissioncontroller:id/permission_deny_button']");
+    }
+
+    get notificationAlertPermission(){
+        return $("//android.widget.Button[@resource-id='com.android.permissioncontroller:id/permission_allow_button']");
+    }
+
+    get okButton(){
+        return $("//android.widget.Button");
+    }
+
+    get clickonbackbutton(){
+        return $("android.widget.ImageButton");
+    }
+
+    get dashboard(){
+        return $("(//android.widget.TextView)[1]");
+    }
 
     /**
      * a method to encapsule automation code to interact with the page
@@ -40,6 +78,7 @@ class LoginPage extends BasePage {
     async login (username, password) {
         await this.emailField.waitForDisplayed({timeout:20000});
         await this.emailField.click();
+        await this.verifyNoThanksPopup();
         await this.emailField.setValue(username);
         await this.paswordField.click();
         await this.paswordField.setValue(password);
@@ -90,7 +129,71 @@ class LoginPage extends BasePage {
         return actAtt;
       }
     
+      async verifyFirstChild(){
+        await this.firstChild.waitForDisplayed({timeout:25000});
+        return this.firstChild.isDisplayed();
+    }
     
+    async clickOnFirstChild(){
+        if(await this.verifyFirstChild() === true){
+           await this.firstChild.click();
+        }else{
+            throw new Error("First child option is not displayed");
+        }
+    }
+
+    async denySavePasswordPopup(){ 
+        try{
+          await this.savePasswordOption.waitForDisplayed({timeout:5000});
+          await this.savePasswordOption.click();
+        }catch(error){
+  
+        }
+      }
+
+      async clickOnRecordAudioPopup(){
+        await this.recordAudioPopup.waitForDisplayed({timeout:20000});
+        await this.recordAudioPopup.click();
+    }
+
+    async clickOnOkButton(){
+        await this.okButton.waitForDisplayed({timeout:20000});
+        await this.okButton.click();
+    }
+
+    async dashboardIsDisplayed(){
+        await this.dashboard.waitForDisplayed({timeout:25000});
+        return this.dashboard.isDisplayed();
+    }
+
+    async verifyDashboard(){
+        if(await this.dashboardIsDisplayed() === true){
+            console.log("User successfully redirected to homepage");
+        }else{
+            throw new Error("Dashboard is not displayed");
+        }
+    }
+
+    async verifyNoThanksPopup(){
+        try{
+        await this.noThanksButton.waitForDisplayed({timeout:5000});
+        await this.noThanksButton.click();
+        }catch(error){
+
+        }
+    }
+
+    async patientVitalSigns(){
+        const patientVital = await $("(//android.widget.TextView)[2]");
+        await patientVital.waitForDisplayed({timeout:25000});
+        var actualText = await patientVital.getText();
+        var expectedText = "Patient's Vital Signs";
+        if(expectedText.includes(actualText)){
+            console.log("First module of app is verified");
+        }else{
+         console.log("First module of app is not verified")
+        }
+    }
 }
 
 module.exports = new LoginPage();

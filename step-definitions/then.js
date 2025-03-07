@@ -13,6 +13,17 @@ Then(/^I should see a flash message saying (.*)$/, async (message) => {
     await expect(SecurePage.flashAlert).toHaveText(expect.stringContaining(message));
 });
 
+Then(/^Verify that user is on homepage$/, async ()=>{
+    await LoginPage.clickOnFirstChild();
+    await LoginPage.denySavePasswordPopup();
+    await LoginPage.videoAndPicPermissionPopup.click();
+    await LoginPage.clickOnRecordAudioPopup();
+    await LoginPage.deviceLocationPopup.click();
+    await LoginPage.notificationAlertPermission.click();
+    await LoginPage.clickOnOkButton();
+    await LoginPage.clickonbackbutton.click();
+    await LoginPage.verifyDashboard();
+})
 // ---------------------------------------------------iOS-------------------------------------
 
 Then(/^For iOS, verify that user is on homepage$/, async()=>{

@@ -23,7 +23,10 @@ When(/^Web app login using email (.*) and password (.*)$/, async (email,password
     await LoginWebPage.login(email, password);
     });
 
+When(/^Verfiy all modules of Firstday-HC app on homepage$/, async()=>{
+ await LoginPage.patientVitalSigns();
 
+})
     // ------------------------------------------iOS--------------------------------------------------------
 
     When(/^iOS login to app using email (.*) and password (.*)$/, async (username, password) => {
