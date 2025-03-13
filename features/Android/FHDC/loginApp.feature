@@ -4,6 +4,14 @@ Feature: Test cases for login page
     When login to app using email <email> and password <password>
     Then Verify that user is on homepage
     When Verfiy all modules of Firstday-HC app on homepage
+    When User clicks on vital signs module
+    Then Verify all the features inside vital signs
+    When User clicks on medical report module
+    Then Verify all the features inside medical report
+    When User clicks on providers module on homepage
+    Then Verify all the tabs inside providers module
+    When User clicks on settings module on homepage
+    Then Verify all the tabs inside settings module
     Examples:
       | app       | email                         | password   |
       | FHDC Beta | testcaregiver5feb@yopmail.com | Qwerty@123 |

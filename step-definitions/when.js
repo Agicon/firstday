@@ -25,8 +25,57 @@ When(/^Web app login using email (.*) and password (.*)$/, async (email,password
 
 When(/^Verfiy all modules of Firstday-HC app on homepage$/, async()=>{
  await LoginPage.patientVitalSigns();
-
+ await LoginPage.patientsMedicalRecord();
+ await LoginPage.patientsProviders();
+ await LoginPage.needHelp();
+ await LoginPage.patientsVideoCamera();
+ await LoginPage.settings();
 })
+
+When(/^User clicks on vital signs module$/,async()=>{
+ await LoginPage.clickOnPatientsVitalSigns();
+})
+
+When(/^User clicks on medical report module$/,async()=>{
+ await LoginPage.clickOnModuleBackButton();
+ await LoginPage.clickOnMedicalReport();
+})
+
+When(/^User clicks on providers module on homepage$/, async()=>{
+    await LoginPage.clickOnModuleBackButton();
+    await LoginPage.clickOnProvider();
+})
+
+When(/^User clicks on settings module on homepage$/,async()=>{
+    await LoginPage.clickOnModuleBackButton();
+    await LoginPage.clickOnSettingsModule();
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // ------------------------------------------iOS--------------------------------------------------------
 
     When(/^iOS login to app using email (.*) and password (.*)$/, async (username, password) => {

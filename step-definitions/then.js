@@ -24,6 +24,53 @@ Then(/^Verify that user is on homepage$/, async ()=>{
     await LoginPage.clickonbackbutton.click();
     await LoginPage.verifyDashboard();
 })
+
+Then(/^Verify all the features inside vital signs$/, async()=>{
+   await LoginPage.heartRateIsDisplayed();
+   await LoginPage.o2SaturationIsDisplayed();
+   await LoginPage.respiratoryRateDisplayed();
+   await LoginPage.TemperatureIsDisplayed();
+   await LoginPage.deviceStatusIsDisplayed();
+})
+
+Then (/^Verify all the features inside medical report$/, async()=>{
+   await LoginPage.diagnosisIsDisplayed();
+   await LoginPage.medicationIsDisplayed();
+   await LoginPage.resultsIsDisplayed();
+   await LoginPage.trackerIsDisplayed();
+   await LoginPage.vaccinationsIsDisplayed();
+   await LoginPage.mediaIsDisplayed();
+   await LoginPage.documentsIsDisplayed();
+   await LoginPage.sendUsresultIsDisplayed();
+})
+
+Then(/^Verify all the tabs inside providers module$/, async()=>{
+  await LoginPage.providerTabIsDisplayed();
+  await LoginPage.appointmentsTabIsDisplayed();
+})
+
+Then(/^Verify all the tabs inside settings module$/, async()=>{
+  await LoginPage.myContactInformationIsDisplayed();
+  await LoginPage.myAccountIsDisplayed();
+  await LoginPage.myBabysInformationIsDisplayed();
+  await LoginPage.changeChildIsDisplayed();
+  await LoginPage.changePasswordIsDisplayed();
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ---------------------------------------------------iOS-------------------------------------
 
 Then(/^For iOS, verify that user is on homepage$/, async()=>{
