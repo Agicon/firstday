@@ -19,8 +19,8 @@ When(/^Open web url (.*)$/, async (url) => {
 await LoginWebPage.open(url);
 });
 
-When(/^Web app login using email (.*) and password (.*)$/, async (email,password) => {
-    await LoginWebPage.login(email, password);
+When(/^Web app login using (.*)$/, async (userName) => {
+    await LoginWebPage.login(userName);
     });
 
 When(/^Verfiy all modules of Firstday-HC app on homepage$/, async()=>{
