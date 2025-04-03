@@ -12,6 +12,8 @@
      "downloadFHDAappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDAappPage",
      "downloadFHDCappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDCappPage",
      "webLoginPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webLoginPage",
+     "webCustomerPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite customerPage",
+     
      "both": "npm run androidLoginPageCopy && npm run androidLoginPage"
 
     
