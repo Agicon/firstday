@@ -19,4 +19,4 @@ Feature: Test cases for super admin customer page
 
     Examples:
       | url      | userA |
-      | loginUrl | admin | 
+      | loginUrl | admin |
