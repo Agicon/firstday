@@ -26,39 +26,39 @@ get closeButton(){
 }
 
 get mobileNumber(){
-    return $("//input[@id='mother_mobile_number']");
+    return $("input[id='mother_mobile_number']");
 }
 
-get website(){
-    return $("//input[@id='website']");
+get websiteField(){
+    return $("input[id='website']");
 }
 
 get officeNumber(){
-    return $("//input[@id='office_number']");
+    return $("input[id='office_number']");
 }
 
 get officeInformation(){
-    return $("//textarea[@id='office_information']");
+    return $("textarea[id='office_information']");
 }
 
-get state(){
-    return $("//input[@id='state']");
+get stateField(){
+    return $("input[id='state']");
 }
 
-get city(){
-    return $("//input[@id='city']");
+get cityField(){
+    return $("input[id='city']");
 }
 
-get address(){
-    return $("//textarea[@id='address']");
+get addressField(){
+    return $("textarea[id='address']");
 }
 
-get zipCode(){
-    return $("//input[@id='zipcode']");
+get zipCodeField(){
+    return $("input[id='zipcode']");
 }
 
 get createButton(){
-    return $("//button[@id='createBtn']");
+    return $("button[id='createBtn']");
 }
 
 
@@ -88,18 +88,6 @@ async clickOnNewManagingProviderButton(){
     }
 }
 
-async nameFieldIsDisplayed(){
-    await this.nameField.waitForDisplayed({timeout:25000});
-    return await this.nameField.isDisplayed();
-}
-
-async clickOnNameField(){
-    if(await this.nameFieldIsDisplayed() === true){
-     await this.nameField.click();
-    }else{
-        throw new Error("Name field is not displayed on managing provider form");
-    }
-}
 
 async closeButtonIsDisplayed(){
     await this.closeButton.waitForDisplayed({timeout:25000});
@@ -115,60 +103,14 @@ async clickOnCloseButton(){
 }
 
 async verifyClosedForm(){
-   await browser.pause(5000);
-   if (await this.nameField.isDisplayed() === true){
-    console.log("Managing provider form is still displayed after clicked on the close button");
-   }else{
-    console.log("New Managing Provider form has successfully closed");
-   }
+    await this.nameField.waitForDisplayed({ reverse: true, timeout: 20000 });
+    if (await this.nameField.isDisplayed() === false) {
+        console.log("New Managing Provider form has successfully closed")
+    } else {
+        throw new Error("Managing provider form is still displayed after clicked on the close button");
+
+    }
 }
-
-async fillInvalidMangingProviderForm(){
-    await this.nameField.waitForDisplayed({timeout:25000});
-    await this.nameField.click();
-    await this.nameField.setValue("Test Provider");
-    await this.mobileNumber.waitForDisplayed({timeout:25000});
-    await this.mobileNumber.click();
-    await this.mobileNumber.setValue("1234567890");
-    await this.website.waitForDisplayed({timeout:25000});
-    await this.website.click();
-    await this.website.setValue("https://portal.test.firstdayhc.com/login");
-    await this.officeNumber.waitForDisplayed({timeout:25000});
-    await this.officeNumber.click();
-    await this.officeNumber.setValue("1111122222");
-    await this.officeInformation.waitForDisplayed({timeout:25000});
-    await this.officeInformation.click();
-    await this.officeInformation.setValue("IT office");
-    await this.state.waitForDisplayed({timeout:25000});
-    await this.state.click();
-    await this.state.setValue("Punjab");
-    await this.city.waitForDisplayed({timeout:25000});
-    await this.city.click();
-    await this.city.setValue("Mohali");
-    await this.address.waitForDisplayed({timeout:25000});
-    await this.address.click();
-    await this.address.setValue("ABC 124585");
-    await this.zipCode.waitForDisplayed({timeout:25000});
-    await this.zipCode.click();
-    await this.zipCode.setValue("548521");
-    await this.createButton.waitForDisplayed({timeout:25000});
-    await this.createButton.click();
-}
-
-
-async verifyAlertFieldMessage(){
-  var errorMsg =  await $("//span[@id='mother_email-error']");
-  await errorMsg.waitForDisplayed({timeout:25000});
-  var ActualError = await errorMsg.getText();
-  var ExpectedError ="Please enter email address";
-  if(ExpectedError.includes(ActualError)){
-    console.log("Error message is displayed below mandatory field");
-  }else{
-    console.log("Error message is not displayed below mandatory field");
-  }
-}
-
-
 
 
 

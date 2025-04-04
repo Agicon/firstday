@@ -67,10 +67,7 @@ When(/^User click on the "New Managing Provider" button$/, async()=>{
     await MangingProvider.clickOnCloseButton();
  })
 
- When(/^User fills all the fileds on form except one mandatroy field$/, async()=>{
-    await MangingProvider.fillInvalidMangingProviderForm();
-    
- })
+ 
 // ------------------------------------------iOS--------------------------------------------------------
 
 When(/^iOS login to app using email (.*) and password (.*)$/, async (username, password) => {
