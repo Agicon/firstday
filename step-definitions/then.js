@@ -3,6 +3,7 @@ const { expect, $, browser } = require('@wdio/globals')
 
 const LoginPage = require('../pageobjects/Android/loginPage');
 import iosLoginPage from "../pageobjects/iOS/loginPage";
+import MangingProvider from "../pageobjects/Web/Provider/managingProvider";
 const pages = {
     login: LoginPage
     
@@ -58,19 +59,6 @@ Then(/^Verify all the tabs inside settings module$/, async()=>{
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ---------------------------------------------------iOS-------------------------------------
 
 Then(/^For iOS, verify that user is on homepage$/, async()=>{
@@ -81,5 +69,41 @@ Then(/^For iOS, verify that user is on homepage$/, async()=>{
         else{
         throw new Error("Homepage is not displayed");
         }
-
 })
+
+// ======================================ManagingProvider=============================================
+
+Then(/^Verify that user successfully redirected on homepage$/, async()=>{
+ if(await MangingProvider.managingProviderIsDisplayed()=== true){
+  console.log("User sucessfully redirected to homepage");
+ }else{
+  throw new Error("Managing providers tab is not displayed on homepage");
+ }
+ })
+ 
+ Then(/^User should on "Managing Provider" page$/, async()=>{
+  if(await MangingProvider.newManagingProviderButtonIsDisplayed()=== true){
+   console.log("User sucessfully redirected to Managing Provider page");
+  }else{
+   throw new Error("User sucessfully redirected to Managing Provider page");
+  }
+  })
+
+  Then(/^"New Managing Provider" form displays$/, async()=>{
+    if(await MangingProvider.nameFieldIsDisplayed()=== true){
+     console.log("New managing provider form is successfully opened");
+    }else{
+     throw new Error("Form is not displayed after clicked on new managing provider ");
+    }
+    })
+  
+    Then(/^The "New Managing Provider" form should be closed$/, async()=>{
+      await MangingProvider.verifyClosedForm();
+    })
+    
+  Then(/^Alert message should displayed below that field$/, async()=>{
+       await MangingProvider.verifyAlertFieldMessage();
+ })
+      
+ 
+      

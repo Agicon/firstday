@@ -4,6 +4,7 @@ const { expect, $, browser } = require('@wdio/globals')
 const LoginPage = require('../pageobjects/Android/loginPage');
 const LoginWebPage = require('../pageobjects/Web/loginPage');
 import iosLoginPage from "../pageobjects/iOS/loginPage";
+import MangingProvider from "../pageobjects/Web/Provider/managingProvider";
 const pages = {
     login: LoginPage
     
@@ -51,14 +52,24 @@ When(/^User clicks on settings module on homepage$/,async()=>{
     await LoginPage.clickOnSettingsModule();
 })
 
+// ======================================ManagingProvider=============================================
 
+When(/^User click on "Managing Provider" tab$/, async()=>{
+    await MangingProvider.clickOnManagingProviderTab();
+})
 
+When(/^User click on the "New Managing Provider" button$/, async()=>{
+    await MangingProvider.clickOnNewManagingProviderButton();
+ })
+    
+ When(/^User click on the "Close" button$/, async()=>{
+    await MangingProvider.clickOnCloseButton();
+ })
 
-
-
-
-
-
+ When(/^User fills all the fileds on form except one mandatroy field$/, async()=>{
+    await MangingProvider.fillInvalidMangingProviderForm();
+    
+ })
 
 
 

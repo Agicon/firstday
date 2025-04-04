@@ -24,8 +24,8 @@ exports.config = {
         './features/**/*.feature'
     ],
     suites: {
-      webLoginPage: ["./features/Web/login.feature"],
-     
+      // webLoginPage: ["./features/Web/login.feature"],
+      webProviderPage: ["./features/Web/Provider/managingProvider.feature"]
     },
     // Patterns to exclude.
     exclude: [
@@ -59,7 +59,7 @@ exports.config = {
           browserName: "chrome",
           browserVersion: 'latest',
           'goog:chromeOptions': {
-            args: ['headless', 'window-size=1920,1080']
+            // args: ['headless', 'window-size=1920,1080']
           },
           acceptInsecureCerts: true,
         
