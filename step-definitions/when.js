@@ -93,3 +93,46 @@ When(/^I click on the button with text (.*)$/, async (text) => {
 
 })
 
+When(/^I fill (.*) data in clinic name field$/, async (text) => {
+    await CustomerPage.fillClinicNameField(text);
+
+});
+
+When(/^I fill (.*) data in first name field$/, async (text) => {
+    await CustomerPage.fillFirstNameField(text);
+
+});
+
+When(/^I fill (.*) data in last name field$/, async (text) => {
+    await CustomerPage.fillLastNameField(text);
+
+});
+When(/^I fill (.*) data in email field$/, async (text) => {
+    await CustomerPage.fillEmailField(text);
+
+});
+
+When(/^I fill (.*) data in phone number field$/, async (text) => {
+    await CustomerPage.fillPhoneNumberField(text);
+
+});
+
+When(/^I fill (.*) data in office number field$/, async (text) => {
+    await CustomerPage.fillOfficeNumberField(text);
+
+});
+
+When(/^I fill (.*) data in zip code field$/, async (text) => {
+    await CustomerPage.fillZipCodeField(text);
+
+});
+
+When(/^I fill (.*) data in number of licence field$/, async (text) => {
+    await CustomerPage.fillNumberOfLicenceField(text);
+
+});
+
+When(/^I fill (.*) data in expiry field$/, async (text) => {
+    await CustomerPage.fillExpireField(text);
+
+});
