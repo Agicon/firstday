@@ -108,6 +108,32 @@ Then(/^Alert message should displayed below that field$/, async () => {
   await MangingProvider.verifyAlertFieldMessage();
 });
 
+Then(/^User should on "Managing Provider" page$/, async () => {
+  if ((await MangingProvider.newManagingProviderButtonIsDisplayed()) === true) {
+    console.log("User sucessfully redirected to Managing Provider page");
+  } else {
+    throw new Error("User sucessfully redirected to Managing Provider page");
+  }
+});
+
+Then(/^"New Managing Provider" form displays$/, async () => {
+  if ((await MangingProvider.nameFieldIsDisplayed()) === true) {
+    console.log("New managing provider form is successfully opened");
+  } else {
+    throw new Error(
+      "Form is not displayed after clicked on new managing provider "
+    );
+  }
+});
+
+Then(/^The "New Managing Provider" form should be closed$/, async () => {
+  await MangingProvider.verifyClosedForm();
+});
+
+Then(/^Alert message should displayed below that field$/, async () => {
+  await MangingProvider.verifyAlertFieldMessage();
+});
+
 Then(/^User refresh the screen$/, async () => {
   await browser.refresh();
 });
