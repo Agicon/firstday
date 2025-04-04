@@ -56,4 +56,4 @@ Feature: Test cases for super admin customer page
     Then A "New Customer" form closes
     Examples:
       | url      | userA | invalidData | validData | validPhone |
-      | loginUrl | admin |           0 | Testing   | 9988877665 |
+      | loginUrl | admin | 0           | Testing   | 9988877665 |
