@@ -35,6 +35,7 @@ class LoginPage extends BasePage {
 
 
     async login(userName) {
+        await browser.maximizeWindow();
         await browser.pause(1000);
         var data = TestUtils.getUserCredetials(userName); //Retrive data from excel
         await browser.pause(2000);

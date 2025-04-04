@@ -24,7 +24,10 @@ exports.config = {
         './features/**/*.feature'
     ],
     suites: {
+      // webLoginPage: ["./features/Web/login.feature"],
+      webProviderPage: ["./features/Web/Provider/managingProvider.feature"],
       webLoginPage: ["./features/Web/login.feature"],
+      customerPage: ["./features/Web/SuperAdmin/Customer.feature"],
      
     },
     // Patterns to exclude.
@@ -59,7 +62,7 @@ exports.config = {
           browserName: "chrome",
           browserVersion: 'latest',
           'goog:chromeOptions': {
-            args: ['headless', 'window-size=1920,1080']
+            // args: ['headless', 'window-size=1920,1080']
           },
           acceptInsecureCerts: true,
         
@@ -183,7 +186,7 @@ exports.config = {
         // <string> (expression) only execute the features or scenarios with tags matching the expression
         tagExpression: '',
         // <number> timeout for step definitions
-        timeout: 60000,
+        timeout: 60000000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
         ignoreUndefinedDefinitions: false
     },
