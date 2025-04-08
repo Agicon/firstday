@@ -54,6 +54,27 @@ Feature: Test cases for super admin customer page
     Then validation message Expiry date must be greater than today. appears
     When I click on the button with text Close
     Then A "New Customer" form closes
+
     Examples:
       | url      | userA | invalidData | validData | validPhone |
-      | loginUrl | admin | 0           | Testing   | 9988877665 |
+      | loginUrl | admin |           0 | Testing   | 9988877665 |
+
+  Scenario Outline: Verify the "Super Admin" is able to create "New Customer" when only mandatory fields are populated
+    When I click on the "Customers" tab
+    Then I navigate to the "Customers" page
+    Then Search and delete duplicate data <validClinicName>
+    When I click on the "Customers" tab
+    When I click on the "New Customer" button
+    Then "New customer" form displays
+    When I fill <validClinicName> data in clinic name field
+    When I fill <validFirstName> data in first name field
+    When I fill <validLastName> data in last name field
+    When I fill valid and unique data in email
+    When I fill <validNumberOfLicence> data in number of licence field
+    When I fill valid date in expiry field
+    When I click on the button with text Create
+    Then A "New Customer" gets created and it displays clinic name <validClinicName> first name <validFirstName> last name <validLastName> email and licence number <validNumberOfLicence> on the "Customers list"
+
+    Examples:
+      | validClinicName | validFirstName | validLastName | validEmail          | validNumberOfLicence |
+      | NewClinic       | Ohri           | jack          | Test20010@gmail.com |                  998 |
