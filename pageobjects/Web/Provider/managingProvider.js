@@ -62,6 +62,18 @@ class ManagingProvider extends BasePage {
     return $("button[id='createBtn']");
   }
 
+  get searchField() {
+    return $("input[type='search']");
+  }
+
+  get deleteButton() {
+    return $("(//a[@title='Delete'])[1]");
+  }
+
+  get deleteProviderMessage() {
+    return $("//div[contains(text(),'Managing Provider Deleted !!')]");
+  }
+
   async managingProviderIsDisplayed() {
     await this.managingProviderLink.waitForDisplayed({ timeut: 25000 });
     return await this.managingProviderLink.isDisplayed();
@@ -158,29 +170,18 @@ class ManagingProvider extends BasePage {
   }
 
   async verifyCreatedProvider(name, email) {
-    await $("//td[contains(text(),'" + name + "')]").waitForDisplayed({
+    await this.searchField.clearValue();
+    await this.searchField.setValue(name);
+    await $("(//tr[@class='odd']//td)[2]").waitForEnabled({
+      timeout: 25000,
+    });
+    var actualName = await $("(//tr[@class='odd']//td)[2]").getText();
+    var actualEmail = await $("(//tr[@class='odd']//td)[3]").getText();
+    await expect(actualName).toEqual(name);
+    await expect(actualEmail).toEqual(email);
+    await $("(//tr[@class='odd']//td)[2]").waitForDisplayed({
       timeout: 30000,
     });
-    var expectedName = await $(
-      "//td[contains(text(),'" + name + "')]"
-    ).getText();
-    var expectedEmail = await $(
-      "//td[contains(text(),'" + email + "')]"
-    ).getText();
-    if (expectedName.includes(name) && expectedEmail.includes(email)) {
-      console.log("Created provider is visible in managing provider list");
-    } else {
-      throw new Error(
-        "Failed to add new managing provider, expected name " +
-          expectedName +
-          " actual name " +
-          name +
-          " expected email " +
-          expectedEmail +
-          " actual email " +
-          email
-      );
-    }
   }
 
   async verifySuccessMessage(text) {
@@ -190,6 +191,56 @@ class ManagingProvider extends BasePage {
       console.log("Success message displaying successfully");
     } else {
       throw new Error("Success message is not displaying: " + text);
+    }
+  }
+
+  async clickOnButtonWithText(text) {
+    const buttonText = await $("//button[contains(text(),'" + text + "')]");
+    await buttonText.waitForDisplayed({ timeout: 20000 });
+    if ((await buttonText.isDisplayed()) === true) {
+      await buttonText.click(); // No need for `this.buttonText`
+    } else {
+      throw new Error("Button is not displaying: " + text);
+    }
+  }
+
+  async searchAndDeleteAddedProvider(text) {
+    await this.searchField.clearValue();
+    await this.searchField.setValue(text);
+    try {
+      await $("//td[contains(text(),'" + text + "')]").waitForEnabled({
+        timeout: 25000,
+      });
+      await this.deleteButton.click();
+      await this.clickOnButtonWithText("Yes");
+      await this.deleteProviderMessage.waitForDisplayed({ timeout: 20000 });
+      await this.deleteProviderMessage.waitForDisplayed({
+        reverse: true,
+        timeout: 20000,
+      });
+    } catch (error) {}
+  }
+
+  async verifyAlreadyAddedEmail(name, email) {
+    await this.searchField.clearValue();
+    await this.searchField.setValue(name);
+    var registeredEmail = await $(
+      "//td[contains(text(),'" + email + "')]"
+    ).getText();
+    await this.clickOnNewManagingProviderButton();
+    await this.fillNameField(name);
+    await this.fillEmailField(registeredEmail);
+  }
+
+  async verifyAlreadyAddedEmailMessage(text) {
+    const messageText = await $(
+      "//strong[contains(text(),'Please Enter Unique email. This email is already register with system.')]"
+    );
+    await messageText.waitForDisplayed({ timeout: 20000 });
+    if ((await messageText.isDisplayed()) === true) {
+      console.log("validation message is displaying successfully " + text);
+    } else {
+      throw new Error("Validation message is not displaying: " + text);
     }
   }
 }

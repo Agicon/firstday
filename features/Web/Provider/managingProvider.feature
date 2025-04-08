@@ -38,8 +38,10 @@ Feature: Test cases for "Managing Provider" page
       | url      | userA                     | invalidName | invalidEmail  | textInMobileNumberField | invalidMobileNumber | invaliWebsite      |
       | loginUrl | customerLoginCrendentails | 1           | @@@@gmail.com | abcdef                  | 12453               | https://www.@@.com |
 
-  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when only the mandatory fields are populated with valid data
-    Then User refresh the screen
+  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when only the mandatory fields are populated with valid data and also check "Customer" is not able to create "New Managing Provider" with already registered email
+    When User click on "Managing Provider" tab
+    Then User should on "Managing Provider" page
+    Then Search and delete already added provider <validName>
     When User click on the "New Managing Provider" button
     Then "New Managing Provider" form displays
     When User add <validName> in name field
@@ -47,8 +49,8 @@ Feature: Test cases for "Managing Provider" page
     When I click on the button with text Create
     Then Success message Managing Provider Added Succesfully. Credentials will be sent to an email! appears
     Then a "New Managing Provider" gets created And it displays <validName> and <validEmail> in the "Managing Provider" list
-    When User click on the "New Managing Provider" button
-    Then "New Managing Provider" form displays
+    When User use already registered <validName> and <validEmail> email to create new providing manager and click on Create button
+    Then validation message Please Enter Unique email. This email is already register with system. appears
     Examples:
-      | validName   | validEmail          |
-      | NewProvider | Provider1@gmail.com |
+      | validName          | validEmail          |
+      | AutomationProvider | Provider1@gmail.com |
