@@ -3,7 +3,7 @@ const { expect, $, browser } = require("@wdio/globals");
 const LoginPage = require("../pageobjects/Android/loginPage");
 const LoginWebPage = require("../pageobjects/Web/loginPage");
 import iosLoginPage from "../pageobjects/iOS/loginPage";
-import MangingProvider from "../pageobjects/Web/Provider/managingProvider";
+import ManagingProvider from "../pageobjects/Web/Provider/managingProvider";
 import CustomerPage from "../pageobjects/Web/SuperAdmin/customerPage";
 
 const pages = {
@@ -57,39 +57,39 @@ When(/^User clicks on settings module on homepage$/, async () => {
 // ======================================ManagingProvider=============================================
 
 When(/^User click on "Managing Provider" tab$/, async () => {
-  await MangingProvider.clickOnManagingProviderTab();
+  await ManagingProvider.clickOnManagingProviderTab();
 });
 
 When(/^User click on the "New Managing Provider" button$/, async () => {
-  await MangingProvider.clickOnNewManagingProviderButton();
+  await ManagingProvider.clickOnNewManagingProviderButton();
 });
 
 When(/^User click on the "Close" button$/, async () => {
-  await MangingProvider.clickOnCloseButton();
+  await ManagingProvider.clickOnCloseButton();
 });
 
 When(/^User add (.*) in name field$/, async (text) => {
-  await MangingProvider.fillNameField(text);
+  await ManagingProvider.fillNameField(text);
 });
 
 When(/^User add (.*) in email field$/, async (text) => {
-  await MangingProvider.fillEmailField(text);
+  await ManagingProvider.fillEmailField(text);
 });
 
 When(/^User add (.*) in mobile number field$/, async (text) => {
-  await MangingProvider.fillMoblieNumberField(text);
+  await ManagingProvider.fillMoblieNumberField(text);
 });
 
 When(/^User add (.*) in website field$/, async (text) => {
-  await MangingProvider.fillWebsiteField(text);
+  await ManagingProvider.fillWebsiteField(text);
 });
 
 When(/^User add (.*) in office number field$/, async (text) => {
-  await MangingProvider.fillOfficeNumberField(text);
+  await ManagingProvider.fillOfficeNumberField(text);
 });
 
 When(/^User add (.*) in zipcode field$/, async (text) => {
-  await MangingProvider.fillzipCodeField(text);
+  await ManagingProvider.fillzipCodeField(text);
 });
 
 // ------------------------------------------iOS--------------------------------------------------------

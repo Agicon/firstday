@@ -5,13 +5,13 @@ const { remote } = require("webdriverio");
 /**
  * sub page containing specific selectors and methods for a specific page
  */
-class MangingProvider extends BasePage {
+class ManagingProvider extends BasePage {
   get managingProviderLink() {
     return $("(//a[@title='Managing Providers'])[2]");
   }
 
   get newManagingProviderButton() {
-    return $("(//div[@class='col-md-3 pr-0'])[2]");
+    return $("//div//button[contains(text(),'New Managing Provider')]");
   }
 
   get nameField() {
@@ -64,7 +64,7 @@ class MangingProvider extends BasePage {
 
   async managingProviderIsDisplayed() {
     await this.managingProviderLink.waitForDisplayed({ timeut: 25000 });
-    return this.managingProviderLink.isDisplayed();
+    return await this.managingProviderLink.isDisplayed();
   }
 
   async clickOnManagingProviderTab() {
@@ -76,8 +76,8 @@ class MangingProvider extends BasePage {
   }
 
   async newManagingProviderButtonIsDisplayed() {
-    await this.newManagingProviderButton.waitForDisplayed({ timeout: 25000 });
-    return this.newManagingProviderButton.isDisplayed();
+    await this.newManagingProviderButton.waitForDisplayed({ timeout: 35000 });
+    return await this.newManagingProviderButton.isDisplayed();
   }
 
   async clickOnNewManagingProviderButton() {
@@ -115,8 +115,8 @@ class MangingProvider extends BasePage {
   }
 
   async nameFieldIsDisplayed() {
-    await this.nameField.waitForDisplayed({ timeout: 20000 });
-    return this.nameField.isDisplayed();
+    await this.nameField.waitForDisplayed({ timeout: 25000 });
+    return await this.nameField.isDisplayed();
   }
 
   async fillNameField(Data) {
@@ -156,5 +156,41 @@ class MangingProvider extends BasePage {
     await this.zipCodeField.waitForDisplayed({ timeout: 20000 });
     await this.zipCodeField.setValue(Data);
   }
+
+  async verifyCreatedProvider(name, email) {
+    await $("//td[contains(text(),'" + name + "')]").waitForDisplayed({
+      timeout: 30000,
+    });
+    var expectedName = await $(
+      "//td[contains(text(),'" + name + "')]"
+    ).getText();
+    var expectedEmail = await $(
+      "//td[contains(text(),'" + email + "')]"
+    ).getText();
+    if (expectedName.includes(name) && expectedEmail.includes(email)) {
+      console.log("Created provider is visible in managing provider list");
+    } else {
+      throw new Error(
+        "Failed to add new managing provider, expected name " +
+          expectedName +
+          " actual name " +
+          name +
+          " expected email " +
+          expectedEmail +
+          " actual email " +
+          email
+      );
+    }
+  }
+
+  async verifySuccessMessage(text) {
+    const messageText = await $("//div[contains(text(),'" + text + "')]");
+    await messageText.waitForDisplayed({ timeout: 20000 });
+    if ((await messageText.isDisplayed()) === true) {
+      console.log("Success message displaying successfully");
+    } else {
+      throw new Error("Success message is not displaying: " + text);
+    }
+  }
 }
-module.exports = new MangingProvider();
+module.exports = new ManagingProvider();

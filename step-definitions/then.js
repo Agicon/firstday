@@ -3,7 +3,7 @@ const { expect, $, browser } = require("@wdio/globals");
 
 const LoginPage = require("../pageobjects/Android/loginPage");
 import iosLoginPage from "../pageobjects/iOS/loginPage";
-import MangingProvider from "../pageobjects/Web/Provider/managingProvider";
+import ManagingProvider from "../pageobjects/Web/Provider/managingProvider";
 import TestUtils from "../pageobjects/testUtils";
 import customerPage from "../pageobjects/Web/SuperAdmin/customerPage";
 const pages = {
@@ -75,7 +75,7 @@ Then(/^For iOS, verify that user is on homepage$/, async () => {
 // ======================================ManagingProvider=============================================
 
 Then(/^Verify that user successfully redirected on homepage$/, async () => {
-  if ((await MangingProvider.managingProviderIsDisplayed()) === true) {
+  if ((await ManagingProvider.managingProviderIsDisplayed()) === true) {
     console.log("User sucessfully redirected to homepage");
   } else {
     throw new Error("Managing providers tab is not displayed on homepage");
@@ -83,15 +83,19 @@ Then(/^Verify that user successfully redirected on homepage$/, async () => {
 });
 
 Then(/^User should on "Managing Provider" page$/, async () => {
-  if ((await MangingProvider.newManagingProviderButtonIsDisplayed()) === true) {
+  if (
+    (await ManagingProvider.newManagingProviderButtonIsDisplayed()) === true
+  ) {
     console.log("User sucessfully redirected to Managing Provider page");
   } else {
-    throw new Error("User sucessfully redirected to Managing Provider page");
+    throw new Error(
+      "User is not sucessfully redirected to Managing Provider page"
+    );
   }
 });
 
 Then(/^"New Managing Provider" form displays$/, async () => {
-  if ((await MangingProvider.nameFieldIsDisplayed()) === true) {
+  if ((await ManagingProvider.nameFieldIsDisplayed()) === true) {
     console.log("New managing provider form is successfully opened");
   } else {
     throw new Error(
@@ -101,41 +105,30 @@ Then(/^"New Managing Provider" form displays$/, async () => {
 });
 
 Then(/^The "New Managing Provider" form should be closed$/, async () => {
-  await MangingProvider.verifyClosedForm();
+  await ManagingProvider.verifyClosedForm();
 });
 
 Then(/^Alert message should displayed below that field$/, async () => {
-  await MangingProvider.verifyAlertFieldMessage();
-});
-
-Then(/^User should on "Managing Provider" page$/, async () => {
-  if ((await MangingProvider.newManagingProviderButtonIsDisplayed()) === true) {
-    console.log("User sucessfully redirected to Managing Provider page");
-  } else {
-    throw new Error("User sucessfully redirected to Managing Provider page");
-  }
-});
-
-Then(/^"New Managing Provider" form displays$/, async () => {
-  if ((await MangingProvider.nameFieldIsDisplayed()) === true) {
-    console.log("New managing provider form is successfully opened");
-  } else {
-    throw new Error(
-      "Form is not displayed after clicked on new managing provider "
-    );
-  }
-});
-
-Then(/^The "New Managing Provider" form should be closed$/, async () => {
-  await MangingProvider.verifyClosedForm();
+  await ManagingProvider.verifyAlertFieldMessage();
 });
 
 Then(/^Alert message should displayed below that field$/, async () => {
-  await MangingProvider.verifyAlertFieldMessage();
+  await ManagingProvider.verifyAlertFieldMessage();
 });
 
 Then(/^User refresh the screen$/, async () => {
   await browser.refresh();
+});
+
+Then(
+  /^a "New Managing Provider" gets created And it displays (.*) and (.*) in the "Managing Provider" list$/,
+  async (registerName, registerEmail) => {
+    await ManagingProvider.verifyCreatedProvider(registerName, registerEmail);
+  }
+);
+
+Then(/^Success message (.*) appears$/, async (Message) => {
+  await ManagingProvider.verifySuccessMessage(Message);
 });
 
 //-------------------Supre admin(customer)-----------------------//
