@@ -74,7 +74,15 @@ Feature: Test cases for super admin customer page
     When I fill valid date in expiry field
     When I click on the button with text Create
     Then A "New Customer" gets created and it displays clinic name <validClinicName> first name <validFirstName> last name <validLastName> email and licence number <validNumberOfLicence> on the "Customers list"
+    When I populate fields but I populate "Email field" with already registered email
+    When I fill <validClinicName> data in clinic name field
+    When I fill <validFirstName> data in first name field
+    When I fill <validLastName> data in last name field
+    When I fill <validNumberOfLicence> data in number of licence field
+    When I fill valid date in expiry field
+    When I click on the button with text Create
+    Then validation message This email has already been taken appears
 
     Examples:
-      | validClinicName | validFirstName | validLastName | validEmail          | validNumberOfLicence |
-      | NewClinic       | Ohri           | jack          | Test20010@gmail.com |                  998 |
+      | validClinicName    | validFirstName | validLastName | validEmail          | validNumberOfLicence |
+      | NewAutomatedClinic | Ohri           | jack          | Test20010@gmail.com |                  998 |

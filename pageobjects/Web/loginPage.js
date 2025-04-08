@@ -96,7 +96,6 @@ class LoginPage extends BasePage {
     var url = data[0];
     console.log("LOGIN PAGE URL:" + url);
     await browser.url(url);
-    await browser.pause(4000);
   }
 
   async returnText() {

@@ -172,7 +172,7 @@ Then(/^I navigate to the "Customers" page$/, async () => {
 });
 
 Then(/^"New customer" form displays$/, async () => {
-  await customerPage.newCustomerButtonIsDisplayed();
+  await customerPage.newCustomerFormIsDisplayed();
 });
 
 Then(/^validation message (.*) appears$/, async (message) => {
