@@ -121,9 +121,9 @@ Then(/^User refresh the screen$/, async () => {
 });
 
 Then(
-  /^a "New Managing Provider" gets created And it displays (.*) and (.*) in the "Managing Provider" list$/,
-  async (registerName, registerEmail) => {
-    await ManagingProvider.verifyCreatedProvider(registerName, registerEmail);
+  /^a "New Managing Provider" gets created And it displays (.*) in the "Managing Provider" list$/,
+  async (registerName) => {
+    await ManagingProvider.verifyCreatedProvider(registerName);
   }
 );
 

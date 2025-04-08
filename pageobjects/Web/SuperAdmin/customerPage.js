@@ -78,7 +78,6 @@ class CustomerPage extends BasePage {
   get deleteMessage() {
     return $("//div[contains(text(),'Customer Deleted successfully !!')]");
   }
-  
 
   /**
    * a method to encapsule automation code to interact with the page
@@ -108,7 +107,7 @@ class CustomerPage extends BasePage {
   }
 
   async newCustomerFormIsDisplayed() {
-    await this.newCustomerForm.waitForDisplayed({timeout:5000});
+    await this.newCustomerForm.waitForDisplayed({ timeout: 5000 });
     if ((await this.newCustomerForm.isDisplayed()) === true) {
       console.log("successfully redirect on cuctomer form");
     } else {
@@ -126,7 +125,13 @@ class CustomerPage extends BasePage {
     }
   }
   async verifyValidationMessage(text) {
-    const messageText = await $("//span[contains(text(),'" + text + "')]|//strong[contains(text(),'" + text + "')]");
+    const messageText = await $(
+      "//span[contains(text(),'" +
+        text +
+        "')]|//strong[contains(text(),'" +
+        text +
+        "')]"
+    );
     await messageText.waitForDisplayed({ timeout: 20000 });
     if ((await messageText.isDisplayed()) === true) {
       console.log("validation message displaying successfully");
@@ -192,9 +197,8 @@ class CustomerPage extends BasePage {
     }
   }
 
-  
   async fillEmailFieldWithUniqueData() {
-    const randomEmail = `user${Date.now()}@example.com`; 
+    const randomEmail = `user${Date.now()}@example.com`;
     if ((await this.emailField.isDisplayed()) === true) {
       await this.emailField.click();
       await this.emailField.clearValue();
@@ -204,7 +208,6 @@ class CustomerPage extends BasePage {
       throw new Error("email field is not displaying");
     }
   }
-  
 
   async fillOfficeNumberField(data) {
     if ((await this.officeNumberField.isDisplayed()) === true) {
@@ -307,53 +310,52 @@ class CustomerPage extends BasePage {
       throw new Error("Expire field is not displaying");
     }
   }
-  
-  
+
   async fillValidExpireField(data) {
     if ((await this.expiryField.isDisplayed()) === true) {
       await this.expiryField.click();
       await browser.keys("ArrowRight");
-       await browser.keys("Enter");
+      await browser.keys("Enter");
       console.log("expiry field is displaying");
     } else {
-      throw new Error("Expire field is not displaying"); 
+      throw new Error("Expire field is not displaying");
     }
   }
 
-  async verifyNewCreatedClinic(clinicName,firstName,lastName,licenceNumber) {
+  async verifyNewCreatedClinic(clinicName, firstName, lastName, licenceNumber) {
     await this.searchField.waitForDisplayed({ timeout: 5000 });
-await this.searchField.waitForEnabled({ timeout: 5000 });
-await this.searchField.clearValue();
-await this.searchField.setValue(clinicName);
-await $("//td[contains(text(),'"+clinicName+"')]").waitForDisplayed({timeout:10000});
-  var actClinic=await $("(//tr[@class='odd']//td)[2]").getText();
-  var actFirstName=await $("(//tr[@class='odd']//td)[3]").getText();
-  var actLastName=await $("(//tr[@class='odd']//td)[4]").getText();
-  var actLicenceNumber=await $("(//tr[@class='odd']//td)[7]").getText();
-  await expect(actClinic).toEqual(clinicName);
-  await expect(actFirstName).toEqual(firstName);
-  await expect(actLastName).toEqual(lastName);
-  await expect(actLicenceNumber).toEqual(licenceNumber);
-
+    await this.searchField.waitForEnabled({ timeout: 5000 });
+    await this.searchField.clearValue();
+    await this.searchField.setValue(clinicName);
+    await $("//td[contains(text(),'" + clinicName + "')]").waitForDisplayed({
+      timeout: 10000,
+    });
+    var actClinic = await $("(//tr[@class='odd']//td)[2]").getText();
+    var actFirstName = await $("(//tr[@class='odd']//td)[3]").getText();
+    var actLastName = await $("(//tr[@class='odd']//td)[4]").getText();
+    var actLicenceNumber = await $("(//tr[@class='odd']//td)[7]").getText();
+    await expect(actClinic).toEqual(clinicName);
+    await expect(actFirstName).toEqual(firstName);
+    await expect(actLastName).toEqual(lastName);
+    await expect(actLicenceNumber).toEqual(licenceNumber);
   }
 
   async searchAndDeleteDuplicateData(clinicName) {
     await this.searchField.clearValue();
     await this.searchField.setValue(clinicName);
     try {
-      await $("//td[contains(text(),'"+clinicName+"')]").waitForDisplayed({timeout:10000});
+      await $("//td[contains(text(),'" + clinicName + "')]").waitForDisplayed({
+        timeout: 10000,
+      });
       await this.deleteButton.click();
       await this.clickOnButtonWithText("Yes");
-    await this.deleteMessage.waitForDisplayed({timeout:20000});
-    await this.deleteMessage.waitForDisplayed({
+      await this.deleteMessage.waitForDisplayed({ timeout: 20000 });
+      await this.deleteMessage.waitForDisplayed({
         reverse: true,
         timeout: 20000,
-        
-       });
-   
-    } catch (error) {
-      
-    }}
+      });
+    } catch (error) {}
+  }
 }
-
+ 
 module.exports = new CustomerPage();

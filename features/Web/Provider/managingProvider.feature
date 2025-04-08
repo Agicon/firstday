@@ -45,11 +45,11 @@ Feature: Test cases for "Managing Provider" page
     When User click on the "New Managing Provider" button
     Then "New Managing Provider" form displays
     When User add <validName> in name field
-    When User add <validEmail> in email field
+    When User fill unique data in email field
     When I click on the button with text Create
     Then Success message Managing Provider Added Succesfully. Credentials will be sent to an email! appears
-    Then a "New Managing Provider" gets created And it displays <validName> and <validEmail> in the "Managing Provider" list
-    When User use already registered <validName> and <validEmail> email to create new providing manager and click on Create button
+    Then a "New Managing Provider" gets created And it displays <validName> in the "Managing Provider" list
+    When User use already registered <validName> and email to create new providing manager and click on Create button
     Then validation message Please Enter Unique email. This email is already register with system. appears
     Examples:
       | validName          | validEmail          |

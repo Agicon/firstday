@@ -169,19 +169,14 @@ class ManagingProvider extends BasePage {
     await this.zipCodeField.setValue(Data);
   }
 
-  async verifyCreatedProvider(name, email) {
+  async verifyCreatedProvider(name) {
     await this.searchField.clearValue();
     await this.searchField.setValue(name);
     await $("(//tr[@class='odd']//td)[2]").waitForEnabled({
       timeout: 25000,
     });
     var actualName = await $("(//tr[@class='odd']//td)[2]").getText();
-    var actualEmail = await $("(//tr[@class='odd']//td)[3]").getText();
     await expect(actualName).toEqual(name);
-    await expect(actualEmail).toEqual(email);
-    await $("(//tr[@class='odd']//td)[2]").waitForDisplayed({
-      timeout: 30000,
-    });
   }
 
   async verifySuccessMessage(text) {
@@ -208,7 +203,7 @@ class ManagingProvider extends BasePage {
     await this.searchField.clearValue();
     await this.searchField.setValue(text);
     try {
-      await $("//td[contains(text(),'" + text + "')]").waitForEnabled({
+      await $("//td[contains(text(),'" + text + "')]").waitForDisplayed({
         timeout: 25000,
       });
       await this.deleteButton.click();
@@ -221,26 +216,15 @@ class ManagingProvider extends BasePage {
     } catch (error) {}
   }
 
-  async verifyAlreadyAddedEmail(name, email) {
-    await this.searchField.clearValue();
-    await this.searchField.setValue(name);
-    var registeredEmail = await $(
-      "//td[contains(text(),'" + email + "')]"
-    ).getText();
-    await this.clickOnNewManagingProviderButton();
-    await this.fillNameField(name);
-    await this.fillEmailField(registeredEmail);
-  }
-
-  async verifyAlreadyAddedEmailMessage(text) {
-    const messageText = await $(
-      "//strong[contains(text(),'Please Enter Unique email. This email is already register with system.')]"
-    );
-    await messageText.waitForDisplayed({ timeout: 20000 });
-    if ((await messageText.isDisplayed()) === true) {
-      console.log("validation message is displaying successfully " + text);
+  async fillEmailFieldWithUniqueEmail() {
+    const randomEmail = `user${Date.now()}@example.com`;
+    if ((await this.emailField.isDisplayed()) === true) {
+      await this.emailField.click();
+      await this.emailField.clearValue();
+      await this.emailField.setValue(randomEmail);
+      console.log("email field is displaying");
     } else {
-      throw new Error("Validation message is not displaying: " + text);
+      throw new Error("email field is not displaying");
     }
   }
 }

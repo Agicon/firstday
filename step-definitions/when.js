@@ -3,7 +3,7 @@ const { expect, $, browser } = require("@wdio/globals");
 const LoginPage = require("../pageobjects/Android/loginPage");
 const LoginWebPage = require("../pageobjects/Web/loginPage");
 import iosLoginPage from "../pageobjects/iOS/loginPage";
-import MangingProvider from "../pageobjects/Web/Provider/managingProvider";
+import ManagingProvider from "../pageobjects/Web/Provider/managingProvider";
 import CustomerPage from "../pageobjects/Web/SuperAdmin/customerPage";
 
 const pages = {
@@ -57,48 +57,56 @@ When(/^User clicks on settings module on homepage$/, async () => {
 // ======================================ManagingProvider=============================================
 
 When(/^User click on "Managing Provider" tab$/, async () => {
-  await MangingProvider.clickOnManagingProviderTab();
+  await ManagingProvider.clickOnManagingProviderTab();
 });
 
 When(/^User click on the "New Managing Provider" button$/, async () => {
-  await MangingProvider.clickOnNewManagingProviderButton();
+  await ManagingProvider.clickOnNewManagingProviderButton();
 });
 
 When(/^User click on the "Close" button$/, async () => {
-  await MangingProvider.clickOnCloseButton();
+  await ManagingProvider.clickOnCloseButton();
 });
 
 When(/^User add (.*) in name field$/, async (text) => {
-  await MangingProvider.fillNameField(text);
+  await ManagingProvider.fillNameField(text);
 });
 
 When(/^User add (.*) in email field$/, async (text) => {
-  await MangingProvider.fillEmailField(text);
+  await ManagingProvider.fillEmailField(text);
 });
 
 When(/^User add (.*) in mobile number field$/, async (text) => {
-  await MangingProvider.fillMoblieNumberField(text);
+  await ManagingProvider.fillMoblieNumberField(text);
 });
 
 When(/^User add (.*) in website field$/, async (text) => {
-  await MangingProvider.fillWebsiteField(text);
+  await ManagingProvider.fillWebsiteField(text);
 });
 
 When(/^User add (.*) in office number field$/, async (text) => {
-  await MangingProvider.fillOfficeNumberField(text);
+  await ManagingProvider.fillOfficeNumberField(text);
 });
 
 When(/^User add (.*) in zipcode field$/, async (text) => {
-  await MangingProvider.fillzipCodeField(text);
+  await ManagingProvider.fillzipCodeField(text);
 });
 
 When(
-  /^User use already registered (.*) and (.*) email to create new providing manager and click on (.*) button$/,
-  async (name, email, button) => {
-    await ManagingProvider.verifyAlreadyAddedEmail(name, email);
+  /^User use already registered (.*) and email to create new providing manager and click on (.*) button$/,
+  async (name, button) => {
+    var actEmail = await $("(//tr[@class='odd']//td)[3]").getText();
+    await ManagingProvider.clickOnNewManagingProviderButton();
+    await ManagingProvider.nameFieldIsDisplayed();
+    await ManagingProvider.fillNameField(name);
+    await ManagingProvider.fillEmailField(actEmail);
     await CustomerPage.clickOnButtonWithText(button);
   }
 );
+
+When(/^User fill unique data in email field$/, async () => {
+  await ManagingProvider.fillEmailFieldWithUniqueEmail();
+});
 
 // ------------------------------------------iOS--------------------------------------------------------
 
@@ -158,19 +166,25 @@ When(/^I fill (.*) data in expiry field$/, async (text) => {
   await CustomerPage.fillExpireField(text);
 });
 
-   When(/^I fill valid date in expiry field$/, async () => {
+When(/^I fill valid date in expiry field$/, async () => {
   await CustomerPage.fillValidExpireField();
-}); 
+});
 
 When(/^I fill valid and unique data in email$/, async () => {
   await CustomerPage.fillEmailFieldWithUniqueData();
 });
 
-When(/^I populate fields but I populate "Email field" with already registered email$/, async () => {
-  var actEmail=await $("(//tr[@class='odd']//td)[5]").getText();
-  await CustomerPage.clickOnNewCustomerButton();
-   await CustomerPage.newCustomerFormIsDisplayed();
-  await CustomerPage.fillEmailField(actEmail);
- 
-});
+When(
+  /^I populate fields but I populate "Email field" with already registered email$/,
+  async () => {
+    var actEmail = await $("(//tr[@class='odd']//td)[5]").getText();
+    await CustomerPage.clickOnNewCustomerButton();
+    await CustomerPage.newCustomerFormIsDisplayed();
+    await CustomerPage.fillEmailField(actEmail);
+  }
+);
+
+
+
+
 
