@@ -92,6 +92,14 @@ When(/^User add (.*) in zipcode field$/, async (text) => {
   await MangingProvider.fillzipCodeField(text);
 });
 
+When(
+  /^User use already registered (.*) and (.*) email to create new providing manager and click on (.*) button$/,
+  async (name, email, button) => {
+    await ManagingProvider.verifyAlreadyAddedEmail(name, email);
+    await CustomerPage.clickOnButtonWithText(button);
+  }
+);
+
 // ------------------------------------------iOS--------------------------------------------------------
 
 When(

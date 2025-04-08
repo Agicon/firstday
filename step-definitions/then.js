@@ -131,6 +131,10 @@ Then(/^Success message (.*) appears$/, async (Message) => {
   await ManagingProvider.verifySuccessMessage(Message);
 });
 
+Then(/^Search and delete already added provider (.*)$/, async (data) => {
+  await ManagingProvider.searchAndDeleteAddedProvider(data);
+});
+
 //-------------------Supre admin(customer)-----------------------//
 
 Then(/^I should redirect on url (.*)$/, {}, async (url) => {
@@ -179,11 +183,18 @@ Then(/^A "New Customer" form closes$/, async () => {
   await customerPage.verifyClosedCustomerForm();
 });
 
-Then(/^A "New Customer" gets created and it displays clinic name (.*) first name (.*) last name (.*) email and licence number (.*) on the "Customers list"$/, async (clinicName,firstName,lastName,licenceNumber) => {
-  await customerPage.verifyNewCreatedClinic(clinicName,firstName,lastName,licenceNumber);
-});
+Then(
+  /^A "New Customer" gets created and it displays clinic name (.*) first name (.*) last name (.*) email and licence number (.*) on the "Customers list"$/,
+  async (clinicName, firstName, lastName, licenceNumber) => {
+    await customerPage.verifyNewCreatedClinic(
+      clinicName,
+      firstName,
+      lastName,
+      licenceNumber
+    );
+  }
+);
 
 Then(/^Search and delete duplicate data (.*)$/, async (data) => {
   await customerPage.searchAndDeleteDuplicateData(data);
-}); 
- 
+});
