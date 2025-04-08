@@ -37,3 +37,18 @@ Feature: Test cases for "Managing Provider" page
     Examples:
       | url      | userA                     | invalidName | invalidEmail  | textInMobileNumberField | invalidMobileNumber | invaliWebsite      |
       | loginUrl | customerLoginCrendentails | 1           | @@@@gmail.com | abcdef                  | 12453               | https://www.@@.com |
+
+  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when only the mandatory fields are populated with valid data
+    Then User refresh the screen
+    When User click on the "New Managing Provider" button
+    Then "New Managing Provider" form displays
+    When User add <validName> in name field
+    When User add <validEmail> in email field
+    When I click on the button with text Create
+    Then Success message Managing Provider Added Succesfully. Credentials will be sent to an email! appears
+    Then a "New Managing Provider" gets created And it displays <validName> and <validEmail> in the "Managing Provider" list
+    When User click on the "New Managing Provider" button
+    Then "New Managing Provider" form displays
+    Examples:
+      | validName   | validEmail          |
+      | NewProvider | Provider1@gmail.com |
