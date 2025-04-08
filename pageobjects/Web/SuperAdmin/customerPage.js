@@ -75,6 +75,9 @@ class CustomerPage extends BasePage {
     return $("(//a[@title='Delete'])[1]");
   }
 
+  get deleteMessage() {
+    return $("//div[contains(text(),'Customer Deleted successfully !!')]");
+  }
   
 
   /**
@@ -105,6 +108,7 @@ class CustomerPage extends BasePage {
   }
 
   async newCustomerFormIsDisplayed() {
+    await this.newCustomerForm.waitForDisplayed({timeout:5000});
     if ((await this.newCustomerForm.isDisplayed()) === true) {
       console.log("successfully redirect on cuctomer form");
     } else {
@@ -122,7 +126,7 @@ class CustomerPage extends BasePage {
     }
   }
   async verifyValidationMessage(text) {
-    const messageText = await $("//span[contains(text(),'" + text + "')]");
+    const messageText = await $("//span[contains(text(),'" + text + "')]|//strong[contains(text(),'" + text + "')]");
     await messageText.waitForDisplayed({ timeout: 20000 });
     if ((await messageText.isDisplayed()) === true) {
       console.log("validation message displaying successfully");
@@ -303,7 +307,8 @@ class CustomerPage extends BasePage {
       throw new Error("Expire field is not displaying");
     }
   }
-
+  
+  
   async fillValidExpireField(data) {
     if ((await this.expiryField.isDisplayed()) === true) {
       await this.expiryField.click();
@@ -320,7 +325,7 @@ class CustomerPage extends BasePage {
 await this.searchField.waitForEnabled({ timeout: 5000 });
 await this.searchField.clearValue();
 await this.searchField.setValue(clinicName);
-
+await $("//td[contains(text(),'"+clinicName+"')]").waitForDisplayed({timeout:10000});
   var actClinic=await $("(//tr[@class='odd']//td)[2]").getText();
   var actFirstName=await $("(//tr[@class='odd']//td)[3]").getText();
   var actLastName=await $("(//tr[@class='odd']//td)[4]").getText();
@@ -330,17 +335,17 @@ await this.searchField.setValue(clinicName);
   await expect(actLastName).toEqual(lastName);
   await expect(actLicenceNumber).toEqual(licenceNumber);
 
-
   }
 
   async searchAndDeleteDuplicateData(clinicName) {
     await this.searchField.clearValue();
     await this.searchField.setValue(clinicName);
     try {
+      await $("//td[contains(text(),'"+clinicName+"')]").waitForDisplayed({timeout:10000});
       await this.deleteButton.click();
       await this.clickOnButtonWithText("Yes");
-      await $("//div[contains(text(),'Customer Deleted successfully !!')]").waitForDisplayed({timeout:20000});
-      await $("//div[contains(text(),'Customer Deleted successfully !!')]").waitForDisplayed({
+    await this.deleteMessage.waitForDisplayed({timeout:20000});
+    await this.deleteMessage.waitForDisplayed({
         reverse: true,
         timeout: 20000,
         
