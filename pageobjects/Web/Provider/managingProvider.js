@@ -1,6 +1,7 @@
 const { $, browser } = require("@wdio/globals");
 const BasePage = require("../testBase");
 const { remote } = require("webdriverio");
+const customerPage = require("../SuperAdmin/customerPage");
 
 /**
  * sub page containing specific selectors and methods for a specific page
@@ -109,9 +110,7 @@ class ManagingProvider extends BasePage {
     if ((await this.closeButtonIsDisplayed()) === true) {
       await this.closeButton.click();
     } else {
-      throw new Error(
-        "Close button is not displayed on managing provider form"
-      );
+      throw new Error("Close button is not displayed on managing provider form");
     }
   }
 
@@ -120,9 +119,7 @@ class ManagingProvider extends BasePage {
     if ((await this.nameField.isDisplayed()) === false) {
       console.log("New Managing Provider form has successfully closed");
     } else {
-      throw new Error(
-        "Managing provider form is still displayed after clicked on the close button"
-      );
+      throw new Error("Managing provider form is still displayed after clicked on the close button");
     }
   }
 
@@ -133,6 +130,8 @@ class ManagingProvider extends BasePage {
 
   async fillNameField(Data) {
     await this.nameField.waitForDisplayed({ timeout: 20000 });
+    await this.nameField.click();
+    await this.nameField.clearValue();
     await this.nameField.setValue(Data);
   }
 
@@ -169,12 +168,31 @@ class ManagingProvider extends BasePage {
     await this.zipCodeField.setValue(Data);
   }
 
+  async fillOfficeInformationField(Data) {
+    await this.officeInformation.waitForDisplayed({ timeout: 20000 });
+    await this.officeInformation.setValue(Data);
+  }
+
+  async fillStateField(Data) {
+    await this.stateField.waitForDisplayed({ timeout: 20000 });
+    await this.stateField.setValue(Data);
+  }
+
+  async fillCityField(Data) {
+    await this.cityField.waitForDisplayed({ timeout: 20000 });
+    await this.cityField.setValue(Data);
+  }
+
+  async fillAddressField(Data) {
+    await this.addressField.waitForDisplayed({ timeout: 20000 });
+    await this.addressField.setValue(Data);
+  }
+
   async verifyCreatedProvider(name) {
     await this.searchField.clearValue();
     await this.searchField.setValue(name);
-    await $("(//tr[@class='odd']//td)[2]").waitForEnabled({
-      timeout: 25000,
-    });
+    await $("(//tr[@class='odd']//td)[2]").click();
+    await $("(//tr[@class='odd']//td)[2]").waitForDisplayed({ timeout: 25000 });
     var actualName = await $("(//tr[@class='odd']//td)[2]").getText();
     await expect(actualName).toEqual(name);
   }
@@ -183,19 +201,9 @@ class ManagingProvider extends BasePage {
     const messageText = await $("//div[contains(text(),'" + text + "')]");
     await messageText.waitForDisplayed({ timeout: 20000 });
     if ((await messageText.isDisplayed()) === true) {
-      console.log("Success message displaying successfully");
+      console.log("Success message displaying successfully " + text);
     } else {
       throw new Error("Success message is not displaying: " + text);
-    }
-  }
-
-  async clickOnButtonWithText(text) {
-    const buttonText = await $("//button[contains(text(),'" + text + "')]");
-    await buttonText.waitForDisplayed({ timeout: 20000 });
-    if ((await buttonText.isDisplayed()) === true) {
-      await buttonText.click(); // No need for `this.buttonText`
-    } else {
-      throw new Error("Button is not displaying: " + text);
     }
   }
 
@@ -203,16 +211,12 @@ class ManagingProvider extends BasePage {
     await this.searchField.clearValue();
     await this.searchField.setValue(text);
     try {
-      await $("//td[contains(text(),'" + text + "')]").waitForDisplayed({
-        timeout: 25000,
-      });
+      await $("//td[contains(text(),'" + text + "')]").click();
+      await $("//td[contains(text(),'" + text + "')]").waitForDisplayed({ timeout: 25000 });
       await this.deleteButton.click();
-      await this.clickOnButtonWithText("Yes");
+      await customerPage.clickOnButtonWithText("Yes");
       await this.deleteProviderMessage.waitForDisplayed({ timeout: 20000 });
-      await this.deleteProviderMessage.waitForDisplayed({
-        reverse: true,
-        timeout: 20000,
-      });
+      await this.deleteProviderMessage.waitForDisplayed({ reverse: true, timeout: 20000 });
     } catch (error) {}
   }
 
