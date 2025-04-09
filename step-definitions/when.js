@@ -181,9 +181,31 @@ When(/^I fill valid and unique data in email$/, async () => {
   await CustomerPage.fillEmailFieldWithUniqueData();
 });
 
-When(/^I populate fields but I populate "Email field" with already registered email$/, async () => {
-  var actEmail = await $("(//tr[@class='odd']//td)[5]").getText();
-  await CustomerPage.clickOnNewCustomerButton();
-  await CustomerPage.newCustomerFormIsDisplayed();
-  await CustomerPage.fillEmailField(actEmail);
+When(
+  /^I populate fields but I populate "Email field" with already registered email$/,
+  async () => {
+    var actEmail = await $("(//tr[@class='odd']//td)[5]").getText();
+    await CustomerPage.clickOnNewCustomerButton();
+    await CustomerPage.newCustomerFormIsDisplayed();
+    await CustomerPage.fillEmailField(actEmail);
+  }
+);
+
+When(/^I fill (.*) data in office information field$/, async (text) => {
+  await CustomerPage.fillOfficeInformationField(text);
 });
+
+When(/^I fill (.*) data in country field$/, async (text) => {
+  await CustomerPage.fillCountryField(text);
+});
+
+When(/^I fill (.*) data in state field$/, async (text) => {
+  await CustomerPage.fillStateField(text);
+});
+
+When(/^I fill (.*) data in city field$/, async (text) => {
+  await CustomerPage.fillCityField(text);
+});
+
+
+
