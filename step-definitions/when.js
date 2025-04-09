@@ -10,12 +10,9 @@ const pages = {
   login: LoginPage,
 };
 
-When(
-  /^login to app using email (.*) and password (.*)$/,
-  async (username, password) => {
-    await LoginPage.login(username, password);
-  }
-);
+When(/^login to app using email (.*) and password (.*)$/, async (username, password) => {
+  await LoginPage.login(username, password);
+});
 
 When(/^Open web url (.*)$/, async (url) => {
   await browser.maximizeWindow();
@@ -92,17 +89,30 @@ When(/^User add (.*) in zipcode field$/, async (text) => {
   await ManagingProvider.fillzipCodeField(text);
 });
 
-When(
-  /^User use already registered (.*) and email to create new providing manager and click on (.*) button$/,
-  async (name, button) => {
-    var actEmail = await $("(//tr[@class='odd']//td)[3]").getText();
-    await ManagingProvider.clickOnNewManagingProviderButton();
-    await ManagingProvider.nameFieldIsDisplayed();
-    await ManagingProvider.fillNameField(name);
-    await ManagingProvider.fillEmailField(actEmail);
-    await CustomerPage.clickOnButtonWithText(button);
-  }
-);
+When(/^User add (.*) in office information field$/, async (text) => {
+  await ManagingProvider.fillOfficeInformationField(text);
+});
+
+When(/^User add (.*) in State field$/, async (text) => {
+  await ManagingProvider.fillStateField(text);
+});
+
+When(/^User add (.*) in city field$/, async (text) => {
+  await ManagingProvider.fillCityField(text);
+});
+
+When(/^User add (.*) in address field$/, async (text) => {
+  await ManagingProvider.fillAddressField(text);
+});
+
+When(/^User use already registered (.*) and email to create new providing manager and click on (.*) button$/, async (name, button) => {
+  var actEmail = await $("(//tr[@class='odd']//td)[3]").getText();
+  await ManagingProvider.clickOnNewManagingProviderButton();
+  await ManagingProvider.nameFieldIsDisplayed();
+  await ManagingProvider.fillNameField(name);
+  await ManagingProvider.fillEmailField(actEmail);
+  await CustomerPage.clickOnButtonWithText(button);
+});
 
 When(/^User fill unique data in email field$/, async () => {
   await ManagingProvider.fillEmailFieldWithUniqueEmail();
@@ -110,12 +120,9 @@ When(/^User fill unique data in email field$/, async () => {
 
 // ------------------------------------------iOS--------------------------------------------------------
 
-When(
-  /^iOS login to app using email (.*) and password (.*)$/,
-  async (username, password) => {
-    await iosLoginPage.login(username, password);
-  }
-);
+When(/^iOS login to app using email (.*) and password (.*)$/, async (username, password) => {
+  await iosLoginPage.login(username, password);
+});
 
 //-------------------------Super admin(Customer)-------------------------//
 
