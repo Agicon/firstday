@@ -152,9 +152,9 @@ Then(/^I should redirect on url (.*)$/, {}, async (url) => {
   } else {
     throw new Error(
       "Filed to redirect on added url actual url>>" +
-        actUrl +
-        "expected url>>" +
-        url
+      actUrl +
+      "expected url>>" +
+      url
     );
   }
 });

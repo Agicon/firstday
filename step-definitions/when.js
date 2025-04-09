@@ -184,7 +184,21 @@ When(
   }
 );
 
+When(/^I fill (.*) data in office information field$/, async (text) => {
+  await CustomerPage.fillOfficeInformationField(text);
+});
 
+When(/^I fill (.*) data in country field$/, async (text) => {
+  await CustomerPage.fillCountryField(text);
+});
+
+When(/^I fill (.*) data in state field$/, async (text) => {
+  await CustomerPage.fillStateField(text);
+});
+
+When(/^I fill (.*) data in city field$/, async (text) => {
+  await CustomerPage.fillCityField(text);
+});
 
 
 
