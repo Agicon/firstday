@@ -51,6 +51,29 @@ Feature: Test cases for "Managing Provider" page
     Then a "New Managing Provider" gets created And it displays <validName> in the "Managing Provider" list
     When User use already registered <validName> and email to create new providing manager and click on Create button
     Then validation message Please Enter Unique email. This email is already register with system. appears
+    When I click on the button with text Close
+    Then The "New Managing Provider" form should be closed
+
     Examples:
-      | validName          | validEmail          |
-      | AutomationProvider | Provider1@gmail.com |
+      | validName          |
+      | AutomationProvider |
+
+  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when all the fields are populated with valid data
+    When User click on the "New Managing Provider" button
+    Then "New Managing Provider" form displays
+    When User add <validName> in name field
+    When User fill unique data in email field
+    When User add <validMobile> in mobile number field
+    When User add <validWebsite> in website field
+    When User add <validOfficeNumber> in office number field
+    When User add <validOfficeInfo> in office information field
+    When User add <validState> in State field
+    When User add <validCity> in city field
+    When User add <validAddress> in address field
+    When User add <validZipcode> in zipcode field
+    When I click on the button with text Create
+    Then Success message Managing Provider Added Succesfully. Credentials will be sent to an email! appears
+    Then a "New Managing Provider" gets created And it displays <validName> in the "Managing Provider" list
+    Examples:
+      | validName        | validMobile | validWebsite                             | validOfficeNumber | validOfficeInfo | validState | validCity  | validAddress | validZipcode |
+      | ManagingProvider | 1234567890  | https://portal.test.firstdayhc.com/login | 1111122222        | IT office       | Punjab     | Chandigarh | Abc 12345    | 00123        |

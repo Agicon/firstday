@@ -12,9 +12,7 @@ const pages = {
 
 Then(/^I should see a flash message saying (.*)$/, async (message) => {
   await expect(SecurePage.flashAlert).toBeExisting();
-  await expect(SecurePage.flashAlert).toHaveText(
-    expect.stringContaining(message)
-  );
+  await expect(SecurePage.flashAlert).toHaveText(expect.stringContaining(message));
 });
 
 Then(/^Verify that user is on homepage$/, async () => {
@@ -83,14 +81,10 @@ Then(/^Verify that user successfully redirected on homepage$/, async () => {
 });
 
 Then(/^User should on "Managing Provider" page$/, async () => {
-  if (
-    (await ManagingProvider.newManagingProviderButtonIsDisplayed()) === true
-  ) {
+  if ((await ManagingProvider.newManagingProviderButtonIsDisplayed()) === true) {
     console.log("User sucessfully redirected to Managing Provider page");
   } else {
-    throw new Error(
-      "User is not sucessfully redirected to Managing Provider page"
-    );
+    throw new Error("User is not sucessfully redirected to Managing Provider page");
   }
 });
 
@@ -98,9 +92,7 @@ Then(/^"New Managing Provider" form displays$/, async () => {
   if ((await ManagingProvider.nameFieldIsDisplayed()) === true) {
     console.log("New managing provider form is successfully opened");
   } else {
-    throw new Error(
-      "Form is not displayed after clicked on new managing provider "
-    );
+    throw new Error("Form is not displayed after clicked on new managing provider ");
   }
 });
 
@@ -108,24 +100,13 @@ Then(/^The "New Managing Provider" form should be closed$/, async () => {
   await ManagingProvider.verifyClosedForm();
 });
 
-Then(/^Alert message should displayed below that field$/, async () => {
-  await ManagingProvider.verifyAlertFieldMessage();
-});
-
-Then(/^Alert message should displayed below that field$/, async () => {
-  await ManagingProvider.verifyAlertFieldMessage();
-});
-
 Then(/^User refresh the screen$/, async () => {
   await browser.refresh();
 });
 
-Then(
-  /^a "New Managing Provider" gets created And it displays (.*) in the "Managing Provider" list$/,
-  async (registerName) => {
-    await ManagingProvider.verifyCreatedProvider(registerName);
-  }
-);
+Then(/^a "New Managing Provider" gets created And it displays (.*) in the "Managing Provider" list$/, async (registerName) => {
+  await ManagingProvider.verifyCreatedProvider(registerName);
+});
 
 Then(/^Success message (.*) appears$/, async (Message) => {
   await ManagingProvider.verifySuccessMessage(Message);
@@ -150,12 +131,7 @@ Then(/^I should redirect on url (.*)$/, {}, async (url) => {
   if (actUrl.includes(url)) {
     console.log("Page url matched");
   } else {
-    throw new Error(
-      "Filed to redirect on added url actual url>>" +
-        actUrl +
-        "expected url>>" +
-        url
-    );
+    throw new Error("Filed to redirect on added url actual url>>" + actUrl + "expected url>>" + url);
   }
 });
 
@@ -183,17 +159,9 @@ Then(/^A "New Customer" form closes$/, async () => {
   await customerPage.verifyClosedCustomerForm();
 });
 
-Then(
-  /^A "New Customer" gets created and it displays clinic name (.*) first name (.*) last name (.*) email and licence number (.*) on the "Customers list"$/,
-  async (clinicName, firstName, lastName, licenceNumber) => {
-    await customerPage.verifyNewCreatedClinic(
-      clinicName,
-      firstName,
-      lastName,
-      licenceNumber
-    );
-  }
-);
+Then(/^A "New Customer" gets created and it displays clinic name (.*) first name (.*) last name (.*) email and licence number (.*) on the "Customers list"$/, async (clinicName, firstName, lastName, licenceNumber) => {
+  await customerPage.verifyNewCreatedClinic(clinicName, firstName, lastName, licenceNumber);
+});
 
 Then(/^Search and delete duplicate data (.*)$/, async (data) => {
   await customerPage.searchAndDeleteDuplicateData(data);
