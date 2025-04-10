@@ -116,6 +116,19 @@ Then(/^Search and delete already added provider (.*)$/, async (data) => {
   await ManagingProvider.searchAndDeleteAddedProvider(data);
 });
 
+Then(/^User should navigate to the "Update Managing Provider Details" page$/, async () => {
+  await ManagingProvider.updateProviderPageIsDisplayed();
+});
+
+Then(/^User should navigate back to the "Managing Provider" page And the Managing Provider does not get updated (.*)$/, async (providerName) => {
+  await ManagingProvider.verifyClosedForm();
+  await ManagingProvider.verifyCreatedProvider(providerName);
+});
+
+Then(/^User click on the "Update" button$/, async () => {
+  await ManagingProvider.clickOnUpdateButton();
+});
+
 //-------------------Supre admin(customer)-----------------------//
 
 Then(/^I should redirect on url (.*)$/, {}, async (url) => {
