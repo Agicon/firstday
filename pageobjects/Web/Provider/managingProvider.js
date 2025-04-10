@@ -75,6 +75,22 @@ class ManagingProvider extends BasePage {
     return $("//div[contains(text(),'Managing Provider Deleted !!')]");
   }
 
+  get viewOrUpdateButton() {
+    return $("(//a[@title='View / Update'])[1]");
+  }
+
+  get updateProviderPage() {
+    return $("//section[@class='content-header text-center']//h1");
+  }
+
+  get backButton() {
+    return $("#cancelBtn:nth-child(1)");
+  }
+
+  get updatedButton() {
+    return $("#updateBtn:nth-child(2)");
+  }
+
   async managingProviderIsDisplayed() {
     await this.managingProviderLink.waitForDisplayed({ timeut: 25000 });
     return await this.managingProviderLink.isDisplayed();
@@ -230,6 +246,30 @@ class ManagingProvider extends BasePage {
     } else {
       throw new Error("email field is not displaying");
     }
+  }
+
+  async clickOnViewOrUpdateButton() {
+    await this.viewOrUpdateButton.waitForDisplayed({ timeout: 25000 });
+    await this.viewOrUpdateButton.click();
+  }
+
+  async updateProviderPageIsDisplayed() {
+    await this.updateProviderPage.waitForDisplayed({ timeout: 20000 });
+    if ((await this.updateProviderPage.isDisplayed()) === true) {
+      console.log("User is on update provider page");
+    } else {
+      throw new Error("Update provider page is not displaying");
+    }
+  }
+
+  async clickOnBackButton() {
+    await this.backButton.waitForDisplayed({ timeout: 20000 });
+    await this.backButton.click();
+  }
+
+  async clickOnUpdateButton() {
+    await this.updatedButton.waitForDisplayed({ timeout: 20000 });
+    await this.updatedButton.click();
   }
 }
 module.exports = new ManagingProvider();

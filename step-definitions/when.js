@@ -118,6 +118,20 @@ When(/^User fill unique data in email field$/, async () => {
   await ManagingProvider.fillEmailFieldWithUniqueEmail();
 });
 
+When(/^User click on the "View or Update" option under "Action" section$/, async () => {
+  await ManagingProvider.clickOnViewOrUpdateButton();
+});
+
+When(/^User click on the "Back" button on "Update Managing Provider Details" page$/, async () => {
+  await ManagingProvider.clickOnBackButton();
+});
+
+When(/^User update the "Managing Provider form" but does not populate one of the mandatory field$/, async () => {
+  await ManagingProvider.nameField.waitForDisplayed({ timeout: 20000 });
+  await ManagingProvider.nameField.click();
+  await ManagingProvider.nameField.clearValue();
+});
+
 // ------------------------------------------iOS--------------------------------------------------------
 
 When(/^iOS login to app using email (.*) and password (.*)$/, async (username, password) => {
@@ -181,15 +195,12 @@ When(/^I fill valid and unique data in email$/, async () => {
   await CustomerPage.fillEmailFieldWithUniqueData();
 });
 
-When(
-  /^I populate fields but I populate "Email field" with already registered email$/,
-  async () => {
-    var actEmail = await $("(//tr[@class='odd']//td)[5]").getText();
-    await CustomerPage.clickOnNewCustomerButton();
-    await CustomerPage.newCustomerFormIsDisplayed();
-    await CustomerPage.fillEmailField(actEmail);
-  }
-);
+When(/^I populate fields but I populate "Email field" with already registered email$/, async () => {
+  var actEmail = await $("(//tr[@class='odd']//td)[5]").getText();
+  await CustomerPage.clickOnNewCustomerButton();
+  await CustomerPage.newCustomerFormIsDisplayed();
+  await CustomerPage.fillEmailField(actEmail);
+});
 
 When(/^I fill (.*) data in office information field$/, async (text) => {
   await CustomerPage.fillOfficeInformationField(text);
