@@ -58,7 +58,8 @@ Feature: Test cases for "Managing Provider" page
       | validName          |
       | AutomationProvider |
 
-  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when all the fields are populated with valid data
+  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when all the fields are populated with valid data and also Verify "Customer" is not able to update the "Managing Provider" and validation displays if any mandatory field is not populated while updating the customer
+    Then Search and delete already added provider <validName>
     When User click on the "New Managing Provider" button
     Then "New Managing Provider" form displays
     When User add <validName> in name field
@@ -74,6 +75,15 @@ Feature: Test cases for "Managing Provider" page
     When I click on the button with text Create
     Then Success message Managing Provider Added Succesfully. Credentials will be sent to an email! appears
     Then a "New Managing Provider" gets created And it displays <validName> in the "Managing Provider" list
+    When User click on the "View or Update" option under "Action" section
+    Then User should navigate to the "Update Managing Provider Details" page
+    When User update the "Managing Provider form" but does not populate one of the mandatory field
+    Then User click on the "Update" button
+    Then validation message Please enter name appears
+    When User add <updatedName> in name field
+    When User click on the "Back" button on "Update Managing Provider Details" page
+    Then User should navigate back to the "Managing Provider" page And the Managing Provider does not get updated <validName>
+
     Examples:
-      | validName        | validMobile | validWebsite                             | validOfficeNumber | validOfficeInfo | validState | validCity  | validAddress | validZipcode |
-      | ManagingProvider | 1234567890  | https://portal.test.firstdayhc.com/login | 1111122222        | IT office       | Punjab     | Chandigarh | Abc 12345    | 00123        |
+      | validName        | validMobile | validWebsite                             | validOfficeNumber | validOfficeInfo | validState | validCity  | validAddress | validZipcode | updatedName             |
+      | ManagingProvider | 1234567890  | https://portal.test.firstdayhc.com/login | 1111122222        | IT office       | Punjab     | Chandigarh | Abc 12345    | 00123        | UpdatedManagingProvider |
