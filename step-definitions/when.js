@@ -217,3 +217,9 @@ When(/^I fill (.*) data in state field$/, async (text) => {
 When(/^I fill (.*) data in city field$/, async (text) => {
   await CustomerPage.fillCityField(text);
 });
+
+When(/^I click on the "View" icon under "Action" column$/, async () => {
+  await CustomerPage.clickOnViewIcon();
+});
+
+

@@ -79,6 +79,10 @@ class CustomerPage extends BasePage {
     return $("//div[contains(text(),'Customer Deleted successfully !!')]");
   }
 
+  get viewIcon() {
+    return $("(//a[@title='View'])[1]");
+  }
+
   /**
    * a method to encapsule automation code to interact with the page
    * e.g. to login using username and password
@@ -356,6 +360,16 @@ class CustomerPage extends BasePage {
       });
     } catch (error) { }
   }
+
+  async clickOnViewIcon() {
+    await this.viewIcon.click();
+  }
+  async verifyCustomerDetailPage(name) {
+    var actName = await $("//section[@class='content-header']//h2").getText();
+    await expect(actName).toEqual(name);
+
+  }
+
 }
 
 module.exports = new CustomerPage();

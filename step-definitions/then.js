@@ -179,3 +179,8 @@ Then(/^A "New Customer" gets created and it displays clinic name (.*) first name
 Then(/^Search and delete duplicate data (.*)$/, async (data) => {
   await customerPage.searchAndDeleteDuplicateData(data);
 });
+
+Then(/^I navigates to the Customer (.*) details page$/, async (name) => {
+  await customerPage.verifyCustomerDetailPage(name);
+});
+
