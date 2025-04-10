@@ -110,6 +110,8 @@ Feature: Test cases for super admin customer page
     When I fill valid date in expiry field
     When I click on the button with text Create
     Then A "New Customer" gets created and it displays clinic name <validClinicName> first name <validFirstName> last name <validLastName> email and licence number <validNumberOfLicence> on the "Customers list"
+    When I click on the "View" icon under "Action" column
+    Then I navigates to the Customer <validClinicName> details page
 
     Examples:
       | validClinicName      | validFirstName | validLastName | validNumberOfLicence | validPhone | validZip | validInformation | country | state | city   |
