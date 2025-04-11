@@ -222,4 +222,15 @@ When(/^I click on the "View" icon under "Action" column$/, async () => {
   await CustomerPage.clickOnViewIcon();
 });
 
+When(/^I click On "Edit" icon$/, async () => {
+  await CustomerPage.clickOnEditIcon();
+});
 
+When(/^User click on the "Back" button on "update customer" page$/, async () => {
+  await CustomerPage.clickOnBackButton();
+});
+
+When(/^I update the "Customer form" but does not populate one of the mandatory field and click on the (.*) button$/, async (button) => {
+    await CustomerPage.clearClinicNameField();
+    await CustomerPage.clickOnButtonWithText(button);
+  });

@@ -112,7 +112,19 @@ Feature: Test cases for super admin customer page
     Then A "New Customer" gets created and it displays clinic name <validClinicName> first name <validFirstName> last name <validLastName> email and licence number <validNumberOfLicence> on the "Customers list"
     When I click on the "View" icon under "Action" column
     Then I navigates to the Customer <validClinicName> details page
+    When I click on the "Customers" tab
+    Then A "New Customer" gets created and it displays clinic name <validClinicName> first name <validFirstName> last name <validLastName> email and licence number <validNumberOfLicence> on the "Customers list"
+    When I click On "Edit" icon
+    When I update the "Customer form" but does not populate one of the mandatory field and click on the Update button
+    Then validation message Please enter hospital/clinic name appears
+    When I fill <invalidData> data in clinic name field
+    When I click on the button with text Update
+    Then validation message Please enter at least 2 characters. appears
+    When User click on the "Back" button on "update customer" page
+    Then I navigate to the "Customers" page
+    Then A "New Customer" gets created and it displays clinic name <validClinicName> first name <validFirstName> last name <validLastName> email and licence number <validNumberOfLicence> on the "Customers list"
+    When I click On "Edit" icon
 
     Examples:
-      | validClinicName      | validFirstName | validLastName | validNumberOfLicence | validPhone | validZip | validInformation | country | state | city   |
-      | OldAutomatedHospital | tin            | jac           |                   98 | 3652984561 |   445522 | I am QA engg.    | India   | New   | tester |
+      | validClinicName      | validFirstName | validLastName | validNumberOfLicence | validPhone | validZip | validInformation | country | state | city   | invalidData |
+      | OldAutomatedHospital | tin            | jac           |                   98 | 3652984561 |   445522 | I am QA engg.    | India   | New   | tester |           2 |
