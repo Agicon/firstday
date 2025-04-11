@@ -5,13 +5,12 @@ const LoginWebPage = require("../pageobjects/Web/loginPage");
 import iosLoginPage from "../pageobjects/iOS/loginPage";
 import ManagingProvider from "../pageobjects/Web/Provider/managingProvider";
 import CustomerPage from "../pageobjects/Web/SuperAdmin/customerPage";
-
 const pages = {
   login: LoginPage,
 };
 
-When(/^login to app using email (.*) and password (.*)$/, async (username, password) => {
-  await LoginPage.login(username, password);
+When(/^login to app using (.*)$/, async (username) => {
+  await LoginPage.login(username);
 });
 
 When(/^Open web url (.*)$/, async (url) => {
@@ -50,6 +49,31 @@ When(/^User clicks on settings module on homepage$/, async () => {
   await LoginPage.clickOnModuleBackButton();
   await LoginPage.clickOnSettingsModule();
 });
+
+When(/^User leave the "Email  field" empty And populate the (.*) "Password field" And click on "Login" button$/, async (password) => {
+  await LoginPage.fillPasswordField(password);
+  await LoginPage.signInButton.click();
+});
+
+When(/^User leave the "Password field" empty And populate the (.*) "Email field" And click on "Login" button$/, async (email) => {
+  await LoginPage.paswordField.click();
+  await LoginPage.paswordField.clearValue();
+  await LoginPage.fillEmailField(email);
+  await LoginPage.signInButton.click();
+});
+
+When(/^User enter invalid (.*) and (.*) in their respective fields And click on "Login" button$/, async (email, password) => {
+  await LoginPage.fillEmailField(email);
+  await LoginPage.fillPasswordField(password);
+  await LoginPage.signInButton.click();
+});
+
+When(/^User enter valid (.*) and (.*) in their respective fields And click on "Login" button$/, async (email, password) => {
+  await LoginPage.fillEmailField(email);
+  await LoginPage.fillPasswordField(password);
+  await LoginPage.signInButton.click();
+});
+
 
 // ======================================ManagingProvider=============================================
 
