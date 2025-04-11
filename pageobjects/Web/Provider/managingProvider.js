@@ -16,7 +16,7 @@ class ManagingProvider extends BasePage {
   }
 
   get nameField() {
-    return $("//input[@id='mother_first_name']");
+    return $("#mother_first_name");
   }
 
   get emailField() {
@@ -28,39 +28,39 @@ class ManagingProvider extends BasePage {
   }
 
   get mobileNumberField() {
-    return $("input[id='mother_mobile_number']");
+    return $("#mother_mobile_number");
   }
 
   get websiteField() {
-    return $("input[id='website']");
+    return $("#website");
   }
 
   get officeNumberField() {
-    return $("input[id='office_number']");
+    return $("#office_number");
   }
 
   get officeInformation() {
-    return $("textarea[id='office_information']");
+    return $("#office_information");
   }
 
   get stateField() {
-    return $("input[id='state']");
+    return $("#state");
   }
 
   get cityField() {
-    return $("input[id='city']");
+    return $("#city");
   }
 
   get addressField() {
-    return $("textarea[id='address']");
+    return $("#address");
   }
 
   get zipCodeField() {
-    return $("input[id='zipcode']");
+    return $("#zipcode");
   }
 
   get createButton() {
-    return $("button[id='createBtn']");
+    return $("#createBtn:nth-child(2)");
   }
 
   get searchField() {

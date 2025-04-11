@@ -59,6 +59,28 @@ Then(/^Verify all the tabs inside settings module$/, async () => {
   await LoginPage.changePasswordIsDisplayed();
 });
 
+Then(/^Validation message (.*) appears$/, async (message) => {
+  await LoginPage.verifyValidationMessage(message);
+});
+
+Then(/^User is not able to login$/, async () => {
+  await LoginPage.signInButton.waitForDisplayed({ timeout: 5000 });
+  if ((await LoginPage.signInButton.isDisplayed()) === true) {
+    console.log("User is still on login page");
+  } else {
+    throw new Error("Login page is not displayed");
+  }
+});
+
+Then(/^Verify that user is on FHDA moblie provider homepage$/, async () => {
+  await LoginPage.notificationAlertPermission.click();
+  await LoginPage.clickOnOkButton();
+  await LoginPage.clickonbackbutton.click();
+  await LoginPage.verifyFHDAMobileProviderDashboradIsDisplayed();
+});
+
+
+
 // ---------------------------------------------------iOS-------------------------------------
 
 Then(/^For iOS, verify that user is on homepage$/, async () => {
