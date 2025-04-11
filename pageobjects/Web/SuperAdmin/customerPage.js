@@ -83,6 +83,14 @@ class CustomerPage extends BasePage {
     return $("(//a[@title='View'])[1]");
   }
 
+  get editIcon() {
+    return $("(//i[@class='fa fa-edit'])[1]");
+  }
+
+  get backButton() {
+    return $("//a[contains(text(),'Back')]");
+  }
+
   /**
    * a method to encapsule automation code to interact with the page
    * e.g. to login using username and password
@@ -365,11 +373,24 @@ class CustomerPage extends BasePage {
     await this.viewIcon.click();
   }
   async verifyCustomerDetailPage(name) {
+    await $("//section[@class='content-header']//h2").waitForDisplayed({timeout:5000});
     var actName = await $("//section[@class='content-header']//h2").getText();
     await expect(actName).toEqual(name);
 
   }
+  async clickOnEditIcon() {
+    await this.editIcon.click();
+  }
 
+  async clickOnBackButton() {
+    await this.backButton.click();
+  }
+
+  async clearClinicNameField() {
+    await this.clinicNameField.click();
+    await this.clinicNameField.clearValue();
+  } 
 }
+
 
 module.exports = new CustomerPage();
