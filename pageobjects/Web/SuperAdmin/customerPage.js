@@ -91,6 +91,11 @@ class CustomerPage extends BasePage {
     return $("//a[contains(text(),'Back')]");
   }
 
+  get emptyTable() {
+    return $("//td[@class='dataTables_empty']");
+  }
+  
+
   /**
    * a method to encapsule automation code to interact with the page
    * e.g. to login using username and password
@@ -384,6 +389,21 @@ class CustomerPage extends BasePage {
     await this.clinicNameField.click();
     await this.clinicNameField.clearValue();
   } 
+
+  async clickOnDeleteIcon() {
+    await this.deleteButton.click();
+    await this.clickOnButtonWithText("Yes");
+    await this.deleteMessage.waitForDisplayed({ timeout: 20000 });
+  } 
+
+  async verifyDeletedRecord() {
+   if (await this.emptyTable.isDisplayed()==true) {
+    console.log("record deleted successfully");
+   } else {
+    throw new Error("failed to delete record");
+   }
+  } 
+  
 }
 
 
