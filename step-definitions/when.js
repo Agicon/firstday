@@ -258,3 +258,9 @@ When(/^I update the "Customer form" but does not populate one of the mandatory f
     await CustomerPage.clearClinicNameField();
     await CustomerPage.clickOnButtonWithText(button);
   });
+
+  When(/^I click On "Delete" icon$/, async () => {
+    await CustomerPage.clickOnDeleteIcon();
+    await CustomerPage.verifyDeletedRecord();
+  });
+  

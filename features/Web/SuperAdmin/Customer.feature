@@ -124,7 +124,16 @@ Feature: Test cases for super admin customer page
     Then I navigate to the "Customers" page
     Then A "New Customer" gets created and it displays clinic name <validClinicName> first name <validFirstName> last name <validLastName> email and licence number <validNumberOfLicence> on the "Customers list"
     When I click On "Edit" icon
+    When I fill <updatedClinicName> data in clinic name field
+    When I fill <updatedFirstName> data in first name field
+    When I fill <updatedLastName> data in last name field
+    When I fill <validNumberOfLicence> data in number of licence field
+    When I click on the button with text Update
+    Then Success message Customer Updated Succesfully ! appears
+    Then A "New Customer" gets created and it displays clinic name <updatedClinicName> first name <updatedFirstName> last name <updatedLastName> email and licence number <validNumberOfLicence> on the "Customers list"
+    When I click On "Delete" icon
+    Then Success message Customer Deleted successfully !! appears
 
     Examples:
-      | validClinicName      | validFirstName | validLastName | validNumberOfLicence | validPhone | validZip | validInformation | country | state | city   | invalidData |
-      | OldAutomatedHospital | tin            | jac           |                   98 | 3652984561 |   445522 | I am QA engg.    | India   | New   | tester |           2 |
+      | validClinicName      | validFirstName | validLastName | validNumberOfLicence | validPhone | validZip | validInformation | country | state | city   | invalidData | updatedClinicName     | updatedFirstName      | updatedLastName      |
+      | OldAutomatedHospital | tin            | jac           |                   98 | 3652984561 |   445522 | I am QA engg.    | India   | New   | tester |           2 | UpdateAutomatedClinic | updatedAutomatedFirst | updatedAutomatedLast |
