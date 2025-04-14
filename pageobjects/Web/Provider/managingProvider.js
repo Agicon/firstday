@@ -229,6 +229,7 @@ class ManagingProvider extends BasePage {
     try {
       await $("//td[contains(text(),'" + text + "')]").click();
       await $("//td[contains(text(),'" + text + "')]").waitForDisplayed({ timeout: 25000 });
+      await this.deleteButton.waitForDisplayed({ timeout: 20000 });
       await this.deleteButton.click();
       await customerPage.clickOnButtonWithText("Yes");
       await this.deleteProviderMessage.waitForDisplayed({ timeout: 20000 });

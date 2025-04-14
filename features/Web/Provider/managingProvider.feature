@@ -53,12 +53,13 @@ Feature: Test cases for "Managing Provider" page
     Then validation message Please Enter Unique email. This email is already register with system. appears
     When I click on the button with text Close
     Then The "New Managing Provider" form should be closed
-
+    
     Examples:
       | validName          |
       | AutomationProvider |
 
-  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when all the fields are populated with valid data and also Verify "Customer" is not able to update the "Managing Provider" and validation displays if any mandatory field is not populated while updating the customer
+  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when all the fields are populated with valid data and also Verify "Customer" is not able to update the "Managing Provider" and validation displays if any mandatory field is not populated while updating the customer and 	Verify "Customer" is navigated back to the "Managing Provider " page when clicked on "Back button" displaying on the "Update Managing Provider Details" page and Verify "Customer" is not able to update the "Managing Provider" with invalid details and Verify "Customer" is able to update the "Managing Provider" details
+    When User click on "Managing Provider" tab
     Then Search and delete already added provider <validName>
     When User click on the "New Managing Provider" button
     Then "New Managing Provider" form displays
@@ -80,10 +81,19 @@ Feature: Test cases for "Managing Provider" page
     When User update the "Managing Provider form" but does not populate one of the mandatory field
     Then User click on the "Update" button
     Then validation message Please enter name appears
+    When User add <invalidName> in name field
+    Then User click on the "Update" button
+    Then validation message Please enter at least 2 characters. appears
     When User add <updatedName> in name field
     When User click on the "Back" button on "Update Managing Provider Details" page
     Then User should navigate back to the "Managing Provider" page And the Managing Provider does not get updated <validName>
+    When User click on the "View or Update" option under "Action" section
+    Then User should navigate to the "Update Managing Provider Details" page
+    When User add <updatedName> in name field
+    Then User click on the "Update" button
+    Then Success message Managing Provider Updated Succesfully! appears
+    Then The updated Managing provider displays in the "Managing provider list" with updated <updatedName>
 
     Examples:
-      | validName        | validMobile | validWebsite                             | validOfficeNumber | validOfficeInfo | validState | validCity  | validAddress | validZipcode | updatedName             |
-      | ManagingProvider | 1234567890  | https://portal.test.firstdayhc.com/login | 1111122222        | IT office       | Punjab     | Chandigarh | Abc 12345    | 00123        | UpdatedManagingProvider |
+      | validName        | validMobile | validWebsite                             | validOfficeNumber | validOfficeInfo | validState | validCity  | validAddress | validZipcode | updatedName             | invalidName |
+      | ManagingProvider | 1234567890  | https://portal.test.firstdayhc.com/login | 1111122222        | IT office       | Punjab     | Chandigarh | Abc 12345    | 00123        | UpdatedManagingProvider | 1           |
