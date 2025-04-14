@@ -137,13 +137,7 @@ class CustomerPage extends BasePage {
     }
   }
   async verifyValidationMessage(text) {
-    const messageText = await $(
-      "//span[contains(text(),'" +
-      text +
-      "')]|//strong[contains(text(),'" +
-      text +
-      "')]"
-    );
+    const messageText = await $("//span[contains(text(),'" + text + "')]|//strong[contains(text(),'" + text + "')]");
     await messageText.waitForDisplayed({ timeout: 20000 });
     if ((await messageText.isDisplayed()) === true) {
       console.log("validation message displaying successfully");
