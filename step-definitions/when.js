@@ -5,6 +5,7 @@ const LoginWebPage = require("../pageobjects/Web/loginPage");
 import iosLoginPage from "../pageobjects/iOS/loginPage";
 import ManagingProvider from "../pageobjects/Web/Provider/managingProvider";
 import CustomerPage from "../pageobjects/Web/SuperAdmin/customerPage";
+import TestUtils from "../pageobjects/testUtils";
 const pages = {
   login: LoginPage,
 };
@@ -68,11 +69,27 @@ When(/^User enter invalid (.*) and (.*) in their respective fields And click on 
   await LoginPage.signInButton.click();
 });
 
-When(/^User enter valid (.*) and (.*) in their respective fields And click on "Login" button$/, async (email, password) => {
-  await LoginPage.fillEmailField(email);
-  await LoginPage.fillPasswordField(password);
+When(/^User enter valid (.*) and (.*) in their respective fields And click on "Login" button$/, async (userName, invalidPassword) => {
+  var data = TestUtils.getUserCredetials(userName); //Retrive data from excel
+  await browser.pause(2000);
+  var username = data[0];
+  await LoginPage.fillEmailField(username);
+  await LoginPage.fillPasswordField(invalidPassword);
   await LoginPage.signInButton.click();
 });
+
+When(/^User navigate to the "Settings" tab$/, async () => {
+  await LoginPage.clickOnSettingsTAb();
+});
+
+When(/^User click on the "Logout" option$/, async () => {
+  await LoginPage.clickOnLogoutOption();
+});
+
+When(/^User click on the button with text (.*)$/, async (Button) => {
+  await LoginPage.clickOnButtonWithText(Button);
+});
+
 
 
 // ======================================ManagingProvider=============================================

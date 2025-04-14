@@ -151,10 +151,18 @@ class LoginPage extends BasePage {
   get FHDAMobileProviderDashborad() {
     return $("(//android.widget.TextView)[94]");
   }
-  /**
-   * a method to encapsule automation code to interact with the page
-   * e.g. to login using username and password
-   */
+
+  get settingsTab() {
+    return $("(//android.widget.TextView)[97]");
+  }
+
+  get logoutOption() {
+    return $('//android.widget.TextView[@text="Logout"]');
+  }
+
+  get noButton() {
+    return $('//android.widget.Button[@resource-id="com.firsthc.alert.staging:id/btn_no"]');
+  }
 
   async login(userName) {
     var data = TestUtils.getUserCredetials(userName); //Retrive data from excel
@@ -167,9 +175,7 @@ class LoginPage extends BasePage {
     await this.emailField.setValue(username);
     await this.paswordField.click();
     await this.paswordField.setValue(password);
-    // await browser.pause(5000);
     await this.signInButton.click();
-    await browser.pause(8000);
   }
 
   async installBuild(app) {
@@ -522,16 +528,6 @@ class LoginPage extends BasePage {
     return await this.changePassword.isDisplayed();
   }
 
-  async verifyValidationMessage(text) {
-    const messageText = await $("//android.widget.Toast[contains(text(),'" + text + "'");
-    await messageText.waitForDisplayed({ timeout: 20000 });
-    if ((await messageText.isDisplayed()) === true) {
-      console.log("validation message displaying successfully " + text);
-    } else {
-      throw new Error("Validation message is not displaying: " + text);
-    }
-  }
-
   async fillEmailField(email) {
     await this.emailField.click();
     await this.verifyNoThanksPopup();
@@ -558,6 +554,53 @@ class LoginPage extends BasePage {
     } else {
       throw new Error("Failed to redirect on dashboard");
     }
+  }
+
+  async settingsTAbIsDisplayed() {
+    await this.settingsTab.waitForDisplayed({ timeout: 20000 });
+    return await this.settingsTab.isDisplayed();
+  }
+
+  async clickOnSettingsTAb() {
+    if ((await this.settingsTAbIsDisplayed()) === true) {
+      await this.settingsTab.click();
+    } else {
+      throw new Error("❌ Failed to click on settings tab");
+    }
+  }
+
+  async logoutOptionIsDisplayed() {
+    await this.logoutOption.waitForDisplayed({ timeout: 20000 });
+    return await this.logoutOption.isDisplayed();
+  }
+
+  async clickOnLogoutOption() {
+    if ((await this.logoutOptionIsDisplayed()) === true) {
+      await this.logoutOption.click();
+    } else {
+      throw new Error("❌ logout option is not visible");
+    }
+  }
+
+  async noButtonIsDisplayed() {
+    await this.noButton.waitForDisplayed({ timeout: 20000 });
+    return await this.noButton.isDisplayed();
+  }
+
+  async clickOnButtonWithText(text) {
+    const buttonText = await $("//android.widget.Button[contains(@text,'" + text + "')]");
+    await buttonText.waitForDisplayed({ timeout: 20000 });
+    if ((await buttonText.isDisplayed()) === true) {
+      await buttonText.click();
+    } else {
+      throw new Error("❌ Button is not displaying: " + text);
+    }
+  }
+
+  async verifyMobileValidationMessage(text) {
+    const messageText1 = await $("//android.widget.Toast");
+    var actualMessage = await messageText1.getText();
+    await expect(actualMessage).toEqual(text);
   }
 }
 module.exports = new LoginPage();

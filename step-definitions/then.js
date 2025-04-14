@@ -6,6 +6,7 @@ import iosLoginPage from "../pageobjects/iOS/loginPage";
 import ManagingProvider from "../pageobjects/Web/Provider/managingProvider";
 import TestUtils from "../pageobjects/testUtils";
 import customerPage from "../pageobjects/Web/SuperAdmin/customerPage";
+import loginPage from "../pageobjects/iOS/loginPage";
 const pages = {
   login: LoginPage,
 };
@@ -59,8 +60,8 @@ Then(/^Verify all the tabs inside settings module$/, async () => {
   await LoginPage.changePasswordIsDisplayed();
 });
 
-Then(/^Validation message (.*) appears$/, async (message) => {
-  await LoginPage.verifyValidationMessage(message);
+Then(/^Validation message appears (.*)$/, async (message) => {
+  await LoginPage.verifyMobileValidationMessage(message);
 });
 
 Then(/^User is not able to login$/, async () => {
@@ -79,7 +80,30 @@ Then(/^Verify that user is on FHDA moblie provider homepage$/, async () => {
   await LoginPage.verifyFHDAMobileProviderDashboradIsDisplayed();
 });
 
+Then(/^A logout confirmation popup displays$/, async () => {
+  if ((await LoginPage.noButtonIsDisplayed()) === true) {
+    console.log("✅ logout confirmation popup is visible");
+  } else {
+    throw new Error("❌ Failed to verify logout confirmation popup");
+  }
+});
 
+Then(/^The logout confirmation popup closes and the provider remains logged in$/, async () => {
+  if ((await LoginPage.logoutOptionIsDisplayed()) === true) {
+    console.log("✅ User is still login in the app");
+  } else {
+    throw new Error("❌ User has log out even after clicks 'No' button");
+  }
+});
+
+Then(/^User get logged out from my account and gets navigated to login page$/, async () => {
+  await LoginPage.signInButton.waitForDisplayed({ timeout: 5000 });
+  if ((await LoginPage.signInButton.isDisplayed()) === true) {
+    console.log("✅ User has successfully logout");
+  } else {
+    throw new Error("❌User is not able to log out");
+  }
+});
 
 // ---------------------------------------------------iOS-------------------------------------
 
@@ -149,6 +173,14 @@ Then(/^User should navigate back to the "Managing Provider" page And the Managin
 
 Then(/^User click on the "Update" button$/, async () => {
   await ManagingProvider.clickOnUpdateButton();
+});
+
+Then(/^The updated Managing provider displays in the "Managing provider list" with updated (.*)$/, async (UpdatedProviderName) => {
+  await ManagingProvider.verifyCreatedProvider(UpdatedProviderName);
+});
+
+Then(/^User refresh the screen$/, async () => {
+  await browser.refresh();
 });
 
 //-------------------Supre admin(customer)-----------------------//
