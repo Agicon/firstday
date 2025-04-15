@@ -249,3 +249,6 @@ Then(/^I navigates to the Customer (.*) details page$/, async (name) => {
   await customerPage.verifyCustomerDetailPage(name);
 });
 
+Then(/^Status should be displayed as (.*)$/, async (text) => {
+  await customerPage.verifyCustomerStatus(text);
+});
