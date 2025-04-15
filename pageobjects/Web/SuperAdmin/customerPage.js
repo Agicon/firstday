@@ -165,9 +165,7 @@ class CustomerPage extends BasePage {
   }
 
   async fillClinicNameField(data) {
-    await this.clinicNameField.waitForDisplayed({
-      timeout: 20000,
-    });
+    await this.clinicNameField.waitForDisplayed({ timeout: 20000 });
     if ((await this.clinicNameField.isDisplayed()) === true) {
       await this.clinicNameField.click();
       await this.clinicNameField.setValue(data);

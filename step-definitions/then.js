@@ -11,6 +11,8 @@ const pages = {
   login: LoginPage,
 };
 
+// ==================================Android===========================================
+
 Then(/^I should see a flash message saying (.*)$/, async (message) => {
   await expect(SecurePage.flashAlert).toBeExisting();
   await expect(SecurePage.flashAlert).toHaveText(expect.stringContaining(message));
@@ -146,10 +148,6 @@ Then(/^The "New Managing Provider" form should be closed$/, async () => {
   await ManagingProvider.verifyClosedForm();
 });
 
-Then(/^User refresh the screen$/, async () => {
-  await browser.refresh();
-});
-
 Then(/^a "New Managing Provider" gets created And it displays (.*) in the "Managing Provider" list$/, async (registerName) => {
   await ManagingProvider.verifyCreatedProvider(registerName);
 });
@@ -179,19 +177,32 @@ Then(/^The updated Managing provider displays in the "Managing provider list" wi
   await ManagingProvider.verifyCreatedProvider(UpdatedProviderName);
 });
 
-Then(/^User refresh the screen$/, async () => {
-  await browser.refresh();
+Then(/^Verify inactive provider (.*) has removed from "Managing provider list"$/, async (UpdatedProviderName) => {
+  await ManagingProvider.verifyUpdatedStatusProvider(UpdatedProviderName);
 });
+
+Then(/^The "Managing Provider" now displayed there in the "Inactive Managing Provider" list (.*)$/, async (UpdatedProviderName) => {
+  await ManagingProvider.verifyCreatedProvider(UpdatedProviderName);
+});
+
+Then(/^Verify active provider (.*) has removed from "Inactive Managing provider list"$/, async (UpdatedProviderName) => {
+  await ManagingProvider.verifyUpdatedStatusProvider(UpdatedProviderName);
+});
+
+Then(/^The "Managing Provider" now displayed there in the "Active Managing Provider" list (.*)$/, async (UpdatedProviderName) => {
+  await ManagingProvider.verifyCreatedProvider(UpdatedProviderName);
+});
+
 
 //-------------------Supre admin(customer)-----------------------//
 
 Then(/^I should redirect on url (.*)$/, {}, async (url) => {
-  var data = TestUtils.getUserCredetials(url); //Retrive data from excel
+  var data = TestUtils.getUserCredetials(url); 
   await browser.pause(1000);
   var url = data[0];
   console.log("LOGIN PAGE URL:" + url);
   await browser.pause(2000);
-  var data = TestUtils.getUserCredetials(url); //Retrive data from excel
+  var data = TestUtils.getUserCredetials(url);
   await browser.pause(1000);
   var url = data[0];
   var actUrl = await browser.getUrl();

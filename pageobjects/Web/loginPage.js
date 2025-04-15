@@ -38,7 +38,7 @@ class LoginPage extends BasePage {
   async login(userName) {
     await browser.maximizeWindow();
     await browser.pause(1000);
-    var data = TestUtils.getUserCredetials(userName); //Retrive data from excel
+    var data = TestUtils.getUserCredetials(userName);
     await browser.pause(2000);
     var username = data[0];
     var password = data[1];
@@ -66,7 +66,6 @@ class LoginPage extends BasePage {
       await $("android.widget.Button").waitForDisplayed({ timeout: 5000 });
       await $("android.widget.Button").click();
       await browser.pause(10);
-      // await $("//android.widget.TextView[@resource-id='dev.firebase.appdistribution:id/download_label']").waitForDisplayed({timeout:50000});
       await $(
         "//android.widget.TextView[@resource-id='dev.firebase.appdistribution:id/download_label']"
       ).click();
@@ -90,7 +89,7 @@ class LoginPage extends BasePage {
    * overwrite specific options to adapt it to page object
    */
   async open(url) {
-    var data = TestUtils.getUserCredetials(url); //Retrive data from excel
+    var data = TestUtils.getUserCredetials(url); 
     await browser.pause(1000);
     var url = data[0];
     console.log("LOGIN PAGE URL:" + url);

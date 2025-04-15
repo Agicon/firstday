@@ -221,6 +221,7 @@ class ManagingProvider extends BasePage {
     } else {
       throw new Error("Success message is not displaying: " + text);
     }
+    await messageText.waitForDisplayed({ reverse: true, timeout: 20000 });
   }
 
   async searchAndDeleteAddedProvider(text) {
@@ -250,7 +251,8 @@ class ManagingProvider extends BasePage {
   }
 
   async clickOnViewOrUpdateButton() {
-    await this.viewOrUpdateButton.waitForDisplayed({ timeout: 25000 });
+    await this.viewOrUpdateButton.waitForExist({ timeout: 25000 });
+    await browser.pause(1000);
     await this.viewOrUpdateButton.click();
   }
 
@@ -271,6 +273,28 @@ class ManagingProvider extends BasePage {
   async clickOnUpdateButton() {
     await this.updatedButton.waitForDisplayed({ timeout: 20000 });
     await this.updatedButton.click();
+  }
+
+  async clickOnLink(text) {
+    await $("//a[contains(text(),'" + text + "')]").click();
+    await $("//a[contains(text(),'" + text + "')]").waitForDisplayed({ timeout: 25000 });
+    await customerPage.clickOnButtonWithText("Yes");
+  }
+
+  async verifyUpdatedStatusProvider(text) {
+    if ((await $("//a[contains(text(),'" + text + "')]").isDisplayed()) === true) {
+      throw new Error("❌ Provider is still visible in the list");
+    } else {
+      console.log("✅ provider has removed from the list");
+    }
+  }
+
+  async switchToWindowNewTab() {
+    var handle = await browser.getWindowHandles();
+    console.log("Mutiple Windows handle " + handle);
+    try {
+      await browser.switchToWindow(handle[1]);
+    } catch (error) {}
   }
 }
 module.exports = new ManagingProvider();
