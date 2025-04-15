@@ -55,10 +55,10 @@ Feature: Test cases for "Managing Provider" page
     Then The "New Managing Provider" form should be closed
     
     Examples:
-      | validName          |
-      | AutomationProvider |
+      | validName              |
+      | AutomationTestProvider |
 
-  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when all the fields are populated with valid data and also Verify "Customer" is not able to update the "Managing Provider" and validation displays if any mandatory field is not populated while updating the customer and 	Verify "Customer" is navigated back to the "Managing Provider " page when clicked on "Back button" displaying on the "Update Managing Provider Details" page and Verify "Customer" is not able to update the "Managing Provider" with invalid details and Verify "Customer" is able to update the "Managing Provider" details
+  Scenario Outline: Verify the "Customer" is able to create "New Managing Provider" when all the fields are populated with valid data and also Verify "Customer" is not able to update the "Managing Provider" and validation displays if any mandatory field is not populated while updating the customer and 	Verify "Customer" is navigated back to the "Managing Provider " page when clicked on "Back button" displaying on the "Update Managing Provider Details" page and Verify "Customer" is not able to update the "Managing Provider" with invalid details and Verify "Customer" is able to update the "Managing Provider" details and Verify "Customer" is able to change the status of Managing Provider to "Inactive" and Verify "Customer" is able to change the status of Managing Provider to "Active"
     When User click on "Managing Provider" tab
     Then Search and delete already added provider <validName>
     When User click on the "New Managing Provider" button
@@ -93,7 +93,16 @@ Feature: Test cases for "Managing Provider" page
     Then User click on the "Update" button
     Then Success message Managing Provider Updated Succesfully! appears
     Then The updated Managing provider displays in the "Managing provider list" with updated <updatedName>
-
+    When User click on the link Active
+    Then Success message Managing Provider Inactive successfully appears
+    Then Verify inactive provider <updatedName> has removed from "Managing provider list"
+    When I click on the button with text Inactive Managing Providers
+    Then The "Managing Provider" now displayed there in the "Inactive Managing Provider" list <updatedName>
+    When User click on the link Inactive
+    Then Success message Managing Provider Active successfully appears
+    Then Verify active provider <updatedName> has removed from "Inactive Managing provider list"
+    When I click on the button with text Active Managing Providers
+    Then The "Managing Provider" now displayed there in the "Active Managing Provider" list <updatedName>
     Examples:
-      | validName        | validMobile | validWebsite                             | validOfficeNumber | validOfficeInfo | validState | validCity  | validAddress | validZipcode | updatedName             | invalidName |
-      | ManagingProvider | 1234567890  | https://portal.test.firstdayhc.com/login | 1111122222        | IT office       | Punjab     | Chandigarh | Abc 12345    | 00123        | UpdatedManagingProvider | 1           |
+      | validName        | validMobile | validWebsite                             | validOfficeNumber | validOfficeInfo | validState | validCity  | validAddress | validZipcode | updatedName             | invalidName | url      | inactiveEmail         |
+      | ManagingProvider | 1234567890  | https://portal.test.firstdayhc.com/login | 1111122222        | IT office       | Punjab     | Chandigarh | Abc 12345    | 00123        | UpdatedManagingProvider | 1           | loginUrl | RegisteredWebProvider |

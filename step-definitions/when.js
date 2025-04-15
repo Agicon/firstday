@@ -10,6 +10,8 @@ const pages = {
   login: LoginPage,
 };
 
+// ==================================Android===========================================
+
 When(/^login to app using (.*)$/, async (username) => {
   await LoginPage.login(username);
 });
@@ -70,7 +72,7 @@ When(/^User enter invalid (.*) and (.*) in their respective fields And click on 
 });
 
 When(/^User enter valid (.*) and (.*) in their respective fields And click on "Login" button$/, async (userName, invalidPassword) => {
-  var data = TestUtils.getUserCredetials(userName); //Retrive data from excel
+  var data = TestUtils.getUserCredetials(userName); 
   await browser.pause(2000);
   var username = data[0];
   await LoginPage.fillEmailField(username);
@@ -172,6 +174,19 @@ When(/^User update the "Managing Provider form" but does not populate one of the
   await ManagingProvider.nameField.click();
   await ManagingProvider.nameField.clearValue();
 });
+
+When(/^User click on the link (.*)$/, async (link) => {
+  await ManagingProvider.clickOnLink(link)
+});
+
+When(/^In other tab, inactive provider try to login (.*) with (.*) crendetials$/, async (url, userName) => {
+  await browser.createWindow("tab");
+  await ManagingProvider.switchToWindowNewTab();
+  await LoginWebPage.open(url);
+  await LoginWebPage.login(userName);
+  await this.signInButton.click();
+});
+
 
 // ------------------------------------------iOS--------------------------------------------------------
 
