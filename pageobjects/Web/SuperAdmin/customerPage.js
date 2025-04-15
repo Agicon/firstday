@@ -136,7 +136,7 @@ class CustomerPage extends BasePage {
     const buttonText = await $("//button[contains(text(),'" + text + "')]");
     await buttonText.waitForDisplayed({ timeout: 20000 });
     if ((await buttonText.isDisplayed()) === true) {
-      await buttonText.click(); // No need for `this.buttonText`
+      await buttonText.click(); 
     } else {
       throw new Error("Button is not displaying: " + text);
     }
@@ -165,9 +165,7 @@ class CustomerPage extends BasePage {
   }
 
   async fillClinicNameField(data) {
-    await this.clinicNameField.waitForDisplayed({
-      timeout: 20000,
-    });
+    await this.clinicNameField.waitForDisplayed({ timeout: 20000 });
     if ((await this.clinicNameField.isDisplayed()) === true) {
       await this.clinicNameField.click();
       await this.clinicNameField.setValue(data);
