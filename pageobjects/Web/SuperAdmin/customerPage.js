@@ -94,7 +94,7 @@ class CustomerPage extends BasePage {
   get emptyTable() {
     return $("//td[@class='dataTables_empty']");
   }
-  
+
 
   /**
    * a method to encapsule automation code to interact with the page
@@ -136,7 +136,7 @@ class CustomerPage extends BasePage {
     const buttonText = await $("//button[contains(text(),'" + text + "')]");
     await buttonText.waitForDisplayed({ timeout: 20000 });
     if ((await buttonText.isDisplayed()) === true) {
-      await buttonText.click(); // No need for `this.buttonText`
+      await buttonText.click(); 
     } else {
       throw new Error("Button is not displaying: " + text);
     }
@@ -372,7 +372,7 @@ class CustomerPage extends BasePage {
     await this.viewIcon.click();
   }
   async verifyCustomerDetailPage(name) {
-    await $("//section[@class='content-header']//h2").waitForDisplayed({timeout:5000});
+    await $("//section[@class='content-header']//h2").waitForDisplayed({ timeout: 5000 });
     var actName = await $("//section[@class='content-header']//h2").getText();
     await expect(actName).toEqual(name);
 
@@ -388,22 +388,40 @@ class CustomerPage extends BasePage {
   async clearClinicNameField() {
     await this.clinicNameField.click();
     await this.clinicNameField.clearValue();
-  } 
+  }
 
   async clickOnDeleteIcon() {
     await this.deleteButton.click();
     await this.clickOnButtonWithText("Yes");
     await this.deleteMessage.waitForDisplayed({ timeout: 20000 });
-  } 
+  }
 
   async verifyDeletedRecord() {
-   if (await this.emptyTable.isDisplayed()==true) {
-    console.log("record deleted successfully");
-   } else {
-    throw new Error("failed to delete record");
-   }
-  } 
-  
+    if (await this.emptyTable.isDisplayed() == true) {
+      console.log("record deleted successfully");
+    } else {
+      throw new Error("failed to delete record");
+    }
+  }
+  async clickOnLinkText(text) {
+    const linkText = await $("//a[contains(text(),'" + text + "')]");
+    if ((await linkText.isDisplayed()) === true) {
+      await linkText.click();
+      await this.clickOnButtonWithText("Yes");
+
+    } else {
+      throw new Error("link is not displaying: " + text);
+    }
+
+  }
+
+  async verifyCustomerStatus(status) {
+    await browser.refresh();
+    await $("((//tr[@class='odd']//td)[9])[1]").waitForDisplayed({ timeout: 5000 });
+    var actStatus = await $("((//tr[@class='odd']//td)[9])[1]").getText();
+    await expect(actStatus).toEqual(status);
+
+  }
 }
 
 

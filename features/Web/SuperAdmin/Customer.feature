@@ -74,6 +74,10 @@ Feature: Test cases for super admin customer page
     When I fill valid date in expiry field
     When I click on the button with text Create
     Then A "New Customer" gets created and it displays clinic name <validClinicName> first name <validFirstName> last name <validLastName> email and licence number <validNumberOfLicence> on the "Customers list"
+    When I click on link text Active
+    Then Status should be displayed as Inactive
+    When I click on link text Inactive
+    Then Status should be displayed as Active
     When I populate fields but I populate "Email field" with already registered email
     When I fill <validClinicName> data in clinic name field
     When I fill <validFirstName> data in first name field
@@ -88,7 +92,7 @@ Feature: Test cases for super admin customer page
       | validClinicName    | validFirstName | validLastName | validNumberOfLicence |
       | NewAutomatedClinic | Ohri           | jack          |                  998 |
 
-  Scenario Outline: Verify the "Super Admin" is able to create "New Customer" when all the fields are populated
+  Scenario Outline: Verify the "Super Admin" is able to create "New Customer" when all the fields are populated, edit , view and delete customer verification
     When I click on the "Customers" tab
     Then I navigate to the "Customers" page
     Then Search and delete duplicate data <validClinicName>

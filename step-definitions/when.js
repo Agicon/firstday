@@ -272,12 +272,17 @@ When(/^User click on the "Back" button on "update customer" page$/, async () => 
 });
 
 When(/^I update the "Customer form" but does not populate one of the mandatory field and click on the (.*) button$/, async (button) => {
-    await CustomerPage.clearClinicNameField();
-    await CustomerPage.clickOnButtonWithText(button);
-  });
+  await CustomerPage.clearClinicNameField();
+  await CustomerPage.clickOnButtonWithText(button);
+});
 
-  When(/^I click On "Delete" icon$/, async () => {
-    await CustomerPage.clickOnDeleteIcon();
-    await CustomerPage.verifyDeletedRecord();
-  });
-  
+When(/^I click On "Delete" icon$/, async () => {
+  await CustomerPage.clickOnDeleteIcon();
+  await CustomerPage.verifyDeletedRecord();
+});
+
+When(/^I click on link text (.*)$/, async (text) => {
+  await CustomerPage.clickOnLinkText(text);
+});
+
+
