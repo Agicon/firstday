@@ -276,13 +276,13 @@ class ManagingProvider extends BasePage {
   }
 
   async clickOnLink(text) {
-    await $("//a[contains(text(),'" + text + "')]").click();
     await $("//a[contains(text(),'" + text + "')]").waitForDisplayed({ timeout: 25000 });
+    await $("//a[contains(text(),'" + text + "')]").click();
     await customerPage.clickOnButtonWithText("Yes");
   }
 
   async verifyUpdatedStatusProvider(text) {
-    if ((await $("//a[contains(text(),'" + text + "')]").isDisplayed()) === true) {
+    if ((await $("//td[contains(text(),'" + text + "')]").isDisplayed()) === true) {
       throw new Error("❌ Provider is still visible in the list");
     } else {
       console.log("✅ provider has removed from the list");
@@ -295,6 +295,20 @@ class ManagingProvider extends BasePage {
     try {
       await browser.switchToWindow(handle[1]);
     } catch (error) {}
+  }
+
+  async switchToParentTab() {
+    var handle = await browser.getWindowHandles();
+    console.log("Mutiple Windows handle " + handle);
+    await browser.switchToWindow(handle[0]);
+  }
+
+  async searchCreatedProvider(text) {
+    await this.searchField.clearValue();
+    await this.searchField.setValue(text);
+    await browser.pause(1000);
+    await $("//td[contains(text(),'" + text + "')]").click();
+    await $("//td[contains(text(),'" + text + "')]").waitForDisplayed({ timeout: 25000 });
   }
 }
 module.exports = new ManagingProvider();
