@@ -197,7 +197,7 @@ Then(/^The "Managing Provider" now displayed there in the "Active Managing Provi
 //-------------------Supre admin(customer)-----------------------//
 
 Then(/^I should redirect on url (.*)$/, {}, async (url) => {
-  var data = TestUtils.getUserCredetials(url); 
+  var data = TestUtils.getUserCredetials(url);
   await browser.pause(1000);
   var url = data[0];
   console.log("LOGIN PAGE URL:" + url);
@@ -251,4 +251,8 @@ Then(/^I navigates to the Customer (.*) details page$/, async (name) => {
 
 Then(/^Status should be displayed as (.*)$/, async (text) => {
   await customerPage.verifyCustomerStatus(text);
+});
+
+Then(/^I Search data (.*)$/, async (data) => {
+  await customerPage.searchData(data);
 });

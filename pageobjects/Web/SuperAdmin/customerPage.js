@@ -420,6 +420,15 @@ class CustomerPage extends BasePage {
     await expect(actStatus).toEqual(status);
 
   }
+
+  async searchData(clinicName) {
+    await this.searchField.clearValue();
+    await this.searchField.setValue(clinicName);
+      await $("//td[contains(text(),'" + clinicName + "')]").waitForDisplayed({
+        timeout: 10000,
+      });
+     
+    }
 }
 
 

@@ -72,7 +72,7 @@ When(/^User enter invalid (.*) and (.*) in their respective fields And click on 
 });
 
 When(/^User enter valid (.*) and (.*) in their respective fields And click on "Login" button$/, async (userName, invalidPassword) => {
-  var data = TestUtils.getUserCredetials(userName); 
+  var data = TestUtils.getUserCredetials(userName);
   await browser.pause(2000);
   var username = data[0];
   await LoginPage.fillEmailField(username);

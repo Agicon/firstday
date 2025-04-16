@@ -192,7 +192,6 @@ class LoginPage extends BasePage {
       await $("android.widget.Button").waitForDisplayed({ timeout: 5000 });
       await $("android.widget.Button").click();
       await browser.pause(10);
-      // await $("//android.widget.TextView[@resource-id='dev.firebase.appdistribution:id/download_label']").waitForDisplayed({timeout:50000});
       await $("//android.widget.TextView[@resource-id='dev.firebase.appdistribution:id/download_label']").click();
       await $("//android.widget.Button[@resource-id='android:id/button1']").waitForDisplayed({ timeout: 90000 });
       await $("//android.widget.Button[@resource-id='android:id/button1']").click();
@@ -205,11 +204,7 @@ class LoginPage extends BasePage {
   /**
    * overwrite specific options to adapt it to page object
    */
-  async open() {
-    // return super.open('login');
-    await browser.url("https://webdriver.io/");
-  }
-
+ 
   async returnText() {
     var actAtt = await this.search.getAttribute("label");
     return actAtt;

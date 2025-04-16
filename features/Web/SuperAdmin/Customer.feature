@@ -74,10 +74,6 @@ Feature: Test cases for super admin customer page
     When I fill valid date in expiry field
     When I click on the button with text Create
     Then A "New Customer" gets created and it displays clinic name <validClinicName> first name <validFirstName> last name <validLastName> email and licence number <validNumberOfLicence> on the "Customers list"
-    When I click on link text Active
-    Then Status should be displayed as Inactive
-    When I click on link text Inactive
-    Then Status should be displayed as Active
     When I populate fields but I populate "Email field" with already registered email
     When I fill <validClinicName> data in clinic name field
     When I fill <validFirstName> data in first name field
@@ -141,3 +137,16 @@ Feature: Test cases for super admin customer page
     Examples:
       | validClinicName      | validFirstName | validLastName | validNumberOfLicence | validPhone | validZip | validInformation | country | state | city   | invalidData | updatedClinicName     | updatedFirstName      | updatedLastName      |
       | OldAutomatedHospital | tin            | jac           |                   98 | 3652984561 |   445522 | I am QA engg.    | India   | New   | tester |           2 | UpdateAutomatedClinic | updatedAutomatedFirst | updatedAutomatedLast |
+
+  Scenario Outline: Verify the functionality of active and inactive Status
+    When I click on the "Customers" tab
+    Then I navigate to the "Customers" page
+    Then I Search data <validClinicName>
+    When I click on link text Active
+    Then Status should be displayed as Inactive
+    When I click on link text Inactive
+    Then Status should be displayed as Active
+
+    Examples:
+      | validClinicName              |
+      | Automation User (Dnt delete) |
