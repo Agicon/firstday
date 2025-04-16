@@ -72,7 +72,7 @@ When(/^User enter invalid (.*) and (.*) in their respective fields And click on 
 });
 
 When(/^User enter valid (.*) and (.*) in their respective fields And click on "Login" button$/, async (userName, invalidPassword) => {
-  var data = TestUtils.getUserCredetials(userName); 
+  var data = TestUtils.getUserCredetials(userName);
   await browser.pause(2000);
   var username = data[0];
   await LoginPage.fillEmailField(username);
@@ -91,8 +91,6 @@ When(/^User click on the "Logout" option$/, async () => {
 When(/^User click on the button with text (.*)$/, async (Button) => {
   await LoginPage.clickOnButtonWithText(Button);
 });
-
-
 
 // ======================================ManagingProvider=============================================
 
@@ -176,7 +174,7 @@ When(/^User update the "Managing Provider form" but does not populate one of the
 });
 
 When(/^User click on the link (.*)$/, async (link) => {
-  await ManagingProvider.clickOnLink(link)
+  await ManagingProvider.clickOnLink(link);
 });
 
 When(/^In other tab, inactive provider try to login (.*) with (.*) crendetials$/, async (url, userName) => {
@@ -184,9 +182,12 @@ When(/^In other tab, inactive provider try to login (.*) with (.*) crendetials$/
   await ManagingProvider.switchToWindowNewTab();
   await LoginWebPage.open(url);
   await LoginWebPage.login(userName);
-  await this.signInButton.click();
+  await LoginWebPage.signInButton.click();
 });
 
+When(/^User search the created provider (.*)$/, async (name) => {
+  await ManagingProvider.searchCreatedProvider(name);
+});
 
 // ------------------------------------------iOS--------------------------------------------------------
 
@@ -299,5 +300,3 @@ When(/^I click On "Delete" icon$/, async () => {
 When(/^I click on link text (.*)$/, async (text) => {
   await CustomerPage.clickOnLinkText(text);
 });
-
-

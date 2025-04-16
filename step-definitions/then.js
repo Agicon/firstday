@@ -193,11 +193,15 @@ Then(/^The "Managing Provider" now displayed there in the "Active Managing Provi
   await ManagingProvider.verifyCreatedProvider(UpdatedProviderName);
 });
 
+Then(/^Move to manage provider window$/, async () => {
+  await browser.closeWindow();
+  await ManagingProvider.switchToParentTab();
+});
 
 //-------------------Supre admin(customer)-----------------------//
 
 Then(/^I should redirect on url (.*)$/, {}, async (url) => {
-  var data = TestUtils.getUserCredetials(url); 
+  var data = TestUtils.getUserCredetials(url);
   await browser.pause(1000);
   var url = data[0];
   console.log("LOGIN PAGE URL:" + url);

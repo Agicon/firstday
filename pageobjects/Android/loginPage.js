@@ -2,13 +2,9 @@ const { $, browser } = require("@wdio/globals");
 const { remote } = require("webdriverio");
 const BasePage = require("./testBase");
 import TestUtils from "../testUtils";
-/**
- * sub page containing specific selectors and methods for a specific page
- */
-class LoginPage extends BasePage {
-  /**
-   * define selectors using getter methods   */
 
+
+class LoginPage extends BasePage {
   get emailField() {
     return $('//android.widget.EditText[@resource-id="com.app.neonatal.staging:id/ed_login_email"]|//android.widget.EditText[@resource-id="com.firsthc.alert.staging:id/edt_email"]');
   }
@@ -164,8 +160,24 @@ class LoginPage extends BasePage {
     return $('//android.widget.Button[@resource-id="com.firsthc.alert.staging:id/btn_no"]');
   }
 
+  get iAgreeCheckbox() {
+    return $("android.widget.CheckBox");
+  }
+
+  get openAppButton() {
+    return $("android.widget.Button");
+  }
+
+  get downloadAppButton() {
+    return $("//android.widget.TextView[@resource-id='dev.firebase.appdistribution:id/download_label']");
+  }
+
+  get updateAppButton() {
+    return $("//android.widget.Button[@resource-id='android:id/button1']");
+  }
+
   async login(userName) {
-    var data = TestUtils.getUserCredetials(userName); //Retrive data from excel
+    var data = TestUtils.getUserCredetials(userName);
     await browser.pause(2000);
     var username = data[0];
     var password = data[1];
@@ -188,25 +200,20 @@ class LoginPage extends BasePage {
     await $("//android.widget.TextView[@text='" + app + "']").click();
     await browser.pause(5);
     try {
-      await $("android.widget.CheckBox").click();
-      await $("android.widget.Button").waitForDisplayed({ timeout: 5000 });
-      await $("android.widget.Button").click();
-      await browser.pause(10);
-      // await $("//android.widget.TextView[@resource-id='dev.firebase.appdistribution:id/download_label']").waitForDisplayed({timeout:50000});
-      await $("//android.widget.TextView[@resource-id='dev.firebase.appdistribution:id/download_label']").click();
-      await $("//android.widget.Button[@resource-id='android:id/button1']").waitForDisplayed({ timeout: 90000 });
-      await $("//android.widget.Button[@resource-id='android:id/button1']").click();
+      await this.iAgreeCheckbox.click();
+      await this.openAppButton.waitForDisplayed({ timeout: 5000 });
+      await this.openAppButton.click();
+      await this.downloadAppButton.waitForDisplayed({ timeout: 250000 });
+      await this.downloadAppButton.click();
+      await this.updateAppButton.waitForDisplayed({ timeout: 90000 });
+      await this.updateAppButton.click();
     } catch (error) {}
-    await $("//android.widget.Button[@resource-id='dev.firebase.appdistribution:id/open_button']").waitForDisplayed({ timeout: 90000 });
-    await $("//android.widget.Button[@resource-id='dev.firebase.appdistribution:id/open_button']").click();
+    await this.openAppButton.waitForDisplayed({ timeout: 90000 });
+    await this.openAppButton.click();
     await browser.pause(5);
   }
 
-  /**
-   * overwrite specific options to adapt it to page object
-   */
   async open() {
-    // return super.open('login');
     await browser.url("https://webdriver.io/");
   }
 
