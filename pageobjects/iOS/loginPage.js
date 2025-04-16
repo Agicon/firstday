@@ -10,26 +10,26 @@ class LoginPage extends BasePage {
      * define selectors using getter methods
      */
 
-    get emailField () {
+    get emailField() {
         return $('//XCUIElementTypeTextField');
     }
-    get paswordField () {
+    get paswordField() {
         return $('//XCUIElementTypeSecureTextField');
     }
 
-    get signInButton () {
+    get signInButton() {
         return $('//XCUIElementTypeStaticText[@name="Login"]');
     }
- 
-    get firstChild(){
+
+    get firstChild() {
         return $('(//XCUIElementTypeButton[@name="ic radioBtn deselect"])[1]');
     }
-    
-    get verifyHomepage(){
+
+    get verifyHomepage() {
         return $('//XCUIElementTypeImage[@name="boxCard_blue"]');
     }
-    
-    get keyboardDoneButton(){
+
+    get keyboardDoneButton() {
         return $('(//XCUIElementTypeButton)[5]');
     }
     /**
@@ -38,14 +38,14 @@ class LoginPage extends BasePage {
      */
 
 
-    async login (username, password) {
+    async login(username, password) {
         try {
             await browser.dismissAlert();
         } catch (error) {
-            
+
         }
-        
-        await this.emailField.waitForDisplayed({timeout:20000});
+
+        await this.emailField.waitForDisplayed({ timeout: 20000 });
         await this.emailField.click();
         await this.emailField.setValue(username);
         await this.paswordField.click();
@@ -54,22 +54,22 @@ class LoginPage extends BasePage {
         await this.signInButton.click();
     }
 
-  
-   async clickOnFirstChildOption(){
-    await this.firstChild.waitForDisplayed({timeout:25000});
-    await this.firstChild.click();
-   }
-  
-    async homepageIsDisplayed(){
-    await this.verifyHomepage.waitForDisplayed({timeout:25000});
-    return this.verifyHomepage.isDisplayed();
+
+    async clickOnFirstChildOption() {
+        await this.firstChild.waitForDisplayed({ timeout: 25000 });
+        await this.firstChild.click();
     }
-    
-    async clickOnKeyboardDoneButton(){
-        await this.keyboardDoneButton.waitForDisplayed({timeout:25000});
+
+    async homepageIsDisplayed() {
+        await this.verifyHomepage.waitForDisplayed({ timeout: 25000 });
+        return this.verifyHomepage.isDisplayed();
+    }
+
+    async clickOnKeyboardDoneButton() {
+        await this.keyboardDoneButton.waitForDisplayed({ timeout: 25000 });
         await this.keyboardDoneButton.click();
     }
-    
+
 }
 
 module.exports = new LoginPage();

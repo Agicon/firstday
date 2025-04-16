@@ -213,9 +213,6 @@ class LoginPage extends BasePage {
     await browser.pause(5);
   }
 
-  async open() {
-    await browser.url("https://webdriver.io/");
-  }
 
   async returnText() {
     var actAtt = await this.search.getAttribute("label");

@@ -410,6 +410,15 @@ class CustomerPage extends BasePage {
     var actStatus = await $("((//tr[@class='odd']//td)[9])[1]").getText();
     await expect(actStatus).toEqual(status);
   }
+
+  async searchData(clinicName) {
+    await this.searchField.clearValue();
+    await this.searchField.setValue(clinicName);
+      await $("//td[contains(text(),'" + clinicName + "')]").waitForDisplayed({
+        timeout: 10000,
+      });
+     
+    }
 }
 
 module.exports = new CustomerPage();

@@ -256,3 +256,7 @@ Then(/^I navigates to the Customer (.*) details page$/, async (name) => {
 Then(/^Status should be displayed as (.*)$/, async (text) => {
   await customerPage.verifyCustomerStatus(text);
 });
+
+Then(/^I Search data (.*)$/, async (data) => {
+  await customerPage.searchData(data);
+});
