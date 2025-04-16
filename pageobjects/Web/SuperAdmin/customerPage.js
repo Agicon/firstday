@@ -95,7 +95,6 @@ class CustomerPage extends BasePage {
     return $("//td[@class='dataTables_empty']");
   }
 
-
   /**
    * a method to encapsule automation code to interact with the page
    * e.g. to login using username and password
@@ -136,7 +135,7 @@ class CustomerPage extends BasePage {
     const buttonText = await $("//button[contains(text(),'" + text + "')]");
     await buttonText.waitForDisplayed({ timeout: 20000 });
     if ((await buttonText.isDisplayed()) === true) {
-      await buttonText.click(); 
+      await buttonText.click();
     } else {
       throw new Error("Button is not displaying: " + text);
     }
@@ -151,16 +150,11 @@ class CustomerPage extends BasePage {
     }
   }
   async verifyClosedCustomerForm() {
-    await this.newCustomerForm.waitForDisplayed({
-      reverse: true,
-      timeout: 20000,
-    });
+    await this.newCustomerForm.waitForDisplayed({ reverse: true, timeout: 20000 });
     if ((await this.newCustomerForm.isDisplayed()) === false) {
       console.log("cuctomer form successfully close");
     } else {
-      throw new Error(
-        "Failed to close customer form after clicking on close button"
-      );
+      throw new Error("Failed to close customer form after clicking on close button");
     }
   }
 
@@ -363,7 +357,7 @@ class CustomerPage extends BasePage {
         reverse: true,
         timeout: 20000,
       });
-    } catch (error) { }
+    } catch (error) {}
   }
 
   async clickOnViewIcon() {
@@ -373,7 +367,6 @@ class CustomerPage extends BasePage {
     await $("//section[@class='content-header']//h2").waitForDisplayed({ timeout: 5000 });
     var actName = await $("//section[@class='content-header']//h2").getText();
     await expect(actName).toEqual(name);
-
   }
   async clickOnEditIcon() {
     await this.editIcon.click();
@@ -395,7 +388,7 @@ class CustomerPage extends BasePage {
   }
 
   async verifyDeletedRecord() {
-    if (await this.emptyTable.isDisplayed() == true) {
+    if ((await this.emptyTable.isDisplayed()) == true) {
       console.log("record deleted successfully");
     } else {
       throw new Error("failed to delete record");
@@ -406,11 +399,9 @@ class CustomerPage extends BasePage {
     if ((await linkText.isDisplayed()) === true) {
       await linkText.click();
       await this.clickOnButtonWithText("Yes");
-
     } else {
       throw new Error("link is not displaying: " + text);
     }
-
   }
 
   async verifyCustomerStatus(status) {
@@ -418,9 +409,7 @@ class CustomerPage extends BasePage {
     await $("((//tr[@class='odd']//td)[9])[1]").waitForDisplayed({ timeout: 5000 });
     var actStatus = await $("((//tr[@class='odd']//td)[9])[1]").getText();
     await expect(actStatus).toEqual(status);
-
   }
 }
-
 
 module.exports = new CustomerPage();
