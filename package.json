@@ -9,17 +9,11 @@
     "remove-allure": "rm -rf allure-results && rm -rf allure-report",
     "androidLoginPage-FHDA": "npm run remove-allure && wdio run ./wdio.confA.js --suite androidLoginPage",
     "androidLoginPage-FHDC": "npm run remove-allure && wdio run ./wdio.confFHDC.js --suite androidLoginPage",
-     "webProviderPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webProviderPage",
-     "downloadFHDAappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDAappPage",
-     "downloadFHDCappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDCappPage",
-     "webLoginPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webLoginPage",
-     "webCustomerPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite customerPage",
-     
-     "both": "npm run androidLoginPageCopy && npm run androidLoginPage"
-
-    
-   
-    
+    "webProviderPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webProviderPage",
+    "downloadFHDAappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDAappPage",
+    "downloadFHDCappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDCappPage",
+    "webLoginPage": "npx wdio run ./wdio.confWeb.js --suite webLoginPage",
+    "webCustomerPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite customerPage"
   },
   "keywords": [],
   "author": "",
