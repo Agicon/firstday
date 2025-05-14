@@ -12,7 +12,7 @@
     "webProviderPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webProviderPage",
     "downloadFHDAappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDAappPage",
     "downloadFHDCappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDCappPage",
-    "webLoginPage": "wdio run ./wdio.confWeb.js --suite webLoginPage",
+    "webLoginPage": "npx wdio run ./wdio.confWeb.js --suite webLoginPage",
     "webCustomerPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite customerPage"
   },
   "keywords": [],

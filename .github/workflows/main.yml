@@ -22,6 +22,9 @@ jobs:
           echo "Running npm install"
           npm install
 
+      - name: Fix permissions for wdio
+        run: chmod +x ./node_modules/.bin/wdio
+
       - name: Run WDIO Tests
         run: |
           echo "Deploying API"
