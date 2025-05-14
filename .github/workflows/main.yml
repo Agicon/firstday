@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: Build API
         run: |
-          echo "Build API"
+          echo "Running npm install"
+          npm install
           sleep 10s
 
 
