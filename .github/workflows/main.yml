@@ -22,12 +22,7 @@ jobs:
           echo "Running npm install"
           npm install
 
-      - name: Build API
-        run: |
-          echo "Build API"
-          sleep 10s
-
-      - name: Deploy API
+      - name: Run WDIO Tests
         run: |
           echo "Deploying API"
           npm run webLoginPage
