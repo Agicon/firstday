@@ -22,7 +22,7 @@ jobs:
           echo "Running npm install"
           npm install
 
-            - name: Install Dependencies
+      - name: Install Dependencies
         run: |
           echo "Running command"
           npm run webLoginPage
