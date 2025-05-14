@@ -9,12 +9,28 @@ jobs:
     name: Run API
     runs-on: ubuntu-latest
     steps:
-      - name: Build API
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # or whatever version you need
+
+      - name: Install Dependencies
         run: |
           echo "Running npm install"
           npm install
+
+      - name: Build API
+        run: |
+          echo "Build API"
           sleep 10s
 
+      - name: Deploy API
+        run: |
+          echo "Deploying API"
+          # Add your deployment commands here
 
 
 # name: Deploy
