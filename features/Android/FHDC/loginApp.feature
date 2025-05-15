@@ -1,7 +1,7 @@
 Feature: Test cases for login page
 
   Scenario Outline: User install or open the latest build and login to app
-    When login to app using email <email> and password <password>
+    When login to app using <validLoginEmail>
     Then Verify that user is on homepage
     When Verfiy all modules of Firstday-HC app on homepage
     When User clicks on vital signs module
@@ -13,7 +13,7 @@ Feature: Test cases for login page
     When User clicks on settings module on homepage
     Then Verify all the tabs inside settings module
     Examples:
-      | app       | email                         | password   |
-      | FHDC Beta | testcaregiver5feb@yopmail.com | Qwerty@123 |
+      | app       | validLoginEmail |
+      | FHDC Beta | FHDCMobileLogin |
 
   

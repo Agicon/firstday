@@ -9,17 +9,14 @@
     "remove-allure": "rm -rf allure-results && rm -rf allure-report",
     "androidLoginPage-FHDA": "npm run remove-allure && wdio run ./wdio.confA.js --suite androidLoginPage",
     "androidLoginPage-FHDC": "npm run remove-allure && wdio run ./wdio.confFHDC.js --suite androidLoginPage",
-     "webProviderPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webProviderPage",
-     "downloadFHDAappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDAappPage",
-     "downloadFHDCappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDCappPage",
-     "webLoginPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webLoginPage",
-     "webCustomerPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite customerPage",
-     
-     "both": "npm run androidLoginPageCopy && npm run androidLoginPage"
-
-    
+    "webProviderPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webProviderPage",
+    "downloadFHDAappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDAappPage",
+    "downloadFHDCappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDCappPage",
+    "webLoginPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webLoginPage",
+    "webCustomerPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite customerPage",
+    "iOSloginPage-FHDC": "npm run remove-allure && wdio run ./wdio.confFHDCiOS.js --suite androidLoginPage",
    
-    
+    "both": "npm run androidLoginPageCopy && npm run androidLoginPage"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +33,7 @@
   },
   "dependencies": {
     "appium-uiautomator2-driver": "^3.9.1",
+    "del": "^8.0.0",
     "exceljs": "^4.4.0",
     "xlsx": "^0.18.5"
   }
