@@ -12,11 +12,11 @@
     "webProviderPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webProviderPage",
     "downloadFHDAappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDAappPage",
     "downloadFHDCappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDCappPage",
-    "webLoginPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webLoginPage",
-    "webCustomerPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite customerPage",
     "iOSloginPage-FHDC": "npm run remove-allure && wdio run ./wdio.confFHDCiOS.js --suite androidLoginPage",
    
-    "both": "npm run androidLoginPageCopy && npm run androidLoginPage"
+    "both": "npm run androidLoginPageCopy && npm run androidLoginPage",
+    "webLoginPage": "npx wdio run ./wdio.confWeb.js --suite webLoginPage",
+    "webCustomerPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite customerPage"
   },
   "keywords": [],
   "author": "",
