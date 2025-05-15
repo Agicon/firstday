@@ -12,6 +12,9 @@
     "webProviderPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite webProviderPage",
     "downloadFHDAappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDAappPage",
     "downloadFHDCappPage": "wdio run ./wdio.confDownloadApp.js --suite downloadFHDCappPage",
+    "iOSloginPage-FHDC": "npm run remove-allure && wdio run ./wdio.confFHDCiOS.js --suite androidLoginPage",
+   
+    "both": "npm run androidLoginPageCopy && npm run androidLoginPage",
     "webLoginPage": "npx wdio run ./wdio.confWeb.js --suite webLoginPage",
     "webCustomerPage": "npm run remove-allure && wdio run ./wdio.confWeb.js --suite customerPage"
   },
@@ -30,6 +33,7 @@
   },
   "dependencies": {
     "appium-uiautomator2-driver": "^3.9.1",
+    "del": "^8.0.0",
     "exceljs": "^4.4.0",
     "xlsx": "^0.18.5"
   }

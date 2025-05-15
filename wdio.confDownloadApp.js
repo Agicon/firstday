@@ -4,7 +4,7 @@ exports.config = {
   // Runner Configuration
   // ====================
   // WebdriverIO supports running e2e tests as well as unit and component tests.
-  runner: 'local',
+  runner: "local",
   //
   // ==================
   // Specify Test Files
@@ -20,13 +20,10 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [
-    './features/**/*.feature'
-  ],
+  specs: ["./features/**/*.feature"],
   suites: {
     downloadFHDAappPage: ["./features/Android/FHDA/downloadApp.feature"],
     downloadFHDCappPage: ["./features/Android/FHDC/downloadApp.feature"],
-
   },
   // Patterns to exclude.
   exclude: [
@@ -55,20 +52,16 @@ exports.config = {
   // https://saucelabs.com/platform/platform-configurator
   //
   capabilities: [
-
     {
-      platformName: 'Android',
-      'appium:deviceName': 'emulator-5554',
-      'appium:platformVersion': '11.0',
-      'appium:automationName': 'UiAutomator2',
-      'appium:appPackage': 'dev.firebase.appdistribution',
-      'appium:appActivity': 'dev.firebase.appdistribution.main.MainActivity',
-      'appium:noReset': false,
-      'appium:newCommandTimeout': 300,
-
+      platformName: "Android",
+      "appium:deviceName": "emulator-5554",
+      "appium:platformVersion": "13.0",
+      "appium:automationName": "UiAutomator2",
+      "appium:appPackage": "dev.firebase.appdistribution",
+      "appium:appActivity": "dev.firebase.appdistribution.main.MainActivity",
+      "appium:noReset": false,
+      "appium:newCommandTimeout": 300,
     },
-  
-  
   ],
 
   //
@@ -78,7 +71,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: 'info',
+  logLevel: "info",
   //
   // Set specific log levels per logger
   // loggers:
@@ -119,7 +112,7 @@ exports.config = {
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
   // services: [],
-  services: ['appium'],
+  services: ["appium"],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -127,7 +120,7 @@ exports.config = {
   //
   // Make sure you have the wdio adapter package for the specific framework installed
   // before running any tests.
-  framework: 'cucumber',
+  framework: "cucumber",
 
   //
   // The number of times to retry the entire specfile when it fails as a whole
@@ -164,7 +157,7 @@ exports.config = {
   // If you are using Cucumber you need to specify the location of your step definitions.
   cucumberOpts: {
     // <string[]> (file/dir) require files before executing features
-    require: ['./step-definitions/**/*.js'],
+    require: ["./step-definitions/**/*.js"],
     // <boolean> show full backtrace for errors
     backtrace: false,
     // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
@@ -182,13 +175,12 @@ exports.config = {
     // <boolean> fail if there are any undefined or pending steps
     strict: false,
     // <string> (expression) only execute the features or scenarios with tags matching the expression
-    tagExpression: '',
+    tagExpression: "",
     // <number> timeout for step definitions
     timeout: 100000,
     // <boolean> Enable this config to treat undefined definitions as warnings.
-    ignoreUndefinedDefinitions: false
+    ignoreUndefinedDefinitions: false,
   },
-
 
   //
   // =====
@@ -246,17 +238,16 @@ exports.config = {
   // },
   before: async function (capabilities, specs) {
     // Kill all apps before the test starts (for Android)
-    if (capabilities.platformName === 'Android') {
+    if (capabilities.platformName === "Android") {
       await driver.reset();
 
       const driver = await browser;
       // Kill all background apps on Android
-      await driver.executeScript('mobile: shell', {
-        command: 'am kill-all',
-        args: []
-
+      await driver.executeScript("mobile: shell", {
+        command: "am kill-all",
+        args: [],
       });
-      console.log('All Android apps have been killed.');
+      console.log("All Android apps have been killed.");
     }
 
     //  await driver.executeScript('mobile: shell', {
@@ -371,22 +362,22 @@ exports.config = {
   // onComplete: function(exitCode, config, capabilities, results) {
   // },
   /**
-  * Gets executed when a refresh happens.
-  * @param {string} oldSessionId session ID of the old session
-  * @param {string} newSessionId session ID of the new session
-  */
+   * Gets executed when a refresh happens.
+   * @param {string} oldSessionId session ID of the old session
+   * @param {string} newSessionId session ID of the new session
+   */
   // onReload: function(oldSessionId, newSessionId) {
   // }
   /**
-  * Hook that gets executed before a WebdriverIO assertion happens.
-  * @param {object} params information about the assertion to be executed
-  */
+   * Hook that gets executed before a WebdriverIO assertion happens.
+   * @param {object} params information about the assertion to be executed
+   */
   // beforeAssertion: function(params) {
   // }
   /**
-  * Hook that gets executed after a WebdriverIO assertion happened.
-  * @param {object} params information about the assertion that was executed, including its results
-  */
+   * Hook that gets executed after a WebdriverIO assertion happened.
+   * @param {object} params information about the assertion that was executed, including its results
+   */
   // afterAssertion: function(params) {
   // }
-}
+};

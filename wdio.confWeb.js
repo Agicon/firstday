@@ -62,7 +62,7 @@ exports.config = {
           browserName: "chrome",
           browserVersion: 'latest',
           'goog:chromeOptions': {
-            args: ['--no-sandbox', '--disable-dev-shm-usage', '--headless', '--disable-gpu']
+            // args: ['headless', 'window-size=1920,1080']
           },
           acceptInsecureCerts: true,
         

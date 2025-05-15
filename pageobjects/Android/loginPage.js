@@ -203,14 +203,16 @@ class LoginPage extends BasePage {
       await this.iAgreeCheckbox.click();
       await this.openAppButton.waitForDisplayed({ timeout: 5000 });
       await this.openAppButton.click();
-      await this.downloadAppButton.waitForDisplayed({ timeout: 250000 });
+      await this.downloadAppButton.waitForDisplayed({ timeout: 15000 });
       await this.downloadAppButton.click();
+      await this.notificationAlertPermission.click();
       await this.updateAppButton.waitForDisplayed({ timeout: 90000 });
       await this.updateAppButton.click();
-    } catch (error) {}
-    await this.openAppButton.waitForDisplayed({ timeout: 90000 });
-    await this.openAppButton.click();
-    await browser.pause(5);
+    } catch (error) {
+      await this.openAppButton.waitForDisplayed({ timeout: 90000 });
+      await this.openAppButton.click();
+      await browser.pause(5);
+    }
   }
 
 
