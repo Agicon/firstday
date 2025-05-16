@@ -1,14 +1,14 @@
 const { Then } = require("@wdio/cucumber-framework");
 const { expect, $, browser } = require("@wdio/globals");
 
-const LoginPage = require("../pageobjects/Android/loginPage");
+const androidPage = require("../pageobjects/Android/androidPage");
 import iosLoginPage from "../pageobjects/iOS/loginPage";
-import ManagingProvider from "../pageobjects/Web/Provider/managingProvider";
+import ManagingProvider from "../pageobjects/Web/CustomerAccount/managingProvider";
 import TestUtils from "../pageobjects/testUtils";
 import customerPage from "../pageobjects/Web/SuperAdmin/customerPage";
-import loginPage from "../pageobjects/iOS/loginPage";
+// import androidPage from "../pageobjects/iOS/loginPage";
 const pages = {
-  login: LoginPage,
+  login: androidPage,
 };
 
 // ==================================Android===========================================
@@ -19,56 +19,55 @@ Then(/^I should see a flash message saying (.*)$/, async (message) => {
 });
 
 Then(/^Verify that user is on homepage$/, async () => {
-  await LoginPage.clickOnFirstChild();
-  await LoginPage.denySavePasswordPopup();
-  await LoginPage.videoAndPicPermissionPopup.click();
-  await LoginPage.clickOnRecordAudioPopup();
-  await LoginPage.deviceLocationPopup.click();
-  await LoginPage.notificationAlertPermission.click();
-  await LoginPage.clickOnOkButton();
-  await LoginPage.clickonbackbutton.click();
-  await LoginPage.verifyDashboard();
+  await androidPage.denySavePasswordPopup();
+  await androidPage.videoAndPicPermissionPopup.click();
+  await androidPage.clickOnRecordAudioPopup();
+  await androidPage.deviceLocationPopup.click();
+  await androidPage.notificationAlertPermission.click();
+  await androidPage.clickOnOkButton();
+  await androidPage.clickonbackbutton.click();
+  await androidPage.verifyDashboard();
 });
 
 Then(/^Verify all the features inside vital signs$/, async () => {
-  await LoginPage.heartRateIsDisplayed();
-  await LoginPage.o2SaturationIsDisplayed();
-  await LoginPage.respiratoryRateDisplayed();
-  await LoginPage.TemperatureIsDisplayed();
-  await LoginPage.deviceStatusIsDisplayed();
+  await androidPage.heartRateIsDisplayed();
+  await androidPage.o2SaturationIsDisplayed();
+  await androidPage.respiratoryRateDisplayed();
+  await androidPage.TemperatureIsDisplayed();
+  await androidPage.deviceStatusIsDisplayed();
 });
 
 Then(/^Verify all the features inside medical report$/, async () => {
-  await LoginPage.diagnosisIsDisplayed();
-  await LoginPage.medicationIsDisplayed();
-  await LoginPage.resultsIsDisplayed();
-  await LoginPage.trackerIsDisplayed();
-  await LoginPage.vaccinationsIsDisplayed();
-  await LoginPage.mediaIsDisplayed();
-  await LoginPage.documentsIsDisplayed();
-  await LoginPage.sendUsresultIsDisplayed();
+  await androidPage.diagnosisIsDisplayed();
+  await androidPage.medicationIsDisplayed();
+  await androidPage.resultsIsDisplayed();
+  await androidPage.trackerIsDisplayed();
+  await androidPage.vaccinationsIsDisplayed();
+  await androidPage.mediaIsDisplayed();
+  await androidPage.documentsIsDisplayed();
+  await androidPage.sendUsresultIsDisplayed();
 });
 
 Then(/^Verify all the tabs inside providers module$/, async () => {
-  await LoginPage.providerTabIsDisplayed();
-  await LoginPage.appointmentsTabIsDisplayed();
+  await androidPage.providerTabIsDisplayed();
+  await androidPage.appointmentsTabIsDisplayed();
 });
 
 Then(/^Verify all the tabs inside settings module$/, async () => {
-  await LoginPage.myContactInformationIsDisplayed();
-  await LoginPage.myAccountIsDisplayed();
-  await LoginPage.myBabysInformationIsDisplayed();
-  await LoginPage.changeChildIsDisplayed();
-  await LoginPage.changePasswordIsDisplayed();
+  await androidPage.myContactInformationIsDisplayed();
+  await androidPage.myAccountIsDisplayed();
+  await androidPage.myBabysInformationIsDisplayed();
+  await androidPage.changeChildIsDisplayed();
+  await androidPage.changePasswordIsDisplayed();
 });
 
 Then(/^Validation message appears (.*)$/, async (message) => {
-  await LoginPage.verifyMobileValidationMessage(message);
+  await androidPage.verifyMobileValidationMessage(message);
 });
 
 Then(/^User is not able to login$/, async () => {
-  await LoginPage.signInButton.waitForDisplayed({ timeout: 5000 });
-  if ((await LoginPage.signInButton.isDisplayed()) === true) {
+  await androidPage.signInButton.waitForDisplayed({ timeout: 5000 });
+  if ((await androidPage.signInButton.isDisplayed()) === true) {
     console.log("User is still on login page");
   } else {
     throw new Error("Login page is not displayed");
@@ -76,14 +75,14 @@ Then(/^User is not able to login$/, async () => {
 });
 
 Then(/^Verify that user is on FHDA moblie provider homepage$/, async () => {
-  await LoginPage.notificationAlertPermission.click();
-  await LoginPage.clickOnOkButton();
-  await LoginPage.clickonbackbutton.click();
-  await LoginPage.verifyFHDAMobileProviderDashboradIsDisplayed();
+  await androidPage.notificationAlertPermission.click();
+  await androidPage.clickOnOkButton();
+  await androidPage.clickonbackbutton.click();
+  await androidPage.verifyFHDAMobileProviderDashboradIsDisplayed();
 });
 
 Then(/^A logout confirmation popup displays$/, async () => {
-  if ((await LoginPage.noButtonIsDisplayed()) === true) {
+  if ((await androidPage.noButtonIsDisplayed()) === true) {
     console.log("✅ logout confirmation popup is visible");
   } else {
     throw new Error("❌ Failed to verify logout confirmation popup");
@@ -91,7 +90,7 @@ Then(/^A logout confirmation popup displays$/, async () => {
 });
 
 Then(/^The logout confirmation popup closes and the provider remains logged in$/, async () => {
-  if ((await LoginPage.logoutOptionIsDisplayed()) === true) {
+  if ((await androidPage.logoutOptionIsDisplayed()) === true) {
     console.log("✅ User is still login in the app");
   } else {
     throw new Error("❌ User has log out even after clicks 'No' button");
@@ -99,8 +98,8 @@ Then(/^The logout confirmation popup closes and the provider remains logged in$/
 });
 
 Then(/^User get logged out from my account and gets navigated to login page$/, async () => {
-  await LoginPage.signInButton.waitForDisplayed({ timeout: 5000 });
-  if ((await LoginPage.signInButton.isDisplayed()) === true) {
+  await androidPage.signInButton.waitForDisplayed({ timeout: 5000 });
+  if ((await androidPage.signInButton.isDisplayed()) === true) {
     console.log("✅ User has successfully logout");
   } else {
     throw new Error("❌User is not able to log out");
@@ -218,11 +217,11 @@ Then(/^I should redirect on url (.*)$/, {}, async (url) => {
 });
 
 Then(/^Verify all the tabs inside settings module$/, async () => {
-  await LoginPage.myContactInformationIsDisplayed();
-  await LoginPage.myAccountIsDisplayed();
-  await LoginPage.myBabysInformationIsDisplayed();
-  await LoginPage.changeChildIsDisplayed();
-  await LoginPage.changePasswordIsDisplayed();
+  await androidPage.myContactInformationIsDisplayed();
+  await androidPage.myAccountIsDisplayed();
+  await androidPage.myBabysInformationIsDisplayed();
+  await androidPage.changeChildIsDisplayed();
+  await androidPage.changePasswordIsDisplayed();
 });
 
 Then(/^I navigate to the "Customers" page$/, async () => {
