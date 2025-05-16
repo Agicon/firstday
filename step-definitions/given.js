@@ -1,13 +1,12 @@
 import { Given } from "@cucumber/cucumber";
 const { expect, $, browser } = require('@wdio/globals')
 
-import LoginPage from "../pageobjects/Android/loginPage";
+import androidPage from "../pageobjects/Android/androidPage";
 import iosLoginPage from "../pageobjects/iOS/loginPage";
 const pages = {
-    login: LoginPage
-    
-}
+  login: androidPage,
+};
 
 Given(/^User install the latest build for (.*) app$/, async (app) => {
-    await LoginPage.installBuild(app);
+  await androidPage.installBuild(app);
 });

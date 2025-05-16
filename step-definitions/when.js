@@ -1,19 +1,19 @@
 const { When } = require("@wdio/cucumber-framework");
 const { expect, $, browser } = require("@wdio/globals");
-const LoginPage = require("../pageobjects/Android/loginPage");
+const androidPage = require("../pageobjects/Android/androidPage");
 const LoginWebPage = require("../pageobjects/Web/loginPage");
 import iosLoginPage from "../pageobjects/iOS/loginPage";
-import ManagingProvider from "../pageobjects/Web/Provider/managingProvider";
+import ManagingProvider from "../pageobjects/Web/CustomerAccount/managingProvider";
 import CustomerPage from "../pageobjects/Web/SuperAdmin/customerPage";
 import TestUtils from "../pageobjects/testUtils";
 const pages = {
-  login: LoginPage,
+  login: androidPage,
 };
 
 // ==================================Android===========================================
 
 When(/^login to app using (.*)$/, async (username) => {
-  await LoginPage.login(username);
+  await androidPage.login(username);
 });
 
 When(/^Open web url (.*)$/, async (url) => {
@@ -26,70 +26,70 @@ When(/^Web app login using (.*)$/, async (userName) => {
 });
 
 When(/^Verfiy all modules of Firstday-HC app on homepage$/, async () => {
-  await LoginPage.patientVitalSigns();
-  await LoginPage.patientsMedicalRecord();
-  await LoginPage.patientsProviders();
-  await LoginPage.needHelp();
-  await LoginPage.patientsVideoCamera();
-  await LoginPage.settings();
+  await androidPage.patientVitalSigns();
+  await androidPage.patientsMedicalRecord();
+  await androidPage.patientsProviders();
+  await androidPage.needHelp();
+  await androidPage.patientsVideoCamera();
+  await androidPage.settings();
 });
 
 When(/^User clicks on vital signs module$/, async () => {
-  await LoginPage.clickOnPatientsVitalSigns();
+  await androidPage.clickOnPatientsVitalSigns();
 });
 
 When(/^User clicks on medical report module$/, async () => {
-  await LoginPage.clickOnModuleBackButton();
-  await LoginPage.clickOnMedicalReport();
+  await androidPage.clickOnModuleBackButton();
+  await androidPage.clickOnMedicalReport();
 });
 
 When(/^User clicks on providers module on homepage$/, async () => {
-  await LoginPage.clickOnModuleBackButton();
-  await LoginPage.clickOnProvider();
+  await androidPage.clickOnModuleBackButton();
+  await androidPage.clickOnProvider();
 });
 
 When(/^User clicks on settings module on homepage$/, async () => {
-  await LoginPage.clickOnModuleBackButton();
-  await LoginPage.clickOnSettingsModule();
+  await androidPage.clickOnModuleBackButton();
+  await androidPage.clickOnSettingsModule();
 });
 
 When(/^User leave the "Email  field" empty And populate the (.*) "Password field" And click on "Login" button$/, async (password) => {
-  await LoginPage.fillPasswordField(password);
-  await LoginPage.signInButton.click();
+  await androidPage.fillPasswordField(password);
+  await androidPage.signInButton.click();
 });
 
 When(/^User leave the "Password field" empty And populate the (.*) "Email field" And click on "Login" button$/, async (email) => {
-  await LoginPage.paswordField.click();
-  await LoginPage.paswordField.clearValue();
-  await LoginPage.fillEmailField(email);
-  await LoginPage.signInButton.click();
+  await androidPage.paswordField.click();
+  await androidPage.paswordField.clearValue();
+  await androidPage.fillEmailField(email);
+  await androidPage.signInButton.click();
 });
 
 When(/^User enter invalid (.*) and (.*) in their respective fields And click on "Login" button$/, async (email, password) => {
-  await LoginPage.fillEmailField(email);
-  await LoginPage.fillPasswordField(password);
-  await LoginPage.signInButton.click();
+  await androidPage.fillEmailField(email);
+  await androidPage.fillPasswordField(password);
+  await androidPage.signInButton.click();
 });
 
 When(/^User enter valid (.*) and (.*) in their respective fields And click on "Login" button$/, async (userName, invalidPassword) => {
   var data = TestUtils.getUserCredetials(userName);
   await browser.pause(2000);
   var username = data[0];
-  await LoginPage.fillEmailField(username);
-  await LoginPage.fillPasswordField(invalidPassword);
-  await LoginPage.signInButton.click();
+  await androidPage.fillEmailField(username);
+  await androidPage.fillPasswordField(invalidPassword);
+  await androidPage.signInButton.click();
 });
 
 When(/^User navigate to the "Settings" tab$/, async () => {
-  await LoginPage.clickOnSettingsTAb();
+  await androidPage.clickOnSettingsTAb();
 });
 
 When(/^User click on the "Logout" option$/, async () => {
-  await LoginPage.clickOnLogoutOption();
+  await androidPage.clickOnLogoutOption();
 });
 
 When(/^User click on the button with text (.*)$/, async (Button) => {
-  await LoginPage.clickOnButtonWithText(Button);
+  await androidPage.clickOnButtonWithText(Button);
 });
 
 // ======================================ManagingProvider=============================================
