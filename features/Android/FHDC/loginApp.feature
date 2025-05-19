@@ -22,6 +22,16 @@ Feature: Test cases for login page
     Then Verify all the tabs inside providers module
     When User clicks on settings module on homepage
     Then Verify all the tabs inside settings module
+    When User click on "Hamburger" icon displaying in the top left corner
+    When User click on the "Logout" option
+    Then A logout confirmation popup displays
+    When User click on the button with text NO
+    Then The logout confirmation popup closes and provider remains logged in
+    When User click on "Hamburger" icon displaying in the top left corner
+    When User click on the "Logout" option
+    Then A logout confirmation popup displays
+    When User click on the button with text YES
+    Then User get logged out from my account and gets navigated to login page
     Examples:
       | validLoginEmail | invalidPassword | invalidEmail       |
       | FHDCMobileLogin | 123450000       | testuser@gmail.com |

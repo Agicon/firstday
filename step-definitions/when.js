@@ -92,6 +92,12 @@ When(/^User click on the button with text (.*)$/, async (Button) => {
   await androidPage.clickOnButtonWithText(Button);
 });
 
+When(/^User click on "Hamburger" icon displaying in the top left corner$/, async () => {
+  await androidPage.clickOnFHDCHamburgerButton();
+});
+
+
+
 // ======================================ManagingProvider=============================================
 
 When(/^User click on "Managing Provider" tab$/, async () => {
