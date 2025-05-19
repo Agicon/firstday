@@ -6,7 +6,6 @@ import iosLoginPage from "../pageobjects/iOS/loginPage";
 import ManagingProvider from "../pageobjects/Web/CustomerAccount/managingProvider";
 import TestUtils from "../pageobjects/testUtils";
 import customerPage from "../pageobjects/Web/SuperAdmin/customerPage";
-// import androidPage from "../pageobjects/iOS/loginPage";
 const pages = {
   login: androidPage,
 };
@@ -59,6 +58,7 @@ Then(/^Verify all the tabs inside settings module$/, async () => {
   await androidPage.myBabysInformationIsDisplayed();
   await androidPage.changeChildIsDisplayed();
   await androidPage.changePasswordIsDisplayed();
+  await androidPage.clickOnModuleBackButton();
 });
 
 Then(/^Validation message appears (.*)$/, async (message) => {
@@ -103,6 +103,14 @@ Then(/^User get logged out from my account and gets navigated to login page$/, a
     console.log("✅ User has successfully logout");
   } else {
     throw new Error("❌User is not able to log out");
+  }
+});
+
+Then(/^The logout confirmation popup closes and provider remains logged in$/, async () => {
+  if ((await androidPage.dashboardIsDisplayed()) === true) {
+    console.log("✅ User is still login in the app");
+  } else {
+    throw new Error("❌ User has log out even after clicks 'No' button");
   }
 });
 
@@ -214,14 +222,6 @@ Then(/^I should redirect on url (.*)$/, {}, async (url) => {
   } else {
     throw new Error("Filed to redirect on added url actual url>>" + actUrl + "expected url>>" + url);
   }
-});
-
-Then(/^Verify all the tabs inside settings module$/, async () => {
-  await androidPage.myContactInformationIsDisplayed();
-  await androidPage.myAccountIsDisplayed();
-  await androidPage.myBabysInformationIsDisplayed();
-  await androidPage.changeChildIsDisplayed();
-  await androidPage.changePasswordIsDisplayed();
 });
 
 Then(/^I navigate to the "Customers" page$/, async () => {
