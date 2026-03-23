@@ -1,10 +1,16 @@
+const path = require("path");
+const appPath = path.resolve(
+  __dirname,
+  "./pageobjects/testData/apps/NeoNatal_Dev.app"
+);
+
 exports.config = {
   //
   // ====================
   // Runner Configuration
   // ====================
   // WebdriverIO supports running e2e tests as well as unit and component tests.
-  runner: 'local',
+  runner: "local",
   //
   // ==================
   // Specify Test Files
@@ -20,16 +26,19 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [
-      './features/**/*.feature'
-  ],
+  specs: ["./features/**/*.feature"],
   suites: {
-      androidLoginPage: ["./features/iOS/FHDC/loginApp.feature"],
-     
-    },
+    iOSLoginPageFHDC: [
+      "./features/iOS/FHDC/login_Redirections_Logout_App.feature",
+    ],
+    iOSMedicalRecordsModule: [
+      "./features/iOS/FHDC/iOSMedicalRecordsModule.feature",
+    ],
+    iOSTrackerModule: ["./features/iOS/FHDC/iOSTrackerModule.feature"],
+  },
   // Patterns to exclude.
   exclude: [
-      // 'path/to/excluded/files'
+    // 'path/to/excluded/files'
   ],
   //
   // ============
@@ -54,20 +63,17 @@ exports.config = {
   // https://saucelabs.com/platform/platform-configurator
   //
   capabilities: [
-   
-      {
-        "platformName": "iOS",
-        "appium:platformVersion": "18.2",
-        "appium:deviceName": "iPhone 16",
-        "appium:automationName": "XCUITest",
-        "appium:app": './pageobjects/testData/apps/NeoNatal_Dev.app',
-        "appium:bundleId": "com.firstdayhc.dev",
-        'appium:newCommandTimeout': 300,
-        "appium:noReset": false,   
-      },
-    
+    {
+      platformName: "iOS",
+      "appium:platformVersion": "18.2",
+      "appium:deviceName": "iPhone 15",
+      "appium:automationName": "XCUITest",
+      "appium:app": appPath,
+      "appium:newCommandTimeout": 300,
+      "appium:noReset": false,
+      "appium:autoAcceptAlerts": true,
+    },
   ],
- 
 
   //
   // ===================
@@ -76,7 +82,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: 'info',
+  logLevel: "info",
   //
   // Set specific log levels per logger
   // loggers:
@@ -103,7 +109,7 @@ exports.config = {
   // baseUrl: 'http://localhost:8080',
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
+  waitforTimeout: 5000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
@@ -117,7 +123,7 @@ exports.config = {
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
   // services: [],
-  services: ['appium'],
+  services: ["appium"],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -125,8 +131,8 @@ exports.config = {
   //
   // Make sure you have the wdio adapter package for the specific framework installed
   // before running any tests.
-  framework: 'cucumber',
-  
+  framework: "cucumber",
+
   //
   // The number of times to retry the entire specfile when it fails as a whole
   // specFileRetries: 1,
@@ -142,51 +148,50 @@ exports.config = {
   // see also: https://webdriver.io/docs/dot-reporter
   // reporters: ['spec',['allure', {outputDir: 'allure-results'}]],
   reporters: [
-      "spec",
-      // ['junit', {
-      //     outputDir: './Reports/junit-report/',
-      //     outputFileFormat: function (options) { // optional
-      //         return 'junit-report.xml'
-      //     }
-      // }],
-      [
-        "allure",
-        {
-          outputDir: "allure-results/",
-          disableWebdriverStepsReporting: false,
-          disableWebdriverScreenshotsReporting: false,
-          useCucumberStepReporter: false,
-        },
-      ],
+    "spec",
+    // ['junit', {
+    //     outputDir: './Reports/junit-report/',
+    //     outputFileFormat: function (options) { // optional
+    //         return 'junit-report.xml'
+    //     }
+    // }],
+    [
+      "allure",
+      {
+        outputDir: "allure-results/",
+        disableWebdriverStepsReporting: false,
+        disableWebdriverScreenshotsReporting: false,
+        useCucumberStepReporter: true,
+      },
     ],
+  ],
   // If you are using Cucumber you need to specify the location of your step definitions.
   cucumberOpts: {
-      // <string[]> (file/dir) require files before executing features
-      require: ['./step-definitions/**/*.js'],
-      // <boolean> show full backtrace for errors
-      backtrace: false,
-      // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
-      requireModule: [],
-      // <boolean> invoke formatters without executing steps
-      dryRun: false,
-      // <boolean> abort the run on first failure
-      failFast: false,
-      // <string[]> Only execute the scenarios with name matching the expression (repeatable).
-      name: [],
-      // <boolean> hide step definition snippets for pending steps
-      snippets: true,
-      // <boolean> hide source uris
-      source: true,
-      // <boolean> fail if there are any undefined or pending steps
-      strict: false,
-      // <string> (expression) only execute the features or scenarios with tags matching the expression
-      tagExpression: '',
-      // <number> timeout for step definitions
-      timeout: 100000,
-      // <boolean> Enable this config to treat undefined definitions as warnings.
-      ignoreUndefinedDefinitions: false
+    // <string[]> (file/dir) require files before executing features
+    require: ["./step-definitions/**/*.js"],
+    // <boolean> show full backtrace for errors
+    backtrace: false,
+    // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
+    requireModule: [],
+    // <boolean> invoke formatters without executing steps
+    dryRun: false,
+    // <boolean> abort the run on first failure
+    failFast: false,
+    // <string[]> Only execute the scenarios with name matching the expression (repeatable).
+    name: [],
+    // <boolean> hide step definition snippets for pending steps
+    snippets: true,
+    // <boolean> hide source uris
+    source: true,
+    // <boolean> fail if there are any undefined or pending steps
+    strict: false,
+    // <string> (expression) only execute the features or scenarios with tags matching the expression
+    tagExpression: "",
+    // <number> timeout for step definitions
+    timeout: 100000,
+    // <boolean> Enable this config to treat undefined definitions as warnings.
+    ignoreUndefinedDefinitions: false,
   },
-
 
   //
   // =====
@@ -233,8 +238,8 @@ exports.config = {
    */
   beforeSession: async function (config, capabilities, specs) {
     const del = require("del");
-       await del(["allure-report"],["allure-results"]);
-     },
+    await del(["allure-report"], ["allure-results"]);
+  },
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.
@@ -246,26 +251,19 @@ exports.config = {
   // },
   before: async function (capabilities, specs) {
     // Kill all apps before the test starts (for Android)
-    if (capabilities.platformName === 'Android') {
+    if (capabilities.platformName === "Android") {
       await driver.reset();
 
       const driver = await browser;
       // Kill all background apps on Android
-      await driver.executeScript('mobile: shell', {
-        command: 'am kill-all',
-        args: []
-        
+      await driver.executeScript("mobile: shell", {
+        command: "am kill-all",
+        args: [],
       });
-      console.log('All Android apps have been killed.');
+      console.log("All Android apps have been killed.");
     }
-
-    //  await driver.executeScript('mobile: shell', {
-    //   command: 'pm clear',
-    //   args: ['com.app.neonatal.staging'] // Replace with your app's package name
-    // });
-    // console.log('App cache and data cleared for Android app.');
   },
-  
+
   // },
   /**
    * Runs before a WebdriverIO command gets executed.
@@ -311,8 +309,15 @@ exports.config = {
    * @param {number}             result.duration  duration of scenario in milliseconds
    * @param {object}             context          Cucumber World object
    */
-  // afterStep: function (step, scenario, result, context) {
-  // },
+  afterStep: async function (
+    { uri, feature, step },
+    context,
+    { error, result, duration, passed, retries },
+  ) {
+    if (error) {
+      await browser.takeScreenshot();
+    }
+  },
   /**
    *
    * Runs after a Cucumber Scenario.
@@ -333,7 +338,7 @@ exports.config = {
    */
   // afterFeature: function (uri, feature) {
   // },
-  
+
   /**
    * Runs after a WebdriverIO command gets executed
    * @param {string} commandName hook command name
@@ -371,22 +376,22 @@ exports.config = {
   // onComplete: function(exitCode, config, capabilities, results) {
   // },
   /**
-  * Gets executed when a refresh happens.
-  * @param {string} oldSessionId session ID of the old session
-  * @param {string} newSessionId session ID of the new session
-  */
+   * Gets executed when a refresh happens.
+   * @param {string} oldSessionId session ID of the old session
+   * @param {string} newSessionId session ID of the new session
+   */
   // onReload: function(oldSessionId, newSessionId) {
   // }
   /**
-  * Hook that gets executed before a WebdriverIO assertion happens.
-  * @param {object} params information about the assertion to be executed
-  */
+   * Hook that gets executed before a WebdriverIO assertion happens.
+   * @param {object} params information about the assertion to be executed
+   */
   // beforeAssertion: function(params) {
   // }
   /**
-  * Hook that gets executed after a WebdriverIO assertion happened.
-  * @param {object} params information about the assertion that was executed, including its results
-  */
+   * Hook that gets executed after a WebdriverIO assertion happened.
+   * @param {object} params information about the assertion that was executed, including its results
+   */
   // afterAssertion: function(params) {
   // }
-}
+};

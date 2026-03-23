@@ -1,12 +1,19 @@
 import { Given } from "@cucumber/cucumber";
-const { expect, $, browser } = require('@wdio/globals')
 
-import androidPage from "../pageobjects/Android/androidPage";
-import iosLoginPage from "../pageobjects/iOS/loginPage";
-const pages = {
-  login: androidPage,
-};
+import LoginWebPage from "../pageobjects/Web/loginPage";
+const pages = {};
+//---------------Web-Steps----------------------//
 
-Given(/^User install the latest build for (.*) app$/, async (app) => {
-  await androidPage.installBuild(app);
+Given(/^Open web url (.*)$/, async (url) => {
+  await browser.setWindowSize(1920, 1080);
+  await LoginWebPage.open(url);
+});
+
+
+
+
+//---------------Android-steps-----------------//
+Given(/^Open web link (.*) to download app$/, async (url) => {
+  await browser.setWindowSize(1920, 1080);
+  await LoginWebPage.downloadApp(url);
 });

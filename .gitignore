@@ -1,7 +1,8 @@
-
-.node_modules
-.allure-results
+node_modules/
+allure-results/
 .allure-report
 .idea
-package-lock.json
 yarn.lock
+downloadApps/
+  allure-report/
+.allure-report/

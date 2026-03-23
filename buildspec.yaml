@@ -1,0 +1,322 @@
+version: 0.2
+
+# Environment variables
+env:
+  variables:
+    AWS_REGION: "us-east-2"
+    WEB_PROVIDER_URL: "https://portal.test.firstdayhc.com/login"
+    CI: "true"
+    NODE_VERSION: "18"
+
+# Phases of the build
+phases:
+  # Install phase - Set up the environment
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo "=== BUILD START ==="
+      - echo "Installing dependencies..."
+      - echo "Current Node.js version:"
+      - node --version
+      - echo "Current npm version:"
+      - npm --version
+      
+      # Install Chrome dependencies
+      - apt-get update
+      - apt-get install -y wget gnupg unzip xvfb
+      - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+      - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+      - apt-get update
+      - apt-get install -y google-chrome-stable
+      
+      # Configure system for better Chrome stability
+      - echo "Configuring system for Chrome stability..."
+      - echo 'kernel.shmmax = 134217728' >> /etc/sysctl.conf
+      - echo 'kernel.shmall = 2097152' >> /etc/sysctl.conf
+      - sysctl -p || true
+      
+      # Install ChromeDriver manually to avoid version mismatch
+      - echo "Installing ChromeDriver..."
+      - CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d'.' -f1)
+      - echo "Chrome major version" $CHROME_VERSION
+      - |
+        if [ "$CHROME_VERSION" -ge 115 ]; then
+          echo "Using new ChromeDriver for Testing API"
+          CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | grep -o '"url":"[^"]*chromedriver.*linux64[^"]*"' | head -1 | cut -d'"' -f4)
+          echo "ChromeDriver URL" $CHROMEDRIVER_URL
+          wget -q "$CHROMEDRIVER_URL" -O /tmp/chromedriver.zip
+        else
+          echo "Using legacy ChromeDriver API"
+          CHROME_FULL_VERSION=$(google-chrome --version | awk '{print $3}')
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_FULL_VERSION")
+          wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
+        fi
+      - unzip -q /tmp/chromedriver.zip -d /tmp/
+      
+      # Install ChromeDriver in multiple locations for WebdriverIO compatibility
+      - |
+        # Standard system location
+        if [ -f /tmp/chromedriver-linux64/chromedriver ]; then
+          chmod +x /tmp/chromedriver-linux64/chromedriver
+          cp /tmp/chromedriver-linux64/chromedriver /usr/local/bin/
+        else
+          chmod +x /tmp/chromedriver
+          cp /tmp/chromedriver /usr/local/bin/
+        fi
+        
+        # WebdriverIO expected location
+        CHROME_FULL_VERSION=$(google-chrome --version | awk '{print $3}')
+        mkdir -p "/tmp/chromedriver/linux-$CHROME_FULL_VERSION/chromedriver-linux64"
+        cp /usr/local/bin/chromedriver "/tmp/chromedriver/linux-$CHROME_FULL_VERSION/chromedriver-linux64/"
+        
+        # Also create a direct symlink for fallback
+        mkdir -p /tmp/chromedriver/
+        ln -sf /usr/local/bin/chromedriver /tmp/chromedriver/chromedriver
+        
+      - chromedriver --version
+      
+      # Install Allure CLI
+      - echo "Installing Allure CLI..."
+      - npm install -g allure-commandline --unsafe-perm=true
+      
+      # Verify installations
+      - echo "=== INSTALLATION VERIFICATION ==="
+      - echo "Node.js version:"
+      - node --version
+      - echo "npm version:"
+      - npm --version
+      - echo "Chrome version:"
+      - google-chrome --version
+      - echo "ChromeDriver version:"
+      - chromedriver --version
+      - echo "Allure version:"
+      - allure --version
+      - echo "=== INSTALLATION COMPLETE ==="
+
+  # Pre-build phase - Install project dependencies
+  pre_build:
+    commands:
+      - echo "Installing project dependencies..."
+      - npm ci
+      
+      # Clean up previous results
+      - rm -rf /tmp/chrome-user-data-* || true
+      - rm -rf allure-results allure-report || true
+      - mkdir -p allure-results
+
+  # Build phase - Run the tests
+  build:
+    commands:
+      - echo "Running automation tests..."
+      
+      # Set up display for Chrome (even though headless)
+      - export DISPLAY=:99
+      - Xvfb :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+      
+      # Set comprehensive Chrome options for maximum CI stability
+      - export CHROME_OPTIONS="--no-sandbox --disable-dev-shm-usage --disable-gpu --headless --disable-web-security --no-first-run --disable-extensions --disable-default-apps --disable-translate --disable-background-downloads --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-features=TranslateUI,VizDisplayCompositor --disable-ipc-flooding-protection --hide-scrollbars --mute-audio --disable-logging --run-all-compositor-stages-before-draw --disable-dbus"
+      - echo "Chrome options:" $CHROME_OPTIONS
+      
+      # Set WebdriverIO environment variables with BiDi disabled
+      - export WDIO_LOG_LEVEL=info
+      - export WEBDRIVER_CHROMEDRIVER_BINARY=/usr/local/bin/chromedriver
+      - export WDIO_DISABLE_BIDI=true
+      - export FORCE_WEBDRIVER_CLASSIC=true
+      - export WEBDRIVER_PROTOCOL=webdriver
+      - export WEBDRIVER_AUTOMATION_PROTOCOL=webdriver
+      - export WDIO_AUTOMATION_PROTOCOL=webdriver
+      - export DISABLE_WEBDRIVER_BIDI=true
+      - echo "ChromeDriver binary path:" $WEBDRIVER_CHROMEDRIVER_BINARY
+      - echo "WebDriver BiDi disabled:" $WDIO_DISABLE_BIDI
+      - echo "Forced WebDriver protocol:" $WEBDRIVER_PROTOCOL
+      
+      # Memory and process limits
+      - ulimit -n 8192
+      - echo "File descriptor limit:" $(ulimit -n)
+      
+      # Chrome-specific environment variables
+      - export CHROME_NO_SANDBOX=1
+      - export CHROME_DISABLE_GPU=1
+      - export CHROME_LOG_FILE=/tmp/chrome.log
+      
+      # Test Chrome directly before running tests
+      - echo "Testing Chrome stability..."
+      - google-chrome --version
+      - google-chrome --no-sandbox --disable-gpu --headless --disable-dbus --dump-dom about:blank > /tmp/chrome_test.html 2>/dev/null || echo "Chrome test failed but continuing..."
+      - echo "Chrome test output size:" $(wc -c < /tmp/chrome_test.html)
+      
+      # Verify ChromeDriver is accessible
+      - ls -la /usr/local/bin/chromedriver
+      - ls -la /tmp/chromedriver/ || echo "tmp chromedriver directory not found"
+      
+      # Test ChromeDriver connection
+      - echo "Testing ChromeDriver..."
+      - timeout 30 chromedriver --port=9515 --whitelisted-ips=127.0.0.1 &
+      - CHROMEDRIVER_PID=$!
+      - sleep 5
+      - curl -s http://localhost:9515/status || echo "ChromeDriver test failed"
+      - kill $CHROMEDRIVER_PID 2>/dev/null || true
+      
+      # Modify WebdriverIO config to force classic protocol and use stable Chrome options
+      - echo "Patching WebdriverIO configuration to disable BiDi and use stable Chrome options..."
+      - |
+        cat > wdio_patch.js << 'EOF'
+        const fs = require('fs');
+        const path = require('path');
+        
+        // Read the original config
+        const configPath = './wdio.confWeb.js';
+        let configContent = fs.readFileSync(configPath, 'utf8');
+        
+        // Find and replace the capabilities section with stable Chrome options
+        const stableArgs = [
+          '--no-sandbox',
+          '--disable-dev-shm-usage', 
+          '--disable-gpu',
+          '--headless',
+          '--disable-web-security',
+          '--no-first-run',
+          '--disable-extensions',
+          '--disable-default-apps',
+          '--disable-translate',
+          '--disable-background-downloads',
+          '--disable-background-timer-throttling',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-renderer-backgrounding',
+          '--disable-features=TranslateUI,VizDisplayCompositor',
+          '--disable-ipc-flooding-protection',
+          '--hide-scrollbars',
+          '--mute-audio',
+          '--disable-logging',
+          '--run-all-compositor-stages-before-draw',
+          '--disable-dbus'
+        ];
+        
+        // Replace the args section
+        configContent = configContent.replace(
+          /args:\s*process\.env\.CHROME_OPTIONS[^}]+}/,
+          `args: ${JSON.stringify(stableArgs, null, 10)}`
+        );
+        
+        // Write back the modified config
+        fs.writeFileSync(configPath, configContent);
+        console.log('WebdriverIO config patched with stable Chrome options');
+        EOF
+        
+        node wdio_patch.js
+      
+      - |
+        cat >> wdio.confWeb.js << 'EOF'
+        
+        // Force classic WebDriver protocol - added by buildspec
+        exports.config.automationProtocol = 'webdriver';
+        exports.config.capabilities[0]['wdio:enforce'] = 'webdriver';
+        EOF
+      
+      # Run tests with timeout protection and better error handling
+      - echo "=== STARTING TEST EXECUTION ==="
+      - echo "Expected to run tests from allWebScripts command"
+      - echo "This should execute all test suites in parallel"
+      
+      # Show what tests should be running
+      - echo "Available test suites in package.json:"
+      - grep -A 20 '"scripts"' package.json | grep -E "(Page_|Scripts)" || echo "No test scripts found matching pattern"
+      
+      # Create a test execution log
+      - echo "Starting test execution at $(date)" > /tmp/test_execution.log
+      
+      # Run tests with detailed logging
+      - timeout 3600 npm run allWebScripts 2>&1 | tee /tmp/full_test_output.log || echo "Tests completed with some failures or timeout, but continuing to generate reports..."
+      
+      # Analyze test results
+      - echo "=== TEST EXECUTION ANALYSIS ==="
+      - echo "Test execution completed at $(date)" >> /tmp/test_execution.log
+      - echo "Full test output size:" $(wc -l < /tmp/full_test_output.log) "lines"
+      - echo "Checking for test results..."
+      - find . -name "*.json" -path "*/allure-results/*" | wc -l | xargs -I {} echo "Found {} JSON result files"
+      - ls -la allure-results/ || echo "No allure-results directory found"
+      - echo "Searching for test execution patterns..."
+      - grep -c "COMMAND\|INFO\|ERROR" /tmp/full_test_output.log || echo "No test execution patterns found"
+
+  # Post-build phase - Generate reports and upload to S3
+  post_build:
+    commands:
+      - echo "=== GENERATING REPORTS ==="
+      - echo "Post-build phase will run regardless of test results"
+      
+      # Debug test results before generating Allure report
+      - echo "=== ANALYZING TEST RESULTS ==="
+      - echo "Contents of allure-results directory:"
+      - ls -la allure-results/ || echo "No allure-results directory found"
+      - echo "Number of result files:"
+      - find allure-results/ -name "*.json" 2>/dev/null | wc -l || echo "0"
+      - echo "Sample result files (first 5):"
+      - find allure-results/ -name "*.json" 2>/dev/null | head -5 || echo "No JSON files found"
+      
+      # Check for test failures in the log
+      - echo "=== CHECKING FOR TEST FAILURES ==="
+      - |
+        if [ -f /tmp/full_test_output.log ]; then
+          echo "Last 50 lines of test output:"
+          tail -50 /tmp/full_test_output.log
+          echo "Test failure patterns:"
+          grep -i "error\|fail\|timeout\|crash" /tmp/full_test_output.log | tail -10 || echo "No obvious failure patterns found"
+        fi
+      
+      # Generate Allure Report (continue even if it fails)
+      - echo "Generating Allure report..."
+      - allure generate allure-results --clean -o allure-report || echo "Allure report generation failed, but continuing..."
+      
+      # Check if allure-report directory exists and has content
+      - |
+        if [ -d "allure-report" ] && [ "$(ls -A allure-report)" ]; then
+          echo "Allure report generated successfully"
+          ls -la allure-report/
+          # Look for the overview information
+          if [ -f "allure-report/data/suites.json" ]; then
+            echo "Test suites data found, analyzing..."
+            cat allure-report/data/suites.json | jq '.children | length' 2>/dev/null || echo "Could not parse suites data"
+          fi
+        else
+          echo "Allure report directory is empty or doesn't exist"
+          # Create a basic index.html if report generation failed
+          mkdir -p allure-report
+          RESULT_COUNT=$(find allure-results/ -name '*.json' 2>/dev/null | wc -l)
+          echo "<html><body><h1>Test Results</h1><p>Test execution completed. Found $RESULT_COUNT test result files. Check build logs for details.</p></body></html>" > allure-report/index.html
+        fi
+      
+      # Always upload report to S3, regardless of test results
+      - echo "=== UPLOADING REPORTS TO S3 ==="
+      - echo "Uploading Allure report to S3..."
+      - |
+        if aws s3 sync allure-report s3://firstday-qa-automation-test-results --delete --region $AWS_REGION; then
+          echo "S3 upload successful"
+        else
+          echo "S3 upload failed. Please check IAM permissions for s3:PutObject, s3:DeleteObject, s3:ListBucket"
+        fi
+      
+      # Invalidate CloudFront cache with error handling
+      - echo "=== INVALIDATING CLOUDFRONT ==="
+      - |
+        if aws cloudfront create-invalidation --distribution-id E2CJJK9B969EBX --paths "/*"; then
+          echo "CloudFront invalidation successful"
+        else
+          echo "CloudFront invalidation failed. Please check IAM permissions for cloudfront:CreateInvalidation"
+          echo "The report is still available via S3, but CDN cache may not be updated"
+        fi
+      
+      - echo "=== REPORT GENERATION AND UPLOAD COMPLETED ==="
+
+# Artifacts to store
+artifacts:
+  files:
+    - 'allure-report/**/*'
+    - 'allure-results/**/*'
+  name: automation-test-results-$(date +%Y-%m-%d-%H-%M-%S)
+
+# Cache configuration to speed up builds
+cache:
+  paths:
+    - 'node_modules/**/*'
+    - '/root/.npm/**/*'

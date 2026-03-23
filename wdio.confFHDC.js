@@ -1,3 +1,5 @@
+const path = require("path");
+const appPath = path.resolve(__dirname, "./downloadApps/FHDC.apk");
 exports.config = {
   //
   // ====================
@@ -22,7 +24,14 @@ exports.config = {
   //
   specs: ["./features/**/*.feature"],
   suites: {
-    androidLoginPage: ["./features/Android/FHDC/loginApp.feature"],
+    androidLoginPage: ["./features/Android/FHDC/login_redirect_Logout.feature"],
+    androidMedicalRecordsModule: [
+      "./features/Android/FHDC/medicalRecords.feature",
+    ],
+
+    androidContactUs_TrackerModule: [
+      "./features/Android/FHDC/contactUs_Tracker.feature",
+    ],
   },
   // Patterns to exclude.
   exclude: [
@@ -56,13 +65,11 @@ exports.config = {
       "appium:deviceName": "emulator-5554",
       "appium:platformVersion": "13.0",
       "appium:automationName": "UiAutomator2",
-      "appium:appPackage": "com.app.neonatal.staging",
-      "appium:appActivity": "com.app.neonatal.view.activity.SplashActivity",
+      "appium:app": appPath,
       "appium:noReset": false,
       "appium:newCommandTimeout": 300,
     },
   ],
-
   //
   // ===================
   // Test Configurations
@@ -97,7 +104,7 @@ exports.config = {
   // baseUrl: 'http://localhost:8080',
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
+  waitforTimeout: 5000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
@@ -149,7 +156,7 @@ exports.config = {
         outputDir: "allure-results/",
         disableWebdriverStepsReporting: false,
         disableWebdriverScreenshotsReporting: false,
-        useCucumberStepReporter: false,
+        useCucumberStepReporter: true,
       },
     ],
   ],
@@ -250,12 +257,6 @@ exports.config = {
       });
       console.log("All Android apps have been killed.");
     }
-
-    //  await driver.executeScript('mobile: shell', {
-    //   command: 'pm clear',
-    //   args: ['com.app.neonatal.staging'] // Replace with your app's package name
-    // });
-    // console.log('App cache and data cleared for Android app.');
   },
 
   // },
@@ -303,8 +304,15 @@ exports.config = {
    * @param {number}             result.duration  duration of scenario in milliseconds
    * @param {object}             context          Cucumber World object
    */
-  // afterStep: function (step, scenario, result, context) {
-  // },
+  afterStep: async function (
+    { uri, feature, step },
+    context,
+    { error, result, duration, passed, retries },
+  ) {
+    if (error) {
+      await browser.takeScreenshot();
+    }
+  },
   /**
    *
    * Runs after a Cucumber Scenario.
